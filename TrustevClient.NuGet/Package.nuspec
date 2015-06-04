@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<package >
+	<metadata>
+		<id>Trustev.Api.RestClient</id>
+		<version>1.0.0</version>
+		<title>Trustev API REST Client</title>
+		<authors>stepan.fryd@gmail.com</authors>
+		<owners></owners>
+		<description>
+			Trustev REST API wrapper client
+		</description>
+		<releaseNotes>
+		</releaseNotes>
+		<summary>
+			
+		</summary>
+		<language>en-US</language>
+		<projectUrl>http://www.trustev.com/developers</projectUrl>
+		<iconUrl>https://nuget.org/Content/Images/packageDefaultIcon-50x50.png</iconUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+		<copyright>Copyright  2015</copyright>
+		<dependencies>
+				<group targetFramework="net45">
+				</group>
+		</dependencies>
+		<references></references>
+		<tags></tags>
+	</metadata>
+	<files>
+		<file src="lib\" target="lib" />
+		<file src="tools\" target="tools" />
+		<file src="content\" target="content" />
+	</files>
+</package>

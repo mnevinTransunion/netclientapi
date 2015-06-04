@@ -1,0 +1,23 @@
+﻿{
+	"SessionId": "",
+	"CaseNumber": "NEW_CASE_NUMBER",
+	"Statuses": [
+		{
+			"Status": "Placed",
+			"Comment": "Status comment",
+			"Timestamp": "2015-06-01T10:20:30.000Z"
+		},
+		{
+			"Status": "Completed",
+			"Comment": "Status comment",
+			"Timestamp": "2015-06-02T10:20:30.000Z"
+		}
+	],
+	"Payments": [
+		{
+			"PaymentType": "CreditCard",
+			"BINNumber": "431940"
+		}
+	],
+	"Timestamp": "2015-06-01T10:20:30.000Z"
+}

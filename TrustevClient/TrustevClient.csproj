@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{38543345-C8AB-4A70-A88C-3A71FB88D1BF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Trustev.Api.Client</RootNamespace>
+    <AssemblyName>TrustevClient</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionAttribute.cs" />
+    <Compile Include="ApiError.cs" />
+    <Compile Include="Entities\Address.cs" />
+    <Compile Include="Entities\AddressType.cs" />
+    <Compile Include="Entities\AuthenticationRequest.cs" />
+    <Compile Include="Entities\Case.cs" />
+    <Compile Include="Entities\CaseStatus.cs" />
+    <Compile Include="Entities\CaseStatusType.cs" />
+    <Compile Include="Entities\CaseSummarySortOptions.cs" />
+    <Compile Include="Entities\Customer.cs" />
+    <Compile Include="Entities\Decision.cs" />
+    <Compile Include="Entities\DecisionResult.cs" />
+    <Compile Include="Entities\Email.cs" />
+    <Compile Include="Entities\HttpContent.cs" />
+    <Compile Include="Entities\HttpMethod.cs" />
+    <Compile Include="Entities\HttpRequestMessage.cs" />
+    <Compile Include="Entities\HttpResponseMessage.cs" />
+    <Compile Include="Entities\HttpStatusCode.cs" />
+    <Compile Include="Entities\Payment.cs" />
+    <Compile Include="Entities\PaymentType.cs" />
+    <Compile Include="Entities\SocialAccount.cs" />
+    <Compile Include="Entities\SocialNetworkType.cs" />
+    <Compile Include="Entities\Token.cs" />
+    <Compile Include="Entities\TokenRequest.cs" />
+    <Compile Include="Entities\Transaction.cs" />
+    <Compile Include="Entities\TransactionItem.cs" />
+    <Compile Include="Entities\Version.cs" />
+    <Compile Include="HttpMethod.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RestAction.cs" />
+    <Compile Include="TrustevApiCallException.cs" />
+    <Compile Include="TrustevBaseClient.cs" />
+    <Compile Include="TrustevException.cs" />
+    <Compile Include="TrustevRestClient.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy   "$(TargetDir)$(TargetName).*" "$(SolutionDir)TrustevClient.NuGet\lib\net45\"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

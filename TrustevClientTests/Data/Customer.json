@@ -1,0 +1,79 @@
+﻿{
+	"FirstName": "CustomerFirstName",
+	"LastName": "CustomerLastName",
+	"Emails": [
+		{
+			"EmailAddress": "test@test.com",
+			"IsDefault": true
+		}
+	],
+	"PhoneNumber": "+1 123 654 78947",
+	"DateOfBirth": "1970-06-15",
+	"Addresses": [
+		{
+			"FirstName": "AddressFirstName",
+			"LastName": "AddressLastName",
+			"Address1": "Addres line 1",
+			"Address2": "Address line 2",
+			"Address3": "Address line 3",
+			"City": "City name",
+			"State": "State",
+			"PostalCode": "123456",
+			"Type": "Standard",
+			"CountryCode": "UK",
+			"Timestamp": "2015-06-01T10:20:30.000Z",
+			"IsDefault": true
+		},
+		{
+			"FirstName": "AddressFirstName",
+			"LastName": "AddressLastName",
+			"Address1": "Addres line 1",
+			"Address2": "Address line 2",
+			"Address3": "Address line 3",
+			"City": "City name",
+			"State": "State",
+			"PostalCode": "123456",
+			"Type": "Delivery",
+			"CountryCode": "UK",
+			"Timestamp": "2015-06-01T10:20:30.000Z",
+			"IsDefault": false
+		},
+		{
+			"FirstName": "AddressFirstName",
+			"LastName": "AddressLastName",
+			"Address1": "Addres line 1",
+			"Address2": "Address line 2",
+			"Address3": "Address line 3",
+			"City": "City name",
+			"State": "State",
+			"PostalCode": "123456",
+			"Type": "Billing",
+			"CountryCode": "UK",
+			"Timestamp": "2015-06-01T10:20:30.000Z",
+			"IsDefault": false
+		}
+	],
+	"SocialAccounts": [
+		{
+			"SocialId": 12365478,
+			"Type": "Facebook",
+			"ShortTermAccessToken": "0AFCF366-EEC2-4C77-A81A-500A2CC0C780",
+			"LongTermAccessToken": "E12FE454-1FC9-4254-8B39-74CF3261EC7F",
+			"ShortTermAccessTokenExpiry": "2016-01-01T00:00:00.000Z",
+			"LongTermAccessTokenExpiry": "2016-01-01T00:00:00.000Z",
+			"Secret": "83F6E375-8884-4964-8554-E771F58F0674",
+			"Timestamp": "2015-06-01T10:20:30.000Z"
+		},
+		{
+			"SocialId": 65498794,
+			"Type": "Twitter",
+			"ShortTermAccessToken": "0AFCF366-EEC2-4C77-A81A-500A2CC0C780",
+			"LongTermAccessToken": "E12FE454-1FC9-4254-8B39-74CF3261EC7F",
+			"ShortTermAccessTokenExpiry": "2016-01-01T00:00:00.000Z",
+			"LongTermAccessTokenExpiry": "2016-01-01T00:00:00.000Z",
+			"Secret": "83F6E375-8884-4964-8554-E771F58F0674",
+			"Timestamp": "2015-06-01T10:20:30.000Z"
+		}
+	],
+	"AccountNumber": "ACCOUNT123"
+}

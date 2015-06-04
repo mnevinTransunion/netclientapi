@@ -1,0 +1,14 @@
+﻿{
+	"FirstName": "AddressFirstName",
+	"LastName": "AddressLastName",
+	"Address1": "Addres line 1",
+	"Address2": "Address line 2",
+	"Address3": "Address line 3",
+	"City": "City name",
+	"State": "State",
+	"PostalCode": "123456",
+	"Type": "Standard",
+	"CountryCode": "UK",
+	"Timestamp": "2015-06-01T10:20:30.000Z",
+	"IsDefault": true
+}
