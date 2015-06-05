@@ -1,35 +1,31 @@
-<?xml version="1.0"?>
-<package >
-	<metadata>
-		<id>Trustev.Api.RestClient</id>
-		<version>1.0.0</version>
-		<title>Trustev API REST Client</title>
-		<authors>stepan.fryd@gmail.com</authors>
-		<owners></owners>
-		<description>
-			Trustev REST API wrapper client
-		</description>
-		<releaseNotes>
-		</releaseNotes>
-		<summary>
-			
-		</summary>
-		<language>en-US</language>
-		<projectUrl>http://www.trustev.com/developers</projectUrl>
-		<iconUrl>https://nuget.org/Content/Images/packageDefaultIcon-50x50.png</iconUrl>
-		<requireLicenseAcceptance>false</requireLicenseAcceptance>
-		<licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
-		<copyright>Copyright  2015</copyright>
-		<dependencies>
-				<group targetFramework="net45">
-				</group>
-		</dependencies>
-		<references></references>
-		<tags></tags>
-	</metadata>
-	<files>
-		<file src="lib\" target="lib" />
-		<file src="tools\" target="tools" />
-		<file src="content\" target="content" />
-	</files>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+    <metadata>
+        <id>Trustev.Api.RestClient</id>
+        <version>1.0.1</version>
+        <title>Trustev API REST Client</title>
+        <authors>stepan.fryd@gmail.com</authors>
+        <licenseUrl>http://opensource.org/licenses/Apache-2.0</licenseUrl>
+        <projectUrl>http://www.trustev.com/developers</projectUrl>
+        <iconUrl>https://nuget.org/Content/Images/packageDefaultIcon-50x50.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Trustev REST API wrapper client</description>
+        <summary />
+        <releaseNotes />
+        <copyright>Copyright 2015 Stepan Fryd</copyright>
+        <language>en-US</language>
+        <tags>Trustev API REST</tags>
+        <dependencies>
+            <group targetFramework=".NETFramework4.5">
+                <dependency id="Newtonsoft.Json" version="6.0.8" />
+            </group>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="lib\net45\TrustevClient.dll" target="lib\net45\TrustevClient.dll" />
+        <file src="lib\net45\TrustevClient.pdb" target="lib\net45\TrustevClient.pdb" />
+        <file src="tools\init.ps1" target="tools\init.ps1" />
+        <file src="tools\install.ps1" target="tools\install.ps1" />
+        <file src="tools\uninstall.ps1" target="tools\uninstall.ps1" />
+    </files>
 </package>
