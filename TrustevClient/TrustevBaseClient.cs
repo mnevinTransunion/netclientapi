@@ -72,7 +72,11 @@ namespace Trustev.Api.Client
 
 		public T CallApi<T>(string url, string method, object postData = null)
 		{
-			return JsonConvert.DeserializeObject<T>(ProcessRequest(url, method, postData));
+			return JsonConvert.DeserializeObject<T>(CallApi(url, method, postData));
+		}
+		public string CallApi(string url, string method, object postData = null)
+		{
+			return ProcessRequest(url, method, postData);
 		}
 
 		public string ProcessRequest(string url, string method, object postData = null)

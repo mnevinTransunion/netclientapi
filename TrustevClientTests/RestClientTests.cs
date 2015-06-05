@@ -75,18 +75,6 @@ namespace TrustevClientTests
 		}
 
 		[Test]
-		public void AddEmailTest()
-		{
-			var cl = new TrustevRestClient(_baseUrl, _userName, _password, _secret);
-			var token = cl.Authenticate();
-			TrustevBaseClient.Token = token;
-			var newCase = cl.CreateCase(_newCase);
-			var newCust = cl.CreateCustomer(newCase, _newCustomer);
-			var newEmail = cl.AddCustomerEmail(newCase, _newEmail);
-			Assert.IsNotNull(newEmail);
-		}
-
-		[Test]
 		public void AddSocialAccountTest()
 		{
 			var cl = new TrustevRestClient(_baseUrl, _userName, _password, _secret);
