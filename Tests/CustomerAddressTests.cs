@@ -26,7 +26,7 @@ namespace Tests
         }
 
         [TestMethod]
-        public async Task CustomerAddressTests_Post_200()
+        public async Task CustomerAddressTests_PostAsync_200()
         {
             Case sampleCase = GenerateSampleCase();
 
@@ -53,7 +53,34 @@ namespace Tests
         }
 
         [TestMethod]
-        public async Task CustomerAddressTests_Update_200()
+        public async Task CustomerAddressTests_Post_200()
+        {
+            Case sampleCase = GenerateSampleCase();
+
+            Case returnCase = Case.Post(sampleCase);
+
+            CustomerAddress customerAddress = new CustomerAddress()
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                IsDefault = true,
+                Address1 = "Address line 1",
+                Address2 = "Address line 2",
+                Address3 = "Address line 3",
+                City = "Cork",
+                CountryCode = "IE",
+                State = "Cork",
+                PostalCode = "Cork",
+                Type = 0
+            };
+
+            CustomerAddress returnCustomerAddress = CustomerAddress.Post(returnCase.Id, customerAddress);
+
+            Assert.IsTrue(returnCustomerAddress.Id != Guid.Empty);
+        }
+
+        [TestMethod]
+        public async Task CustomerAddressTests_UpdateAsync_200()
         {
             Case sampleCase = GenerateSampleCase();
 
@@ -82,7 +109,36 @@ namespace Tests
         }
 
         [TestMethod]
-        public async Task CustomerAddressTests_Get_200()
+        public async Task CustomerAddressTests_Update_200()
+        {
+            Case sampleCase = GenerateSampleCase();
+
+            Case returnCase = Case.Post(sampleCase);
+
+            Guid customerAddressId = returnCase.Customer.Addresses.First().Id;
+
+            CustomerAddress customerAddress = new CustomerAddress()
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                IsDefault = true,
+                Address1 = "Address line 1",
+                Address2 = "Address line 2",
+                Address3 = "Address line 3",
+                City = "Cork",
+                CountryCode = "IE",
+                State = "Cork",
+                PostalCode = "Cork",
+                Type = 0
+            };
+
+            CustomerAddress returnCustomerAddress = CustomerAddress.Update(returnCase.Id, customerAddress, customerAddressId);
+
+            Assert.IsTrue(returnCustomerAddress.Id != Guid.Empty);
+        }
+
+        [TestMethod]
+        public async Task CustomerAddressTests_GetAsync_200()
         {
             Case sampleCase = GenerateSampleCase();
 
@@ -96,7 +152,21 @@ namespace Tests
         }
 
         [TestMethod]
-        public async Task CustomerAddressTests_Get_200_MultipleAddresses()
+        public async Task CustomerAddressTests_Get_200()
+        {
+            Case sampleCase = GenerateSampleCase();
+
+            Case returnCase = Case.Post(sampleCase);
+
+            Guid customerAddressId = returnCase.Customer.Addresses.First().Id;
+
+            CustomerAddress returnCustomerAddress = CustomerAddress.Get(returnCase.Id, customerAddressId);
+
+            Assert.IsTrue(returnCustomerAddress.Id != Guid.Empty);
+        }
+
+        [TestMethod]
+        public async Task CustomerAddressTests_GetAsync_200_MultipleAddresses()
         {
             Case sampleCase = GenerateSampleCase();
 
@@ -123,7 +193,34 @@ namespace Tests
         }
 
         [TestMethod]
-        public async Task CustomerAddressTests_Get_400()
+        public async Task CustomerAddressTests_Get_200_MultipleAddresses()
+        {
+            Case sampleCase = GenerateSampleCase();
+
+            sampleCase.Customer.Addresses.Add(new CustomerAddress()
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                IsDefault = true,
+                Address1 = "Address line 1",
+                Address2 = "Address line 2",
+                Address3 = "Address line 3",
+                City = "Cork",
+                CountryCode = "IE",
+                State = "Cork",
+                PostalCode = "Cork",
+                Type = 0
+            });
+
+            Case returnCase = Case.Post(sampleCase);
+
+            IList<CustomerAddress> returnCustomerAddresses = CustomerAddress.Get(returnCase.Id);
+
+            Assert.IsTrue(returnCustomerAddresses.Count > 1);
+        }
+
+        [TestMethod]
+        public async Task CustomerAddressTests_GetAsync_400()
         {
             HttpStatusCode responseCode = HttpStatusCode.OK;
             try
@@ -135,6 +232,28 @@ namespace Tests
                 Case returnCase = await Case.PostAsync(sampleCase);
 
                 IList<CustomerAddress> returnCustomerAddresses = await CustomerAddress.GetAsync(returnCase.Id);
+            }
+            catch (TrustevHttpException ex)
+            {
+                responseCode = ex.HttpResponseCode;
+            }
+
+            Assert.AreEqual(HttpStatusCode.BadRequest, responseCode);
+        }
+
+        [TestMethod]
+        public async Task CustomerAddressTests_Get_400()
+        {
+            HttpStatusCode responseCode = HttpStatusCode.OK;
+            try
+            {
+                Case sampleCase = GenerateSampleCase();
+
+                sampleCase.Customer.Addresses = null;
+
+                Case returnCase = Case.Post(sampleCase);
+
+                IList<CustomerAddress> returnCustomerAddresses = CustomerAddress.Get(returnCase.Id);
             }
             catch (TrustevHttpException ex)
             {

@@ -11,10 +11,10 @@ namespace Trustev_DotNet
     /// </summary>
     public abstract class Trustev
     {
-        internal static String UserName { get; set; }
-        internal static String Password { get; set; }
-        internal static String Secret { get; set; }
-        internal static String BaseUrl { get; set; }
+        internal static string UserName { get; set; }
+        internal static string Password { get; set; }
+        internal static string Secret { get; set; }
+        internal static string BaseUrl { get; set; }
         /// <summary>
         /// Initialize the trustev class by passing in you UserName, Secret and Password. If you do not have these then please contact integrationteam@trustev.com.
         /// </summary>

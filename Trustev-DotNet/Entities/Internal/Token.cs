@@ -13,7 +13,7 @@ namespace Trustev_DotNet.Entities.Internal
 {
     internal class Token : BaseEntity
     {
-        private static String APIToken { get; set; }
+        private static string APIToken { get; set; }
         private static DateTime ExpiryDate { get; set; }
 
         internal async static Task<string> GetTokenAsync()
@@ -50,13 +50,11 @@ namespace Trustev_DotNet.Entities.Internal
                 TimeStamp = currentTime.ToString("o")
             };
 
-            String requestJson = JsonConvert.SerializeObject(requestObject);
+            string requestJson = JsonConvert.SerializeObject(requestObject);
 
-            string uri = String.Format("{0}/token", Trustev.BaseUrl);
+            string uri = string.Format("{0}/token", Trustev.BaseUrl);
 
-            String responseJson = PerformHttpCall(uri, HttpMethod.Post, requestJson, false);
-
-            TokenResponse response = JsonConvert.DeserializeObject<TokenResponse>(responseJson);
+            TokenResponse response = PerformHttpCall<TokenResponse>(uri, HttpMethod.Post, requestJson, false);
 
             APIToken = response.APIToken;
             ExpiryDate = response.ExpiryDate;
@@ -76,13 +74,11 @@ namespace Trustev_DotNet.Entities.Internal
                 TimeStamp = currentTime.ToString("o")
             };
 
-            String requestJson = JsonConvert.SerializeObject(requestObject);
+            string requestJson = JsonConvert.SerializeObject(requestObject);
 
-            string uri = String.Format("{0}/token", Trustev.BaseUrl);
+            string uri = string.Format("{0}/token", Trustev.BaseUrl);
 
-            String responseJson = await PerformHttpCallAsync(uri, HttpMethod.Post, requestJson, false);
-
-            TokenResponse response = JsonConvert.DeserializeObject<TokenResponse>(responseJson);
+            TokenResponse response = await PerformHttpCallAsync<TokenResponse>(uri, HttpMethod.Post, requestJson, false);
 
             APIToken = response.APIToken;
             ExpiryDate = response.ExpiryDate;
@@ -93,15 +89,15 @@ namespace Trustev_DotNet.Entities.Internal
         /// </summary>
         private class TokenRequest
         {
-            public String UserName { get; set; }
-            public String PasswordHash { get; set; }
-            public String UserNameHash { get; set; }
-            public String TimeStamp { get; set; }
+            public string UserName { get; set; }
+            public string PasswordHash { get; set; }
+            public string UserNameHash { get; set; }
+            public string TimeStamp { get; set; }
         }
 
         private class TokenResponse
         {
-            public String APIToken { get; set; }
+            public string APIToken { get; set; }
             public DateTime ExpiryDate { get; set; }
         }
 
@@ -125,7 +121,7 @@ namespace Trustev_DotNet.Entities.Internal
         /// <param name="sharedsecret"></param>
         /// <param name="timestamp"></param>
         /// <returns></returns>
-        private static String PasswordHashHelper(string password, string sharedsecret, DateTime timestamp)
+        private static string PasswordHashHelper(string password, string sharedsecret, DateTime timestamp)
         {
             sharedsecret = sharedsecret.Replace("\"", "");
             password = password.Replace("\"", "");
@@ -140,7 +136,7 @@ namespace Trustev_DotNet.Entities.Internal
         /// <param name="timestamp"></param>
         /// <returns></returns>
 
-        private static String UserNameHashHelper(string username, string sharedsecret, DateTime timestamp)
+        private static string UserNameHashHelper(string username, string sharedsecret, DateTime timestamp)
         {
             sharedsecret = sharedsecret.Replace("\"", "");
             username = username.Replace("\"", "");
@@ -148,7 +144,7 @@ namespace Trustev_DotNet.Entities.Internal
         }
 
 
-        private static String Create256Hash(string toHash)
+        private static string Create256Hash(string toHash)
         {
             HashAlgorithm sha = new SHA256Managed();
 
@@ -158,7 +154,7 @@ namespace Trustev_DotNet.Entities.Internal
             return HexEncode(resultBytes);
         }
 
-        private static String HexEncode(byte[] data)
+        private static string HexEncode(byte[] data)
         {
             string result = "";
             foreach (byte b in data)

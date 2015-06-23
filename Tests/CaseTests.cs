@@ -30,10 +30,9 @@ namespace Tests
         {
             Case sampleCase = GenerateSampleCase();
 
-            Case.PostAsync(sampleCase);
-            await Case.PostAsync(sampleCase);
+            Case returnCase = await Case.PostAsync(sampleCase);
 
-            //Assert.IsFalse(String.IsNullOrEmpty(returnCase.Id));
+            Assert.IsFalse(string.IsNullOrEmpty(returnCase.Id));
         }
 
         [TestMethod]
@@ -43,7 +42,7 @@ namespace Tests
 
             Case returnCase = Case.Post(sampleCase);
 
-            Assert.IsFalse(String.IsNullOrEmpty(returnCase.Id));
+            Assert.IsFalse(string.IsNullOrEmpty(returnCase.Id));
         }
 
         [TestMethod]
@@ -71,7 +70,7 @@ namespace Tests
             Case getCase = await Case.GetAsync(returnCase.Id);
 
             Assert.IsNotNull(getCase);
-            Assert.IsFalse(String.IsNullOrEmpty(getCase.Id));
+            Assert.IsFalse(string.IsNullOrEmpty(getCase.Id));
         }
 
         [TestMethod]
@@ -83,7 +82,7 @@ namespace Tests
             {
                 Case sampleCase = GenerateSampleCase();
 
-                String randomCaseId = String.Format("{0}|{1}", Guid.NewGuid(), Guid.NewGuid());
+                string randomCaseId = string.Format("{0}|{1}", Guid.NewGuid(), Guid.NewGuid());
 
                 Case getCase = await Case.GetAsync(randomCaseId);
             }
@@ -104,7 +103,7 @@ namespace Tests
             {
                 Case sampleCase = GenerateSampleCase();
 
-                String randomCaseId = String.Format("{0}|{1}", Guid.NewGuid(), Guid.NewGuid());
+                string randomCaseId = string.Format("{0}|{1}", Guid.NewGuid(), Guid.NewGuid());
 
                 Case getCase = Case.Get(randomCaseId);
             }

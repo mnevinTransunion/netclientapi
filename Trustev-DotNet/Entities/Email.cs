@@ -11,7 +11,7 @@ namespace Trustev_DotNet.Entities
     public class Email : BaseEntity
     {
         public Guid Id { get; set; }
-        public String EmailAddress { get; set; }
+        public string EmailAddress { get; set; }
         public Boolean IsDefault { get; set; }
 
         /// <summary>
@@ -22,13 +22,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<Email> PostAsync(string caseId, Email email)
         {
-            string requestJson = JsonConvert.SerializeObject(email);
+            string uri = string.Format(Constants.URI_EMAIL_POST, Trustev.BaseUrl, caseId);
 
-            string uri = String.Format("{0}/case/{1}/customer/email", Trustev.BaseUrl, caseId);
-
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Post, requestJson);
-
-            Email response = JsonConvert.DeserializeObject<Email>(responseString);
+            Email response = await PerformHttpCallAsync<Email>(uri, HttpMethod.Post, email);
 
             return response;
         }
@@ -41,13 +37,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static Email Post(string caseId, Email email)
         {
-            string requestJson = JsonConvert.SerializeObject(email);
+            string uri = string.Format(Constants.URI_EMAIL_POST, Trustev.BaseUrl, caseId);
 
-            string uri = String.Format("{0}/case/{1}/customer/email", Trustev.BaseUrl, caseId);
-
-            string responseString = PerformHttpCall(uri, HttpMethod.Post, requestJson);
-
-            Email response = JsonConvert.DeserializeObject<Email>(responseString);
+            Email response = PerformHttpCall<Email>(uri, HttpMethod.Post, email);
 
             return response;
         }
@@ -61,13 +53,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<Email> UpdateAsync(string caseId, Email email, Guid emailId)
         {
-            string requestJson = JsonConvert.SerializeObject(email);
+            string uri = string.Format(Constants.URI_EMAIL_UDPATE, Trustev.BaseUrl, caseId, emailId);
 
-            string uri = String.Format("{0}/case/{1}/customer/email/{2}", Trustev.BaseUrl, caseId, emailId);
-
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Put, requestJson);
-
-            Email response = JsonConvert.DeserializeObject<Email>(responseString);
+            Email response = await PerformHttpCallAsync<Email>(uri, HttpMethod.Put, email);
 
             return response;
         }
@@ -81,13 +69,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static Email Update(string caseId, Email email, Guid emailId)
         {
-            string requestJson = JsonConvert.SerializeObject(email);
+            string uri = string.Format(Constants.URI_EMAIL_UDPATE, Trustev.BaseUrl, caseId, emailId);
 
-            string uri = String.Format("{0}/case/{1}/customer/email/{2}", Trustev.BaseUrl, caseId, emailId);
-
-            string responseString = PerformHttpCall(uri, HttpMethod.Put, requestJson);
-
-            Email response = JsonConvert.DeserializeObject<Email>(responseString);
+            Email response = PerformHttpCall<Email>(uri, HttpMethod.Put, email);
 
             return response;
         }
@@ -100,11 +84,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<Email> GetAsync(string caseId, Guid emailId)
         {
-            string uri = String.Format("{0}/case/{1}/customer/email/{2}", Trustev.BaseUrl, caseId, emailId);
+            string uri = string.Format(Constants.URI_EMAIL_GET, Trustev.BaseUrl, caseId, emailId);
 
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Get);
-
-            Email response = JsonConvert.DeserializeObject<Email>(responseString);
+            Email response = await PerformHttpCallAsync<Email>(uri, HttpMethod.Get, null);
 
             return response;
         }
@@ -117,11 +99,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static Email Get(string caseId, Guid emailId)
         {
-            string uri = String.Format("{0}/case/{1}/customer/email/{2}", Trustev.BaseUrl, caseId, emailId);
+            string uri = string.Format(Constants.URI_EMAIL_GET, Trustev.BaseUrl, caseId, emailId);
 
-            string responseString = PerformHttpCall(uri, HttpMethod.Get);
-
-            Email response = JsonConvert.DeserializeObject<Email>(responseString);
+            Email response = PerformHttpCall<Email>(uri, HttpMethod.Get, null);
 
             return response;
         }
@@ -133,11 +113,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<IList<Email>> GetAsync(string caseId)
         {
-            string uri = String.Format("{0}/case/{1}/customer/email", Trustev.BaseUrl, caseId);
+            string uri = string.Format(Constants.URI_EMAIL_GET, Trustev.BaseUrl, caseId, "");
 
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Get);
-
-            IList<Email> response = JsonConvert.DeserializeObject<List<Email>>(responseString);
+            IList<Email> response = await PerformHttpCallAsync<IList<Email>>(uri, HttpMethod.Get, null);
 
             return response;
         }
@@ -149,11 +127,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static IList<Email> Get(string caseId)
         {
-            string uri = String.Format("{0}/case/{1}/customer/email", Trustev.BaseUrl, caseId);
+            string uri = string.Format(Constants.URI_EMAIL_GET, Trustev.BaseUrl, caseId, "");
 
-            string responseString = PerformHttpCall(uri, HttpMethod.Get);
-
-            IList<Email> response = JsonConvert.DeserializeObject<List<Email>>(responseString);
+            IList<Email> response = PerformHttpCall<IList<Email>>(uri, HttpMethod.Get, null);
 
             return response;
         }

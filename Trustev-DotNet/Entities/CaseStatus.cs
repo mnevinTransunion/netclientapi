@@ -23,13 +23,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<CaseStatus> PostAsync(string caseId, CaseStatus caseStatus)
         {
-            string requestJson = JsonConvert.SerializeObject(caseStatus);
+            string uri = string.Format(Constants.URI_CASESTATUS_POST, Trustev.BaseUrl, caseId);
 
-            string uri = String.Format("{0}/case/{1}/status", Trustev.BaseUrl, caseId);
-
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Post, requestJson);
-
-            CaseStatus response = JsonConvert.DeserializeObject<CaseStatus>(responseString);
+            CaseStatus response = await PerformHttpCallAsync<CaseStatus>(uri, HttpMethod.Post, caseStatus);
 
             return response;
         }
@@ -42,13 +38,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static CaseStatus Post(string caseId, CaseStatus caseStatus)
         {
-            string requestJson = JsonConvert.SerializeObject(caseStatus);
+            string uri = string.Format(Constants.URI_CASESTATUS_POST, Trustev.BaseUrl, caseId);
 
-            string uri = String.Format("{0}/case/{1}/status", Trustev.BaseUrl, caseId);
-
-            string responseString = PerformHttpCall(uri, HttpMethod.Post, requestJson);
-
-            CaseStatus response = JsonConvert.DeserializeObject<CaseStatus>(responseString);
+            CaseStatus response = PerformHttpCall<CaseStatus>(uri, HttpMethod.Post, caseStatus);
 
             return response;
         }
@@ -61,11 +53,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<CaseStatus> GetAsync(string caseId, Guid caseStatusId)
         {
-            string uri = String.Format("{0}/case/{1}/status/{2}", Trustev.BaseUrl, caseId, caseStatusId);
+            string uri = string.Format(Constants.URI_CASESTATUS_GET, Trustev.BaseUrl, caseId, caseStatusId);
 
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Get);
-
-            CaseStatus response = JsonConvert.DeserializeObject<CaseStatus>(responseString);
+            CaseStatus response = await PerformHttpCallAsync<CaseStatus>(uri, HttpMethod.Get, null);
 
             return response;
         }
@@ -78,11 +68,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static CaseStatus Get(string caseId, Guid caseStatusId)
         {
-            string uri = String.Format("{0}/case/{1}/status/{2}", Trustev.BaseUrl, caseId, caseStatusId);
+            string uri = string.Format(Constants.URI_CASESTATUS_GET, Trustev.BaseUrl, caseId, caseStatusId);
 
-            string responseString = PerformHttpCall(uri, HttpMethod.Get);
-
-            CaseStatus response = JsonConvert.DeserializeObject<CaseStatus>(responseString);
+            CaseStatus response = PerformHttpCall<CaseStatus>(uri, HttpMethod.Get, null);
 
             return response;
         }
@@ -94,11 +82,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<IList<CaseStatus>> GetAsync(string caseId)
         {
-            string uri = String.Format("{0}/case/{1}/status", Trustev.BaseUrl, caseId);
+            string uri = string.Format(Constants.URI_CASESTATUS_GET, Trustev.BaseUrl, caseId, "");
 
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Get);
-
-            IList<CaseStatus> response = JsonConvert.DeserializeObject<List<CaseStatus>>(responseString);
+            IList<CaseStatus> response = await PerformHttpCallAsync<IList<CaseStatus>>(uri, HttpMethod.Get, null);
 
             return response;
         }
@@ -110,11 +96,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static IList<CaseStatus> Get(string caseId)
         {
-            string uri = String.Format("{0}/case/{1}/status", Trustev.BaseUrl, caseId);
+            string uri = string.Format(Constants.URI_CASESTATUS_GET, Trustev.BaseUrl, caseId, "");
 
-            string responseString = PerformHttpCall(uri, HttpMethod.Get);
-
-            IList<CaseStatus> response = JsonConvert.DeserializeObject<List<CaseStatus>>(responseString);
+            IList<CaseStatus> response = PerformHttpCall<IList<CaseStatus>>(uri, HttpMethod.Get, null);
 
             return response;
         }

@@ -27,13 +27,9 @@ namespace Trustev_DotNet.Entities
         /// <returns>The Customer along with the Id that Trustev have assigned it</returns>
         public static async Task<Customer> PostAsync(string caseId, Customer customer)
         {
-            string requestJson = JsonConvert.SerializeObject(customer);
+            string uri = string.Format(Constants.URI_CUSTOMER_POST, Trustev.BaseUrl, caseId);
 
-            string uri = String.Format("{0}/case/{1}/customer", Trustev.BaseUrl, caseId);
-
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Post, requestJson);
-
-            Customer response = JsonConvert.DeserializeObject<Customer>(responseString);
+            Customer response = await PerformHttpCallAsync<Customer>(uri, HttpMethod.Post, customer);
 
             return response;
         }
@@ -46,13 +42,9 @@ namespace Trustev_DotNet.Entities
         /// <returns>The Customer along with the Id that Trustev have assigned it</returns>
         public static Customer Post(string caseId, Customer customer)
         {
-            string requestJson = JsonConvert.SerializeObject(customer);
+            string uri = string.Format(Constants.URI_CUSTOMER_POST, Trustev.BaseUrl, caseId);
 
-            string uri = String.Format("{0}/case/{1}/customer", Trustev.BaseUrl, caseId);
-
-            string responseString = PerformHttpCall(uri, HttpMethod.Post, requestJson);
-
-            Customer response = JsonConvert.DeserializeObject<Customer>(responseString);
+            Customer response = PerformHttpCall<Customer>(uri, HttpMethod.Post, customer);
 
             return response;
         }
@@ -65,13 +57,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<Customer> UpdateAsync(string caseId, Customer customer)
         {
-            string requestJson = JsonConvert.SerializeObject(customer);
+            string uri = string.Format(Constants.URI_CUSTOMER_UDPATE, Trustev.BaseUrl, caseId);
 
-            string uri = String.Format("{0}/case/{1}/customer", Trustev.BaseUrl, caseId);
-
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Put, requestJson);
-
-            Customer response = JsonConvert.DeserializeObject<Customer>(responseString);
+            Customer response = await PerformHttpCallAsync<Customer>(uri, HttpMethod.Put, customer);
 
             return response;
         }
@@ -84,13 +72,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static Customer Update(string caseId, Customer customer)
         {
-            string requestJson = JsonConvert.SerializeObject(customer);
+            string uri = string.Format(Constants.URI_CUSTOMER_UDPATE, Trustev.BaseUrl, caseId);
 
-            string uri = String.Format("{0}/case/{1}/customer", Trustev.BaseUrl, caseId);
-
-            string responseString = PerformHttpCall(uri, HttpMethod.Put, requestJson);
-
-            Customer response = JsonConvert.DeserializeObject<Customer>(responseString);
+            Customer response = PerformHttpCall<Customer>(uri, HttpMethod.Put, customer);
 
             return response;
         }
@@ -102,11 +86,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<Customer> GetAsync(string caseId)
         {
-            string uri = String.Format("{0}/case/{1}/customer", Trustev.BaseUrl, caseId);
+            string uri = string.Format(Constants.URI_CUSTOMER_GET, Trustev.BaseUrl, caseId);
 
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Get);
-
-            Customer response = JsonConvert.DeserializeObject<Customer>(responseString);
+            Customer response = await PerformHttpCallAsync<Customer>(uri, HttpMethod.Get, null);
 
             return response;
         }
@@ -118,13 +100,11 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static Customer Get(string caseId)
         {
-            string uri = String.Format("{0}/case/{1}/customer", Trustev.BaseUrl, caseId);
+            string uri = string.Format(Constants.URI_CUSTOMER_GET, Trustev.BaseUrl, caseId);
 
-            string responseString = PerformHttpCall(uri, HttpMethod.Get);
+            Customer response = PerformHttpCall<Customer>(uri, HttpMethod.Get, null);
 
-            Customer response = JsonConvert.DeserializeObject<Customer>(responseString);
-
-            return response;
+            return response; ;
         }
     }
 }

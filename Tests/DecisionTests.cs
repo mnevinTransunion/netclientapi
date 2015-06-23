@@ -61,7 +61,7 @@ namespace Tests
 
                 Case returnCase = await Case.PostAsync(sampleCase);
 
-                String randomCaseId = String.Format("{0}|{1}", Guid.NewGuid(), Guid.NewGuid());
+                string randomCaseId = string.Format("{0}|{1}", Guid.NewGuid(), Guid.NewGuid());
 
                 Decision decision = await Decision.GetAsync(randomCaseId);
 
@@ -87,7 +87,7 @@ namespace Tests
 
                 Case returnCase = Case.Post(sampleCase);
 
-                String randomCaseId = String.Format("{0}|{1}", Guid.NewGuid(), Guid.NewGuid());
+                string randomCaseId = string.Format("{0}|{1}", Guid.NewGuid(), Guid.NewGuid());
 
                 Decision decision = Decision.Get(randomCaseId);
 
@@ -109,7 +109,7 @@ namespace Tests
             Decision decision = await Decision.GetAsync(sampleCase);
 
             Assert.IsNotNull(decision.Result);
-            Assert.IsFalse(String.IsNullOrEmpty(decision.CaseId));
+            Assert.IsFalse(string.IsNullOrEmpty(decision.CaseId));
         }
 
         [TestMethod]
@@ -120,7 +120,7 @@ namespace Tests
             Decision decision = Decision.Get(sampleCase);
 
             Assert.IsNotNull(decision.Result);
-            Assert.IsFalse(String.IsNullOrEmpty(decision.CaseId));
+            Assert.IsFalse(string.IsNullOrEmpty(decision.CaseId));
         }
 
         private Case GenerateSampleCase()

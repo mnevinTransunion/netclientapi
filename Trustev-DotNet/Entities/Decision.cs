@@ -38,11 +38,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<Decision> GetAsync(string caseId)
         {
-            string uri = String.Format("{0}/decision/{1}", Trustev.BaseUrl, caseId);
+            string uri = string.Format(Constants.URI_DECISON_GET, Trustev.BaseUrl, caseId);
 
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Get);
-
-            Decision decision = JsonConvert.DeserializeObject<Decision>(responseString);
+            Decision decision = await PerformHttpCallAsync<Decision>(uri, HttpMethod.Get, null);
 
             decision.CaseId = caseId;
 
@@ -56,11 +54,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static Decision Get(string caseId)
         {
-            string uri = String.Format("{0}/decision/{1}", Trustev.BaseUrl, caseId);
+            string uri = string.Format(Constants.URI_DECISON_GET, Trustev.BaseUrl, caseId);
 
-            string responseString = PerformHttpCall(uri, HttpMethod.Get);
-
-            Decision decision = JsonConvert.DeserializeObject<Decision>(responseString);
+            Decision decision = PerformHttpCall<Decision>(uri, HttpMethod.Get, null);
 
             decision.CaseId = caseId;
 

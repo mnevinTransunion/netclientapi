@@ -13,7 +13,7 @@ namespace Trustev_DotNet.Entities
     {
         public string Id { get; set; }
         public Guid SessionId { get; set; }
-        public String CaseNumber { get; set; }
+        public string CaseNumber { get; set; }
         public Transaction Transaction { get; set; }
         public Customer Customer { get; set; }
         public IList<CaseStatus> Statuses { get; set; }
@@ -40,15 +40,11 @@ namespace Trustev_DotNet.Entities
         /// <returns>The Case along with the Id that Trustev have assigned it</returns>
         public static async Task<Case> PostAsync(Case kase)
         {
-            string requestJson = JsonConvert.SerializeObject(kase);
+            string uri = string.Format(Constants.URI_CASE_POST, Trustev.BaseUrl);
 
-            string uri = String.Format("{0}/case", Trustev.BaseUrl);
+            Case responseCase = await PerformHttpCallAsync<Case>(uri, HttpMethod.Post, kase);
 
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Post,  requestJson);
-
-            Case response = JsonConvert.DeserializeObject<Case>(responseString);
-
-            return response;
+            return responseCase;
         }
 
         /// <summary>
@@ -58,13 +54,9 @@ namespace Trustev_DotNet.Entities
         /// <returns>The Case along with the Id that Trustev have assigned it</returns>
         public static Case Post(Case kase)
         {
-            string requestJson = JsonConvert.SerializeObject(kase);
+            string uri = string.Format(Constants.URI_CASE_POST, Trustev.BaseUrl);
 
-            string uri = String.Format("{0}/case", Trustev.BaseUrl);
-
-            string responseString = PerformHttpCall(uri, HttpMethod.Post, requestJson);
-
-            Case response = JsonConvert.DeserializeObject<Case>(responseString);
+            Case response = PerformHttpCall<Case>(uri, HttpMethod.Post, kase);
 
             return response;
         }
@@ -77,13 +69,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<Case> UpdateAsync(Case kase, string caseId)
         {
-            string requestJson = JsonConvert.SerializeObject(kase);
+            string uri = string.Format(Constants.URI_CASE_UPDATE, Trustev.BaseUrl, caseId);
 
-            string uri = String.Format("{0}/case/{1}", Trustev.BaseUrl, caseId);
-
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Put,  requestJson);
-
-            Case response = JsonConvert.DeserializeObject<Case>(responseString);
+            Case response = await PerformHttpCallAsync<Case>(uri, HttpMethod.Put, kase);
 
             return response;
         }
@@ -96,13 +84,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static Case Update(Case kase, string caseId)
         {
-            string requestJson = JsonConvert.SerializeObject(kase);
+            string uri = string.Format(Constants.URI_CASE_UPDATE, Trustev.BaseUrl, caseId);
 
-            string uri = String.Format("{0}/case/{1}", Trustev.BaseUrl, caseId);
-
-            string responseString = PerformHttpCall(uri, HttpMethod.Put, requestJson);
-
-            Case response = JsonConvert.DeserializeObject<Case>(responseString);
+            Case response = PerformHttpCall<Case>(uri, HttpMethod.Put, kase);
 
             return response;
         }
@@ -114,11 +98,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<Case> GetAsync(string caseId)
         {
-            string uri = String.Format("{0}/case/{1}", Trustev.BaseUrl, caseId);
+            string uri = string.Format(Constants.URI_CASE_GET, Trustev.BaseUrl, caseId);
 
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Get);
-
-            Case response = JsonConvert.DeserializeObject<Case>(responseString);
+            Case response = await PerformHttpCallAsync<Case>(uri, HttpMethod.Get, null);
 
             return response;
         }
@@ -130,11 +112,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static Case Get(string caseId)
         {
-            string uri = String.Format("{0}/case/{1}", Trustev.BaseUrl, caseId);
+            string uri = string.Format(Constants.URI_CASE_GET, Trustev.BaseUrl, caseId);
 
-            string responseString = PerformHttpCall(uri, HttpMethod.Get);
-
-            Case response = JsonConvert.DeserializeObject<Case>(responseString);
+            Case response = PerformHttpCall<Case>(uri, HttpMethod.Get, null);
 
             return response;
         }

@@ -20,7 +20,7 @@ namespace Trustev_DotNet.Entities
         public string State { get; set; }
         public string PostalCode { get; set; }
         public int Type { get; set; }
-        public String CountryCode { get; set; }
+        public string CountryCode { get; set; }
         public DateTime Timestamp { get; set; }
         public bool IsDefault { get; set; }
 
@@ -32,13 +32,24 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<CustomerAddress> PostAsync(string caseId, CustomerAddress customerAddress)
         {
-            string requestJson = JsonConvert.SerializeObject(customerAddress);
+            string uri = string.Format(Constants.URI_CUSTOMERADDRESS_POST, Trustev.BaseUrl, caseId);
 
-            string uri = String.Format("{0}/case/{1}/customer/address", Trustev.BaseUrl, caseId);
+            CustomerAddress response = await PerformHttpCallAsync<CustomerAddress>(uri, HttpMethod.Post, customerAddress);
 
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Post, requestJson);
+            return response;
+        }
 
-            CustomerAddress response = JsonConvert.DeserializeObject<CustomerAddress>(responseString);
+        /// <summary>
+        /// Post your CustomerAddress to an existing Customer on an existing Case
+        /// </summary>
+        /// <param name="customerAddress">Your CustomerAddress which you want to post</param>
+        /// <param name="caseId">The Case Id of a Case with the Customer  which you have already posted</param>
+        /// <returns></returns>
+        public static CustomerAddress Post(string caseId, CustomerAddress customerAddress)
+        {
+            string uri = string.Format(Constants.URI_CUSTOMERADDRESS_POST, Trustev.BaseUrl, caseId);
+
+            CustomerAddress response = PerformHttpCall<CustomerAddress>(uri, HttpMethod.Post, customerAddress);
 
             return response;
         }
@@ -52,13 +63,25 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<CustomerAddress> UpdateAsync(string caseId, CustomerAddress customerAddress, Guid customerAddressId)
         {
-            string requestJson = JsonConvert.SerializeObject(customerAddress);
+            string uri = string.Format(Constants.URI_CUSTOMERADDRESS_UPDATE, Trustev.BaseUrl, caseId, customerAddressId);
 
-            string uri = String.Format("{0}/case/{1}/customer/address/{2}", Trustev.BaseUrl, caseId, customerAddressId);
+            CustomerAddress response = await PerformHttpCallAsync<CustomerAddress>(uri, HttpMethod.Put, customerAddress);
 
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Put, requestJson);
+            return response;
+        }
 
-            CustomerAddress response = JsonConvert.DeserializeObject<CustomerAddress>(responseString);
+        /// <summary>
+        /// Update a specific CustomerAddress on a Case which already contains a CustomerAddresses
+        /// </summary>
+        /// <param name="customerAddressId">The id of the CustomerAddress you want to update</param>
+        /// <param name="customerAddress">The CustomerAddress you want to update the exisiting CustomerAddress to</param>
+        /// <param name="caseId">The Case Id of a Case which you have already posted</param>
+        /// <returns></returns>
+        public static CustomerAddress Update(string caseId, CustomerAddress customerAddress, Guid customerAddressId)
+        {
+            string uri = string.Format(Constants.URI_CUSTOMERADDRESS_UPDATE, Trustev.BaseUrl, caseId, customerAddressId);
+
+            CustomerAddress response = PerformHttpCall<CustomerAddress>(uri, HttpMethod.Put, customerAddress);
 
             return response;
         }
@@ -71,11 +94,24 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<CustomerAddress> GetAsync(string caseId, Guid customerAddressId)
         {
-            string uri = String.Format("{0}/case/{1}/customer/address/{2}", Trustev.BaseUrl, caseId, customerAddressId);
+            string uri = string.Format(Constants.URI_CUSTOMERADDRESS_GET, Trustev.BaseUrl, caseId, customerAddressId);
 
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Get);
+            CustomerAddress response = await PerformHttpCallAsync<CustomerAddress>(uri, HttpMethod.Get, null);
 
-            CustomerAddress response = JsonConvert.DeserializeObject<CustomerAddress>(responseString);
+            return response;
+        }
+
+        /// <summary>
+        /// Get a specific customerAddress from a Case
+        /// </summary>
+        /// <param name="customerAddressId">The Id of the CustomerAddress you want to get</param>
+        /// <param name="caseId">The Case Id of a Case with the Customer which you have already posted</param>
+        /// <returns></returns>
+        public static CustomerAddress Get(string caseId, Guid customerAddressId)
+        {
+            string uri = string.Format(Constants.URI_CUSTOMERADDRESS_GET, Trustev.BaseUrl, caseId, customerAddressId);
+
+            CustomerAddress response = PerformHttpCall<CustomerAddress>(uri, HttpMethod.Get, null);
 
             return response;
         }
@@ -87,11 +123,22 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<IList<CustomerAddress>> GetAsync(string caseId)
         {
-            string uri = String.Format("{0}/case/{1}/customer/address", Trustev.BaseUrl, caseId);
+            string uri = string.Format(Constants.URI_CUSTOMERADDRESS_GET, Trustev.BaseUrl, caseId, "");
 
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Get);
+            IList<CustomerAddress> response = await PerformHttpCallAsync<IList<CustomerAddress>>(uri, HttpMethod.Get, null);
 
-            IList<CustomerAddress> response = JsonConvert.DeserializeObject<List<CustomerAddress>>(responseString);
+            return response;
+        }
+        /// <summary>
+        /// Get a all the addresses from a Customer on a Case
+        /// </summary>
+        /// <param name="caseId">The Case Id of a Case with the Customer  which you have already posted</param>
+        /// <returns></returns>
+        public static IList<CustomerAddress> Get(string caseId)
+        {
+            string uri = string.Format(Constants.URI_CUSTOMERADDRESS_GET, Trustev.BaseUrl, caseId, "");
+
+            IList<CustomerAddress> response = PerformHttpCall<IList<CustomerAddress>>(uri, HttpMethod.Get, null);
 
             return response;
         }

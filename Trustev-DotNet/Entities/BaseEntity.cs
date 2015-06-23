@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Trustev_DotNet.Entities.Internal;
 using Trustev_DotNet.Exceptions;
 
@@ -13,10 +14,17 @@ namespace Trustev_DotNet.Entities
 {
     public abstract class BaseEntity
     {
-        internal static async Task<string> PerformHttpCallAsync(string uri, HttpMethod method, string json = "", bool IsAuthenticationNeeded = true)
+        /// <summary>
+        /// This method asynchronously performs the Http Request to the Trustev API
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="uri"></param>
+        /// <param name="method"></param>
+        /// <param name="entity"></param>
+        /// <param name="IsAuthenticationNeeded"></param>
+        /// <returns></returns>
+        internal static async Task<T> PerformHttpCallAsync<T>(string uri, HttpMethod method, object entity, bool IsAuthenticationNeeded = true)
         {
-            String result = "";
-
             HttpClient client = new HttpClient();
 
             if (IsAuthenticationNeeded)
@@ -26,11 +34,22 @@ namespace Trustev_DotNet.Entities
 
             HttpResponseMessage response = new HttpResponseMessage();
 
-            if(method == HttpMethod.Post)
+            string json = "";
+
+            if (entity != null && entity.GetType() != typeof(string))
+            {
+                json = JsonConvert.SerializeObject(entity);
+            }
+            else
+            {
+                json = (string)entity;
+            }
+
+            if (method == HttpMethod.Post)
             {
                 response = await client.PostAsync(uri, new StringContent(json, Encoding.UTF8, "application/json"));
             }
-            else if (method == HttpMethod.Put)
+            else if(method == HttpMethod.Put)
             {
                 response = await client.PutAsync(uri, new StringContent(json, Encoding.UTF8, "application/json"));
             }
@@ -39,25 +58,35 @@ namespace Trustev_DotNet.Entities
                 response = await client.GetAsync(uri);
             }
 
+            string resultstring = "";
+
             if (response.IsSuccessStatusCode)
             {
-                result = await response.Content.ReadAsStringAsync();
+                resultstring = await response.Content.ReadAsStringAsync();
             }
             else
             {
-                result = await response.Content.ReadAsStringAsync();
+                resultstring = await response.Content.ReadAsStringAsync();
 
-                throw new TrustevHttpException(response.StatusCode, result);
+                throw new TrustevHttpException(response.StatusCode, resultstring);
             }
 
-            return result;
+            return JsonConvert.DeserializeObject<T>(resultstring);;
         }
-        internal static string PerformHttpCall(string uri, HttpMethod method, string json = "", bool IsAuthenticationNeeded = true)
+
+        /// <summary>
+        /// This method synchronously performs the Http Request to the Trustev API
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="uri"></param>
+        /// <param name="method"></param>
+        /// <param name="entity"></param>
+        /// <param name="IsAuthenticationNeeded"></param>
+        /// <returns></returns>
+        internal static T PerformHttpCall<T>(string uri, HttpMethod method, object entity, bool IsAuthenticationNeeded = true)
         {
             try
             {
-                String result = "";
-
                 WebRequest request = WebRequest.Create(uri);
 
                 request.Method = method.ToString();
@@ -66,11 +95,13 @@ namespace Trustev_DotNet.Entities
 
                 if (IsAuthenticationNeeded)
                 {
-                    request.Headers.Add("X-Authorization", String.Format("{0} {1}", Trustev.UserName, Token.GetToken()));
+                    request.Headers.Add("X-Authorization", string.Format("{0} {1}", Trustev.UserName, Token.GetToken()));
                 }
 
                 if (method != HttpMethod.Get)
                 {
+                    string json = JsonConvert.SerializeObject(entity);
+
                     byte[] byteArray = Encoding.UTF8.GetBytes(json);
 
                     request.ContentLength = byteArray.Length;
@@ -86,26 +117,30 @@ namespace Trustev_DotNet.Entities
 
                 Console.WriteLine(((HttpWebResponse)response).StatusDescription);
 
-                Stream responseSataStream = response.GetResponseStream();
+                Stream responseDataStream = response.GetResponseStream();
 
-                StreamReader reader = new StreamReader(responseSataStream);
+                StreamReader reader = new StreamReader(responseDataStream);
 
-                result = reader.ReadToEnd();
+                string resultstring = reader.ReadToEnd();
 
                 reader.Close();
-                responseSataStream.Close();
+                responseDataStream.Close();
                 response.Close();
 
-                return result;
+                return JsonConvert.DeserializeObject<T>(resultstring);
                 
             }
             catch (WebException ex)
             {
-                Stream responseSataStream = ex.Response.GetResponseStream();
+                Stream responseDataStream = ex.Response.GetResponseStream();
 
-                StreamReader reader = new StreamReader(responseSataStream);
+                StreamReader reader = new StreamReader(responseDataStream);
 
                 string errorMessage = reader.ReadToEnd();
+
+                reader.Close();
+                responseDataStream.Close();
+                ex.Response.Close();
 
                 throw new TrustevHttpException(((HttpWebResponse)ex.Response).StatusCode, errorMessage);
             }

@@ -13,11 +13,11 @@ namespace Trustev_DotNet.Entities
         public Guid Id { get; set; }
         public long SocialId { get; set; }
         public Enums.SocialNetworkType Type { get; set; }
-        public String ShortTermAccessToken { get; set; }
-        public String LongTermAccessToken { get; set; }
+        public string ShortTermAccessToken { get; set; }
+        public string LongTermAccessToken { get; set; }
         public DateTime ShortTermAccessTokenExpiry { get; set; }
         public DateTime LongTermAccessTokenExpiry { get; set; }
-        public String Secret { get; set; }
+        public string Secret { get; set; }
         public DateTime Timestamp { get; set; }
 
         /// <summary>
@@ -28,13 +28,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<SocialAccount> PostAsync(string caseId, SocialAccount socialAccount)
         {
-            string requestJson = JsonConvert.SerializeObject(socialAccount);
+            string uri = string.Format(Constants.URI_SOCIALACCOUNT_POST, Trustev.BaseUrl, caseId);
 
-            string uri = String.Format("{0}/case/{1}/customer/socialaccount", Trustev.BaseUrl, caseId);
-
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Post, requestJson);
-
-            SocialAccount response = JsonConvert.DeserializeObject<SocialAccount>(responseString);
+            SocialAccount response = await PerformHttpCallAsync<SocialAccount>(uri, HttpMethod.Post, socialAccount);
 
             return response;
         }
@@ -47,13 +43,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static SocialAccount Post(string caseId, SocialAccount socialAccount)
         {
-            string requestJson = JsonConvert.SerializeObject(socialAccount);
+            string uri = string.Format(Constants.URI_SOCIALACCOUNT_POST, Trustev.BaseUrl, caseId);
 
-            string uri = String.Format("{0}/case/{1}/customer/socialaccount", Trustev.BaseUrl, caseId);
-
-            string responseString = PerformHttpCall(uri, HttpMethod.Post, requestJson);
-
-            SocialAccount response = JsonConvert.DeserializeObject<SocialAccount>(responseString);
+            SocialAccount response = PerformHttpCall<SocialAccount>(uri, HttpMethod.Post, socialAccount);
 
             return response;
         }
@@ -67,13 +59,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<SocialAccount> UpdateAsync(string caseId, SocialAccount socialAccount, Guid socialAccountId)
         {
-            string requestJson = JsonConvert.SerializeObject(socialAccount);
+            string uri = string.Format(Constants.URI_SOCIALACCOUNT_UPDATE, Trustev.BaseUrl, caseId, socialAccountId);
 
-            string uri = String.Format("{0}/case/{1}/customer/socialaccount/{2}", Trustev.BaseUrl, caseId, socialAccountId);
-
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Put, requestJson);
-
-            SocialAccount response = JsonConvert.DeserializeObject<SocialAccount>(responseString);
+            SocialAccount response = await PerformHttpCallAsync<SocialAccount>(uri, HttpMethod.Put, socialAccount);
 
             return response;
         }
@@ -87,13 +75,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static SocialAccount Update(string caseId, SocialAccount socialAccount, Guid socialAccountId)
         {
-            string requestJson = JsonConvert.SerializeObject(socialAccount);
+            string uri = string.Format(Constants.URI_SOCIALACCOUNT_UPDATE, Trustev.BaseUrl, caseId, socialAccountId);
 
-            string uri = String.Format("{0}/case/{1}/customer/socialaccount/{2}", Trustev.BaseUrl, caseId, socialAccountId);
-
-            string responseString = PerformHttpCall(uri, HttpMethod.Put, requestJson);
-
-            SocialAccount response = JsonConvert.DeserializeObject<SocialAccount>(responseString);
+            SocialAccount response = PerformHttpCall<SocialAccount>(uri, HttpMethod.Put, socialAccount);
 
             return response;
         }
@@ -106,11 +90,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<SocialAccount> GetAsync(string caseId, Guid socialAccountId)
         {
-            string uri = String.Format("{0}/case/{1}/customer/socialaccount/{2}", Trustev.BaseUrl, caseId, socialAccountId);
+            string uri = string.Format(Constants.URI_SOCIALACCOUNT_GET, Trustev.BaseUrl, caseId, socialAccountId);
 
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Get);
-
-            SocialAccount response = JsonConvert.DeserializeObject<SocialAccount>(responseString);
+            SocialAccount response = await PerformHttpCallAsync<SocialAccount>(uri, HttpMethod.Get, null);
 
             return response;
         }
@@ -123,11 +105,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static SocialAccount Get(string caseId, Guid socialAccountId)
         {
-            string uri = String.Format("{0}/case/{1}/customer/socialaccount/{2}", Trustev.BaseUrl, caseId, socialAccountId);
+            string uri = string.Format(Constants.URI_SOCIALACCOUNT_GET, Trustev.BaseUrl, caseId, socialAccountId);
 
-            string responseString = PerformHttpCall(uri, HttpMethod.Get);
-
-            SocialAccount response = JsonConvert.DeserializeObject<SocialAccount>(responseString);
+            SocialAccount response = PerformHttpCall<SocialAccount>(uri, HttpMethod.Get, null);
 
             return response;
         }
@@ -139,11 +119,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<IList<SocialAccount>> GetAsync(string caseId)
         {
-            string uri = String.Format("{0}/case/{1}/customer/socialaccount", Trustev.BaseUrl, caseId);
+            string uri = string.Format(Constants.URI_SOCIALACCOUNT_GET, Trustev.BaseUrl, caseId, "");
 
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Get);
-
-            IList<SocialAccount> response = JsonConvert.DeserializeObject<List<SocialAccount>>(responseString);
+            IList<SocialAccount> response = await PerformHttpCallAsync<IList<SocialAccount>>(uri, HttpMethod.Get, null);
 
             return response;
         }
@@ -155,11 +133,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static IList<SocialAccount> Get(string caseId)
         {
-            string uri = String.Format("{0}/case/{1}/customer/socialaccount", Trustev.BaseUrl, caseId);
+            string uri = string.Format(Constants.URI_SOCIALACCOUNT_GET, Trustev.BaseUrl, caseId, "");
 
-            string responseString = PerformHttpCall(uri, HttpMethod.Get);
-
-            IList<SocialAccount> response = JsonConvert.DeserializeObject<List<SocialAccount>>(responseString);
+            IList<SocialAccount> response = PerformHttpCall<IList<SocialAccount>>(uri, HttpMethod.Get, null);
 
             return response;
         }

@@ -20,7 +20,7 @@ namespace Trustev_DotNet.Entities
         public string State { get; set; }
         public string PostalCode { get; set; }
         public int Type { get; set; }
-        public String CountryCode { get; set; }
+        public string CountryCode { get; set; }
         public DateTime Timestamp { get; set; }
         public bool IsDefault { get; set; }
 
@@ -32,13 +32,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<TransactionAddress> PostAsync(string caseId, TransactionAddress transactionAddress)
         {
-            string requestJson = JsonConvert.SerializeObject(transactionAddress);
+            string uri = string.Format(Constants.URI_TRANSACTIONADDRESS_POST, Trustev.BaseUrl, caseId);
 
-            string uri = String.Format("{0}/case/{1}/transaction/address", Trustev.BaseUrl, caseId);
-
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Post, requestJson);
-
-            TransactionAddress response = JsonConvert.DeserializeObject<TransactionAddress>(responseString);
+            TransactionAddress response = await PerformHttpCallAsync<TransactionAddress>(uri, HttpMethod.Post, transactionAddress);
 
             return response;
         }
@@ -51,13 +47,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static TransactionAddress Post(string caseId, TransactionAddress transactionAddress)
         {
-            string requestJson = JsonConvert.SerializeObject(transactionAddress);
+            string uri = string.Format(Constants.URI_TRANSACTIONADDRESS_POST, Trustev.BaseUrl, caseId);
 
-            string uri = String.Format("{0}/case/{1}/transaction/address", Trustev.BaseUrl, caseId);
-
-            string responseString = PerformHttpCall(uri, HttpMethod.Post, requestJson);
-
-            TransactionAddress response = JsonConvert.DeserializeObject<TransactionAddress>(responseString);
+            TransactionAddress response = PerformHttpCall<TransactionAddress>(uri, HttpMethod.Post, transactionAddress);
 
             return response;
         }
@@ -71,13 +63,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<TransactionAddress> UpdateAsync(string caseId, TransactionAddress transactionAddress, Guid transactionAddressId)
         {
-            string requestJson = JsonConvert.SerializeObject(transactionAddress);
+            string uri = string.Format(Constants.URI_TRANSACTIONADDRESS_UPDATE, Trustev.BaseUrl, caseId, transactionAddressId);
 
-            string uri = String.Format("{0}/case/{1}/transaction/address/{2}", Trustev.BaseUrl, caseId, transactionAddressId);
-
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Put, requestJson);
-
-            TransactionAddress response = JsonConvert.DeserializeObject<TransactionAddress>(responseString);
+            TransactionAddress response = await PerformHttpCallAsync<TransactionAddress>(uri, HttpMethod.Put, transactionAddress);
 
             return response;
         }
@@ -91,13 +79,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static TransactionAddress Update(string caseId, TransactionAddress transactionAddress, Guid transactionAddressId)
         {
-            string requestJson = JsonConvert.SerializeObject(transactionAddress);
+            string uri = string.Format(Constants.URI_TRANSACTIONADDRESS_UPDATE, Trustev.BaseUrl, caseId, transactionAddressId);
 
-            string uri = String.Format("{0}/case/{1}/transaction/address/{2}", Trustev.BaseUrl, caseId, transactionAddressId);
-
-            string responseString = PerformHttpCall(uri, HttpMethod.Put, requestJson);
-
-            TransactionAddress response = JsonConvert.DeserializeObject<TransactionAddress>(responseString);
+            TransactionAddress response = PerformHttpCall<TransactionAddress>(uri, HttpMethod.Put, transactionAddress);
 
             return response;
         }
@@ -110,11 +94,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<TransactionAddress> GetAsync(string caseId, Guid transactionAddressId)
         {
-            string uri = String.Format("{0}/case/{1}/transaction/address/{2}", Trustev.BaseUrl, caseId, transactionAddressId);
+            string uri = string.Format(Constants.URI_TRANSACTIONADDRESS_GET, Trustev.BaseUrl, caseId, transactionAddressId);
 
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Get);
-
-            TransactionAddress response = JsonConvert.DeserializeObject<TransactionAddress>(responseString);
+            TransactionAddress response = await PerformHttpCallAsync<TransactionAddress>(uri, HttpMethod.Get, null);
 
             return response;
         }
@@ -127,11 +109,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static TransactionAddress Get(string caseId, Guid transactionAddressId)
         {
-            string uri = String.Format("{0}/case/{1}/transaction/address/{2}", Trustev.BaseUrl, caseId, transactionAddressId);
+            string uri = string.Format(Constants.URI_TRANSACTIONADDRESS_GET, Trustev.BaseUrl, caseId, transactionAddressId);
 
-            string responseString = PerformHttpCall(uri, HttpMethod.Get);
-
-            TransactionAddress response = JsonConvert.DeserializeObject<TransactionAddress>(responseString);
+            TransactionAddress response = PerformHttpCall<TransactionAddress>(uri, HttpMethod.Get, null);
 
             return response;
         }
@@ -143,11 +123,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static async Task<IList<TransactionAddress>> GetAsync(string caseId)
         {
-            string uri = String.Format("{0}/case/{1}/transaction/address", Trustev.BaseUrl, caseId);
+            string uri = string.Format(Constants.URI_TRANSACTIONADDRESS_GET, Trustev.BaseUrl, caseId, "");
 
-            string responseString = await PerformHttpCallAsync(uri, HttpMethod.Get);
-
-            IList<TransactionAddress> response = JsonConvert.DeserializeObject<List<TransactionAddress>>(responseString);
+            IList<TransactionAddress> response = await PerformHttpCallAsync<IList<TransactionAddress>>(uri, HttpMethod.Get, null);
 
             return response;
         }
@@ -159,11 +137,9 @@ namespace Trustev_DotNet.Entities
         /// <returns></returns>
         public static IList<TransactionAddress> Get(string caseId)
         {
-            string uri = String.Format("{0}/case/{1}/transaction/address", Trustev.BaseUrl, caseId);
+            string uri = string.Format(Constants.URI_TRANSACTIONADDRESS_GET, Trustev.BaseUrl, caseId, "");
 
-            string responseString = PerformHttpCall(uri, HttpMethod.Get);
-
-            IList<TransactionAddress> response = JsonConvert.DeserializeObject<List<TransactionAddress>>(responseString);
+            IList<TransactionAddress> response = PerformHttpCall<IList<TransactionAddress>>(uri, HttpMethod.Get, null);
 
             return response;
         }
