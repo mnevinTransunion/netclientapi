@@ -11,8 +11,8 @@
 - TODO : Detail how to install the NuGet package here
 
 ####Others
-- You could also download our solution build it an simply include the dll files as you need them.
-- Our library can also be used as a example to inspire you own integration to the Trustev Platform.
+- You could also download our solution, build it and simply include the .dll files as you need them.
+- Our library can also be used as an example to inspire your own integration to the Trustev Platform.
 
 ## Usage
    The stripe API has been designed to allow users complete control over what information they are sending us while still ensuring that integration can be done a couple of simple steps
@@ -45,6 +45,6 @@ Case returnCase = ApiClient.PostCase(kase);
 // 4. You can now get your Decision from Trustev base on the case you have given us!
 Decision decision = ApiClient.GetDecision(returnCase.Id);
 
-// No its up to you what you do with our decision
+// Now its up to you what you do with our decision
 ```
 
