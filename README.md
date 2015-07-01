@@ -27,11 +27,14 @@ ApiClient.SetUp(userName, password, secret);
 
 // 2. Create your case.
 // You will need two bits of information for this setp
-// 		SessionId. This is the SessionId that you have recieved from the trustev JavaScript and transfered server-side
-// 		CaseNumber : This is a number that you use to uniquely identify this case. If must be unique.
+// 		SessionId : This is the SessionId that you have recieved from the trustev JavaScript 
+//					and transfered server-side
+// 		CaseNumber : This is a number that you use to uniquely identify this case. It must
+//					 be unique.
 Case kase = new Case(sessionId, caseNumber);
 
-// Now add any further information you have. The more you give us the more accurate our decisions
+// Now add any further information you have. The more you give us the more accurate 
+// our decisions
 kase.Customer = new Customer()
 {
 	FirstName = "John",
@@ -42,8 +45,10 @@ kase.Customer = new Customer()
 // 3. Post this Case to the Trustev Api
 Case returnCase = ApiClient.PostCase(kase);
 
+
 // 4. You can now get your Decision from Trustev base on the case you have given us!
 Decision decision = ApiClient.GetDecision(returnCase.Id);
+
 
 // Now its up to you what you do with our decision
 ```
