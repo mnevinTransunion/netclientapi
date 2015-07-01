@@ -11,28 +11,59 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trustev.Web", "Trustev.Web\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trustev.WebAsync", "Trustev.WebAsync\Trustev.WebAsync.csproj", "{9211BA06-B4B0-4FF2-BAD8-2349CBB78BFD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsNet40", "TestsNet40\TestsNet40.csproj", "{DCD075A8-8F0A-406F-81E0-EB940914FD03}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{FE8C7BC7-7644-4E58-8010-D36FE8E12DA8}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug-Net40|Any CPU = Debug-Net40|Any CPU
 		Release|Any CPU = Release|Any CPU
+		Release-Net40|Any CPU = Release-Net40|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{8D294B4F-F372-4D00-8E2E-27E1E22812B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8D294B4F-F372-4D00-8E2E-27E1E22812B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D294B4F-F372-4D00-8E2E-27E1E22812B0}.Debug-Net40|Any CPU.ActiveCfg = Debug-Net40|Any CPU
 		{8D294B4F-F372-4D00-8E2E-27E1E22812B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D294B4F-F372-4D00-8E2E-27E1E22812B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D294B4F-F372-4D00-8E2E-27E1E22812B0}.Release-Net40|Any CPU.ActiveCfg = Release-Net40|Any CPU
 		{F05F1D9F-7982-49BA-A6B3-D576038B1226}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F05F1D9F-7982-49BA-A6B3-D576038B1226}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F05F1D9F-7982-49BA-A6B3-D576038B1226}.Debug-Net40|Any CPU.ActiveCfg = Debug-Net40|Any CPU
+		{F05F1D9F-7982-49BA-A6B3-D576038B1226}.Debug-Net40|Any CPU.Build.0 = Debug-Net40|Any CPU
 		{F05F1D9F-7982-49BA-A6B3-D576038B1226}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F05F1D9F-7982-49BA-A6B3-D576038B1226}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F05F1D9F-7982-49BA-A6B3-D576038B1226}.Release-Net40|Any CPU.ActiveCfg = Release-Net40|Any CPU
+		{F05F1D9F-7982-49BA-A6B3-D576038B1226}.Release-Net40|Any CPU.Build.0 = Release-Net40|Any CPU
 		{C89FAE7A-64FF-47AD-B0B8-45C7C9B20DB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C89FAE7A-64FF-47AD-B0B8-45C7C9B20DB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C89FAE7A-64FF-47AD-B0B8-45C7C9B20DB6}.Debug-Net40|Any CPU.ActiveCfg = Debug-Net40|Any CPU
+		{C89FAE7A-64FF-47AD-B0B8-45C7C9B20DB6}.Debug-Net40|Any CPU.Build.0 = Debug-Net40|Any CPU
 		{C89FAE7A-64FF-47AD-B0B8-45C7C9B20DB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C89FAE7A-64FF-47AD-B0B8-45C7C9B20DB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C89FAE7A-64FF-47AD-B0B8-45C7C9B20DB6}.Release-Net40|Any CPU.ActiveCfg = Release-Net40|Any CPU
+		{C89FAE7A-64FF-47AD-B0B8-45C7C9B20DB6}.Release-Net40|Any CPU.Build.0 = Release-Net40|Any CPU
 		{9211BA06-B4B0-4FF2-BAD8-2349CBB78BFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9211BA06-B4B0-4FF2-BAD8-2349CBB78BFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9211BA06-B4B0-4FF2-BAD8-2349CBB78BFD}.Debug-Net40|Any CPU.ActiveCfg = Debug-Net40|Any CPU
 		{9211BA06-B4B0-4FF2-BAD8-2349CBB78BFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9211BA06-B4B0-4FF2-BAD8-2349CBB78BFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9211BA06-B4B0-4FF2-BAD8-2349CBB78BFD}.Release-Net40|Any CPU.ActiveCfg = Release-Net40|Any CPU
+		{DCD075A8-8F0A-406F-81E0-EB940914FD03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCD075A8-8F0A-406F-81E0-EB940914FD03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCD075A8-8F0A-406F-81E0-EB940914FD03}.Debug-Net40|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCD075A8-8F0A-406F-81E0-EB940914FD03}.Debug-Net40|Any CPU.Build.0 = Debug|Any CPU
+		{DCD075A8-8F0A-406F-81E0-EB940914FD03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCD075A8-8F0A-406F-81E0-EB940914FD03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCD075A8-8F0A-406F-81E0-EB940914FD03}.Release-Net40|Any CPU.ActiveCfg = Release|Any CPU
+		{DCD075A8-8F0A-406F-81E0-EB940914FD03}.Release-Net40|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

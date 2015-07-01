@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Trustev.Domain.Entities;
 using Trustev.Domain.Exceptions;
-using Trustev.Web;
+using Trustev.WebAsync;
 
-namespace Tests.SyncTests
+namespace Tests.AsyncTests
 {
     [TestClass]
-    public class CaseTests
+    public class CustomerTestsAsync
     {
         [TestInitialize]
         public void InitializeTest()
@@ -24,53 +26,62 @@ namespace Tests.SyncTests
         }
 
         [TestMethod]
-        public void CaseTest_Post_200()
+        public async Task CustomerTest_PostAsync_200()
         {
             Case sampleCase = GenerateSampleCase();
 
-            Case returnCase = ApiClient.PostCase(sampleCase);
+            Customer customer = sampleCase.Customer;
+            sampleCase.Customer = null;
 
-            Assert.IsFalse(string.IsNullOrEmpty(returnCase.Id));
+            Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
+
+            Customer returnCustomer = await ApiClient.PostCustomerAsync(returnCase.Id, customer);
+
+            Assert.IsTrue(returnCustomer.Id != Guid.Empty);
         }
 
         [TestMethod]
-        public void CaseTest_Get_200()
+        public async Task CustomerTest_UpdateAsync_200()
         {
             Case sampleCase = GenerateSampleCase();
 
-            Case returnCase = ApiClient.PostCase(sampleCase);
+            Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
 
-            Case getCase = ApiClient.GetCase(returnCase.Id);
+            Customer customer = returnCase.Customer;
 
-            Assert.IsFalse(string.IsNullOrEmpty(getCase.Id));
+            customer.FirstName = "Brad";
+
+            Customer returnCustomer = await ApiClient.UpdateCustomerAsync(returnCase.Id, customer);
+
+            Assert.IsTrue(returnCustomer.FirstName.Equals("Brad"));
         }
 
         [TestMethod]
-        public void CaseTest_Update_200()
+        public async Task CustomerTest_GetAsync_200()
         {
             Case sampleCase = GenerateSampleCase();
 
-            Case returnCase = ApiClient.PostCase(sampleCase);
+            Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
 
-            returnCase.Customer = null;
+            Customer returnCustomer = await ApiClient.GetCustomerAsync(returnCase.Id);
 
-            ApiClient.UpdateCase(returnCase, returnCase.Id);
-
-            Case getCase = ApiClient.GetCase(returnCase.Id);
-
-            Assert.IsNull(getCase.Customer);
+            Assert.IsTrue(returnCustomer.Id != Guid.Empty);
         }
 
         [TestMethod]
-        public void CaseTest_Get_404()
+        public async Task CustomerTest_GetAsync_404()
         {
             HttpStatusCode responseCode = HttpStatusCode.OK;
 
             try
             {
-                String dummyCaseId = string.Format("{0}|{1}", Guid.NewGuid(), Guid.NewGuid());
+                Case sampleCase = GenerateSampleCase();
 
-                Case getCase = ApiClient.GetCase(dummyCaseId);
+                sampleCase.Customer = null;
+
+                Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
+
+                Customer returnCustomer = await ApiClient.GetCustomerAsync(returnCase.Id);
             }
             catch (TrustevHttpException ex)
             {
@@ -161,8 +172,8 @@ namespace Tests.SyncTests
                         }
                     }
                 },
-                Payments = new List<Payment>() 
-                { 
+                Payments = new List<Payment>()
+                {
                 },
                 Statuses = new List<CaseStatus>()
                 {

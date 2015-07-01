@@ -1,32 +1,50 @@
 #Trustev .NET Libary
 - If you are not familiar with Trustev, start with our [Developer Portal](http://www.trustev.com/developers).
 - Check out our [API Documentation](http://www.trustev.com/developers#apioverview).
+- If you would like to get some test keys to begin integrating please contact integrationteam@trustev.com
+
+##Requirements
+- .NET version 4.0 and later
 
 ##Installation
+####NuGet
 - TODO : Detail how to install the NuGet package here
 
+####Others
+- You could also download our solution build it an simply include the dll files as you need them.
+- Our library can also be used as a example to inspire you own integration to the Trustev Platform.
+
 ## Usage
+   The stripe API has been designed to allow users complete control over what information they are sending us while still ensuring that integration can be done a couple of simple steps
+
+#### Simple Trustev Integration
+This is simple version of the trustev integration. and involes 3 simple steps
 ```c#
-//You need to set-up the ApiClient by providing your Merchant Credentials
+
+// 1. Set-Up the Trustev Api Client with your user credentials
 ApiClient.SetUp(userName, password, secret);
 
-//Create cyou case object
-// SessionId and CaseNumber are compulsory so they must be provided in the constructor
-//Every thing else is optional
-Guid sessionId = //This is where you will use you Trustev.SessionId
-string caseNumber = "CaseNumber1" // This is the caseNumber you want to assign the case. It must be unique!
 
-Case kase = new Case(sessionId, caseNumber)
+// 2. Create your case.
+// You will need two bits of information for this setp
+// 		SessionId. This is the SessionId that you have recieved from the trustev JavaScript and transfered server-side
+// 		CaseNumber : This is a number that you use to uniquely identify this case. If must be unique.
+Case kase = new Case(sessionId, caseNumber);
+
+// Now add any further information you have. The more you give us the more accurate our decisions
 kase.Customer = new Customer()
 {
 	FirstName = "John",
     LastName = "Doe",
 }
 
-//Post this case to the Truutev Api
+
+// 3. Post this Case to the Trustev Api
 Case returnCase = ApiClient.PostCase(kase);
 
-//No you can get you trustev Decision
+// 4. You can now get your Decision from Trustev base on the case you have given us!
 Decision decision = ApiClient.GetDecision(returnCase.Id);
+
+// No its up to you what you do with our decision
 ```
 

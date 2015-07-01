@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Trustev.Domain.Entities;
 using Trustev.Domain.Exceptions;
 using Trustev.Web;
 
-namespace Tests.SyncTests
+namespace TestsNet40.SyncTests
 {
     [TestClass]
-    public class DecisionTests
+    public class CaseTests
     {
         [TestInitialize]
         public void InitializeTest()
@@ -26,29 +24,53 @@ namespace Tests.SyncTests
         }
 
         [TestMethod]
-        public void DecisionTest_Get_200()
+        public void CaseTest_Post_200()
         {
             Case sampleCase = GenerateSampleCase();
 
             Case returnCase = ApiClient.PostCase(sampleCase);
 
-            Decision decision = ApiClient.GetDecision(returnCase.Id);
-
-            Assert.IsFalse(decision.Id == Guid.Empty);
+            Assert.IsFalse(string.IsNullOrEmpty(returnCase.Id));
         }
 
         [TestMethod]
-        public void DecisionTest_Get_404()
+        public void CaseTest_Get_200()
+        {
+            Case sampleCase = GenerateSampleCase();
+
+            Case returnCase = ApiClient.PostCase(sampleCase);
+
+            Case getCase = ApiClient.GetCase(returnCase.Id);
+
+            Assert.IsFalse(string.IsNullOrEmpty(getCase.Id));
+        }
+
+        [TestMethod]
+        public void CaseTest_Update_200()
+        {
+            Case sampleCase = GenerateSampleCase();
+
+            Case returnCase = ApiClient.PostCase(sampleCase);
+
+            returnCase.Customer = null;
+
+            ApiClient.UpdateCase(returnCase, returnCase.Id);
+
+            Case getCase = ApiClient.GetCase(returnCase.Id);
+
+            Assert.IsNull(getCase.Customer);
+        }
+
+        [TestMethod]
+        public void CaseTest_Get_404()
         {
             HttpStatusCode responseCode = HttpStatusCode.OK;
 
             try
             {
-
                 String dummyCaseId = string.Format("{0}|{1}", Guid.NewGuid(), Guid.NewGuid());
 
-                Decision decision = ApiClient.GetDecision(dummyCaseId);
-
+                Case getCase = ApiClient.GetCase(dummyCaseId);
             }
             catch (TrustevHttpException ex)
             {
@@ -57,7 +79,6 @@ namespace Tests.SyncTests
             }
 
             Assert.AreEqual(HttpStatusCode.NotFound, responseCode);
-
         }
 
         private Case GenerateSampleCase()
@@ -140,8 +161,8 @@ namespace Tests.SyncTests
                         }
                     }
                 },
-                Payments = new List<Payment>()
-                {
+                Payments = new List<Payment>() 
+                { 
                 },
                 Statuses = new List<CaseStatus>()
                 {
