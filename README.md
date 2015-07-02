@@ -33,7 +33,7 @@ ApiClient.SetUp(userName, password, secret);
 //					 be unique.
 Case kase = new Case(sessionId, caseNumber);
 
-// Now add any further information you have. The more you give us the more accurate 
+// Now add any further information you have. The more you give us, the more accurate 
 // our decisions
 kase.Customer = new Customer()
 {

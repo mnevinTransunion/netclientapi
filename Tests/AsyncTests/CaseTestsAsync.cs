@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Trustev.Domain.Entities;
@@ -18,9 +16,9 @@ namespace Tests.AsyncTests
         [TestInitialize]
         public void InitializeTest()
         {
-            string userName = ConfigurationManager.AppSettings["UserName"];
-            string password = ConfigurationManager.AppSettings["Password"];
-            string secret = ConfigurationManager.AppSettings["Secret"];
+            var userName = ConfigurationManager.AppSettings["UserName"];
+            var password = ConfigurationManager.AppSettings["Password"];
+            var secret = ConfigurationManager.AppSettings["Secret"];
 
             ApiClient.SetUp(userName, password, secret);
         }
@@ -28,9 +26,9 @@ namespace Tests.AsyncTests
         [TestMethod]
         public async Task CaseTest_PostAsync_200()
         {
-            Case sampleCase = GenerateSampleCase();
+            var sampleCase = this.GenerateSampleCase();
 
-            Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
+            var returnCase = await ApiClient.PostCaseAsync(sampleCase);
 
             Assert.IsFalse(string.IsNullOrEmpty(returnCase.Id));
         }
@@ -38,11 +36,11 @@ namespace Tests.AsyncTests
         [TestMethod]
         public async Task CaseTest_Get_200()
         {
-            Case sampleCase = GenerateSampleCase();
+            var sampleCase = this.GenerateSampleCase();
 
-            Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
+            var returnCase = await ApiClient.PostCaseAsync(sampleCase);
 
-            Case getCase = await ApiClient.GetCaseAsync(returnCase.Id);
+            var getCase = await ApiClient.GetCaseAsync(returnCase.Id);
 
             Assert.IsFalse(string.IsNullOrEmpty(getCase.Id));
         }
@@ -50,15 +48,15 @@ namespace Tests.AsyncTests
         [TestMethod]
         public async Task CaseTest_Update_200()
         {
-            Case sampleCase = GenerateSampleCase();
+            var sampleCase = this.GenerateSampleCase();
 
-            Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
+            var returnCase = await ApiClient.PostCaseAsync(sampleCase);
 
             returnCase.Customer = null;
 
             await ApiClient.UpdateCaseAsync(returnCase, returnCase.Id);
 
-            Case getCase = await ApiClient.GetCaseAsync(returnCase.Id);
+            var getCase = await ApiClient.GetCaseAsync(returnCase.Id);
 
             Assert.IsNull(getCase.Customer);
         }
@@ -66,35 +64,35 @@ namespace Tests.AsyncTests
         [TestMethod]
         public async Task CaseTest_Get_404()
         {
-            HttpStatusCode responseCode = HttpStatusCode.OK;
+            var responseCode = HttpStatusCode.OK;
 
             try
             {
-                String dummyCaseId = string.Format("{0}|{1}", Guid.NewGuid(), Guid.NewGuid());
+                var dummyCaseId = string.Format("{0}|{1}", Guid.NewGuid(), Guid.NewGuid());
 
-                Case getCase = await ApiClient.GetCaseAsync(dummyCaseId);
+                var getCase = await ApiClient.GetCaseAsync(dummyCaseId);
             }
             catch (TrustevHttpException ex)
             {
-                string message = ex.Message;
+                var message = ex.Message;
                 responseCode = ex.HttpResponseCode;
             }
 
             Assert.AreEqual(HttpStatusCode.NotFound, responseCode);
         }
 
+        #region SetCaseContents
         private Case GenerateSampleCase()
         {
-            Case sampleCase = new Case(Guid.NewGuid(), Guid.NewGuid().ToString())
+            var sampleCase = new Case(Guid.NewGuid(), Guid.NewGuid().ToString())
             {
-                #region SetCaseContents
                 Timestamp = DateTime.Now,
-                Transaction = new Transaction()
+                Transaction = new Transaction
                 {
-                    TotalTransactionValue = (Decimal)21.78,
-                    Addresses = new List<TransactionAddress>()
+                    TotalTransactionValue = (decimal)21.78,
+                    Addresses = new List<TransactionAddress>
                     {
-                        new TransactionAddress()
+                        new TransactionAddress
                         {
                             FirstName = "John",
                             LastName = "Doe",
@@ -102,8 +100,8 @@ namespace Tests.AsyncTests
                             Address1 = "Address line 1",
                             Address2 = "Address line 2",
                             Address3 = "Address line 3",
-                            City = "",
-                            CountryCode = "",
+                            City = string.Empty,
+                            CountryCode = string.Empty,
                             State = "Cork",
                             PostalCode = "Cork",
                             Type = 0
@@ -111,9 +109,9 @@ namespace Tests.AsyncTests
                     },
                     Currency = "USD",
                     Timestamp = DateTime.UtcNow,
-                    Items = new List<TransactionItem>()
+                    Items = new List<TransactionItem>
                     {
-                        new TransactionItem()
+                        new TransactionItem
                         {
                             Name = "Item 1",
                             Quantity = 1,
@@ -121,23 +119,23 @@ namespace Tests.AsyncTests
                         }
                     }
                 },
-                Customer = new Customer()
+                Customer = new Customer
                 {
                     FirstName = "John",
                     LastName = "Doe",
                     DateOfBirth = DateTime.Now.AddYears(-24),
                     PhoneNumber = "0878767543",
-                    Emails = new List<Email>()
+                    Emails = new List<Email>
                     {
-                        new Email()
+                        new Email
                         {
                             IsDefault = true,
                             EmailAddress = "clasf@gdasf.com"
                         }
                     },
-                    Addresses = new List<CustomerAddress>()
+                    Addresses = new List<CustomerAddress>
                     {
-                        new CustomerAddress()
+                        new CustomerAddress
                         {
                             FirstName = "John",
                             LastName = "Doe",
@@ -152,9 +150,9 @@ namespace Tests.AsyncTests
                             Type = 0
                         }
                     },
-                    SocialAccounts = new List<SocialAccount>()
+                    SocialAccounts = new List<SocialAccount>
                     {
-                        new SocialAccount()
+                        new SocialAccount
                         {
                             Type = 0,
                             SocialId = 9999,
@@ -163,16 +161,12 @@ namespace Tests.AsyncTests
                         }
                     }
                 },
-                Payments = new List<Payment>()
-                {
-                },
+                Payments = new List<Payment>(),
                 Statuses = new List<CaseStatus>()
-                {
-                }
-                #endregion
             };
 
             return sampleCase;
         }
+        #endregion
     }
 }

@@ -11,9 +11,8 @@ namespace Trustev.Domain.Exceptions
     /// </summary>
     public class TrustevGeneralException : Exception
     {
-        public TrustevGeneralException(string message) :base(message)
-        {
-            
+        public TrustevGeneralException(string message) : base(message)
+        { 
         }
     }
 }

@@ -28,7 +28,7 @@ namespace TestsNet40.SyncTests
         [TestMethod]
         public void CustomerTest_Post_200()
         {
-            Case sampleCase = GenerateSampleCase();
+            Case sampleCase = this.GenerateSampleCase();
 
             Customer customer = sampleCase.Customer;
             sampleCase.Customer = null;
@@ -43,7 +43,7 @@ namespace TestsNet40.SyncTests
         [TestMethod]
         public void CustomerTest_UpdateAsync_200()
         {
-            Case sampleCase = GenerateSampleCase();
+            Case sampleCase = this.GenerateSampleCase();
 
             Case returnCase = ApiClient.PostCase(sampleCase);
 
@@ -59,7 +59,7 @@ namespace TestsNet40.SyncTests
         [TestMethod]
         public void CustomerTest_GetAsync_200()
         {
-            Case sampleCase = GenerateSampleCase();
+            Case sampleCase = this.GenerateSampleCase();
 
             Case returnCase = ApiClient.PostCase(sampleCase);
 
@@ -75,7 +75,7 @@ namespace TestsNet40.SyncTests
 
             try
             {
-                Case sampleCase = GenerateSampleCase();
+                Case sampleCase = this.GenerateSampleCase();
 
                 sampleCase.Customer = null;
 
@@ -92,15 +92,15 @@ namespace TestsNet40.SyncTests
             Assert.AreEqual(HttpStatusCode.NotFound, responseCode);
         }
 
+        #region SetCaseContents
         private Case GenerateSampleCase()
         {
             Case sampleCase = new Case(Guid.NewGuid(), Guid.NewGuid().ToString())
             {
-                #region SetCaseContents
                 Timestamp = DateTime.Now,
                 Transaction = new Transaction()
                 {
-                    TotalTransactionValue = (Decimal)21.78,
+                    TotalTransactionValue = (decimal)21.78,
                     Addresses = new List<TransactionAddress>()
                     {
                         new TransactionAddress()
@@ -111,8 +111,8 @@ namespace TestsNet40.SyncTests
                             Address1 = "Address line 1",
                             Address2 = "Address line 2",
                             Address3 = "Address line 3",
-                            City = "",
-                            CountryCode = "",
+                            City = string.Empty,
+                            CountryCode = string.Empty,
                             State = "Cork",
                             PostalCode = "Cork",
                             Type = 0
@@ -178,10 +178,10 @@ namespace TestsNet40.SyncTests
                 Statuses = new List<CaseStatus>()
                 {
                 }
-                #endregion
             };
 
             return sampleCase;
         }
     }
+        #endregion
 }
