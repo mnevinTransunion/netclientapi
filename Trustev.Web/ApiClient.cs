@@ -15,7 +15,7 @@ using Trustev.Domain.Exceptions;
 namespace Trustev.Web
 {
     /// <summary>
-    /// The ApiClient Class is used to store you trustev credentials
+    /// The ApiClient has all the methods required to communicate with the Trustev Platform.
     /// </summary>
     public static class ApiClient
     {
