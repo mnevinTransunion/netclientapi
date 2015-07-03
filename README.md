@@ -56,7 +56,6 @@ Decision decision = ApiClient.GetDecision(returnCase.Id);
 
 
 // Now its up to you what you do with our decision
-As 
 
 ```
 
