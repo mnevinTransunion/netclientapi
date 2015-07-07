@@ -32,7 +32,7 @@ namespace Trustev.WebAsync
         private static DateTime ExpiryDate { get; set; }
 
         /// <summary>
-        /// Initialize the trustev class by passing in you UserName, Secret and Password. If you do not have these then please contact integrationteam@trustev.com.
+        /// Initialize the trustev class by passing in you UserName, Secret and Password. If you do not have these then please contact integrate@trustev.com.
         /// </summary>
         /// <param name="userName">You ApiClient UserName</param>
         /// <param name="password">You ApiClient Password</param>
