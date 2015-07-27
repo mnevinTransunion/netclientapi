@@ -31,6 +31,14 @@ namespace Trustev.WebAsync
 
         private static DateTime ExpiryDate { get; set; }
 
+        static ApiClient()
+        {
+            UserName = "";
+            Password = "";
+            Secret = "";
+            BaseUrl = "https://app.trustev.com/api/v2.0";
+        }
+
         /// <summary>
         /// Initialize the trustev class by passing in you UserName, Secret and Password. If you do not have these then please contact integrate@trustev.com.
         /// </summary>
@@ -42,7 +50,6 @@ namespace Trustev.WebAsync
             UserName = userName;
             Password = password;
             Secret = secret;
-            BaseUrl = "https://app.trustev.com/api/v2.0";
         }
 
         /// <summary>
