@@ -112,20 +112,6 @@ namespace Trustev.Web
         }
 
         /// <summary>
-        /// This method will post the Case you provide and then get a Decision for that case. 
-        /// </summary>
-        /// <param name="kase">A TrustevClient Case which you have not already posted which you want a Decision for.</param>
-        /// <returns></returns>
-        public static Decision GetDecision(Case kase)
-        {
-            Case returnCase = PostCase(kase);
-
-            Decision decision = GetDecision(returnCase.Id);
-
-            return decision;
-        }
-
-        /// <summary>
         /// Post your Customer to an existing Case
         /// </summary>
         /// <param name="caseId">The Case Id of a Case which you have already posted</param>
