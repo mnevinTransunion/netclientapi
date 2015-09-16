@@ -716,7 +716,7 @@ namespace Trustev.Web
             TokenResponse response = PerformHttpCall<TokenResponse>(uri, HttpMethod.Post, requestJson, false);
 
             APIToken = response.APIToken;
-            ExpiryDate = response.ExpiryDate;
+            ExpiryDate = response.ExpireAt;
         }
 
         /// <summary>
@@ -788,7 +788,7 @@ namespace Trustev.Web
         {
             public string APIToken { get; set; }
 
-            public DateTime ExpiryDate { get; set; }
+            public DateTime ExpireAt { get; set; }
         }
 
         /// <summary>
