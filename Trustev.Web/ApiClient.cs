@@ -687,7 +687,8 @@ namespace Trustev.Web
 
         private static string GetToken()
         {
-            if (string.IsNullOrEmpty(APIToken) || ExpiryDate > DateTime.UtcNow)
+            // adding one minute to create a buffer between checking the token and making the request
+            if (string.IsNullOrEmpty(APIToken) || ExpiryDate.AddMinutes(1) > DateTime.UtcNow)
             {
                 SetToken();
             }
