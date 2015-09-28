@@ -46,6 +46,11 @@ namespace Trustev.Domain.Entities
         public DateTime DateOfBirth { get; set; }
 
         /// <summary>
+        /// The Account number of the Customer
+        /// </summary>
+        public string AccountNumber { get; set; }
+
+        /// <summary>
         /// Addresses Object – Contains standard/delivery/billing information. Please see Address Object for further parameter information.
         /// </summary>
         public IList<CustomerAddress> Addresses { get; set; }
