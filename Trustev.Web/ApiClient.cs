@@ -687,17 +687,8 @@ namespace Trustev.Web
 
         private static string GetToken()
         {
-            // adding one minute to create a buffer between checking the token and making the request
-            if (string.IsNullOrEmpty(APIToken) || ExpiryDate.AddMinutes(1) > DateTime.UtcNow)
-            {
-                SetToken();
-            }
+            string apiToken = "";
 
-            return APIToken;
-        }
-
-        private static void SetToken()
-        {
             CheckCredentials();
 
             DateTime currentTime = DateTime.UtcNow;
@@ -716,8 +707,9 @@ namespace Trustev.Web
 
             TokenResponse response = PerformHttpCall<TokenResponse>(uri, HttpMethod.Post, requestJson, false);
 
-            APIToken = response.APIToken;
-            ExpiryDate = response.ExpireAt;
+            apiToken = response.APIToken;
+
+            return apiToken;
         }
 
         /// <summary>
