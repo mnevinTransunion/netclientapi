@@ -23,7 +23,7 @@
    The Trustev API has been designed to allow users complete control over what information they are sending to us while still ensuring that integration can be done a couple of simple steps
 
 ### Simple Trustev Integration
-This is simple version of the trustev integration and involes 4 simple steps
+This is simple version of the Trustev integration and involves 4 simple steps
 ```c#
 
 // 1. Set-Up the Trustev Api Client with your user credentials
@@ -31,9 +31,9 @@ ApiClient.SetUp(userName, password, secret);
 
 
 // 2. Create your case.
-// You will need two bits of information for this setp
-// 		SessionId : This is the SessionId that you have recieved from the trustev JavaScript 
-//					and transfered server-side
+// You will need two bits of information for this step
+// 		SessionId : This is the SessionId that you have recieved from the Trustev JavaScript 
+//					and transferred server-side
 // 		CaseNumber : This is a number that you use to uniquely identify this case. It must
 //					 be unique.
 Case kase = new Case(sessionId, caseNumber);
@@ -55,7 +55,7 @@ Case returnCase = ApiClient.PostCase(kase);
 Decision decision = ApiClient.GetDecision(returnCase.Id);
 
 
-// Now its up to you what you do with our decision
+// Now it is up to you what you do with our decision
 
 ```
 
@@ -71,9 +71,9 @@ ApiClient.SetUp(userName, password, secret);
 
 
 // 2. Create your case.
-// You will need two bits of information for this setp
-// 		SessionId : This is the SessionId that you have recieved from the trustev JavaScript 
-//					and transfered server-side
+// You will need two bits of information for this step
+// 		SessionId : This is the SessionId that you have received from the trustev JavaScript 
+//					and transferred server-side
 // 		CaseNumber : This is a number that you use to uniquely identify this case. It must
 //					 be unique.
 Case kase = new Case(sessionId, caseNumber);
@@ -83,7 +83,7 @@ Case returnCase = ApiClient.PostCase(kase);
 
 
 // 4. You may now want to add a Customer to Case you have already added.
-//    First lets create the customer.
+//    First let's create the customer.
 Customer customer = new Customer()
 {
 	FirstName = "John",
@@ -99,7 +99,7 @@ Customer returnCustomer = ApiClient.PostCustomer(returnCase.Id, customer);
 Decision decision = ApiClient.GetDecision(returnCase.Id);
 
 
-// Now its up to you what you do with our decision
+// Now it's up to you what you do with our decision
 
 ```
 
