@@ -52,6 +52,7 @@
     <Compile Include="Entities\Customer.cs" />
     <Compile Include="Entities\CustomerAddress.cs" />
     <Compile Include="Entities\Decision.cs" />
+    <Compile Include="Entities\DetailedDecision.cs" />
     <Compile Include="Entities\Email.cs" />
     <Compile Include="Entities\Payment.cs" />
     <Compile Include="Entities\SocialAccount.cs" />

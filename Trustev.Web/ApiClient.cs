@@ -112,6 +112,22 @@ namespace Trustev.Web
         }
 
         /// <summary>
+        /// Get a Detailed Decision on a Case with Id caseId.
+        /// </summary>
+        /// <param name="caseId">The Id of a Case which you have already posted to the TrustevClient API.</param>
+        /// <returns></returns>
+        public static DetailedDecision GetDetailedDecision(string caseId)
+        {
+            string uri = string.Format(Constants.UriDetailedDecisionGet, BaseUrl, caseId);
+
+            DetailedDecision detailedDecision = PerformHttpCall<DetailedDecision>(uri, HttpMethod.Get, null);
+
+            detailedDecision.CaseId = caseId;
+
+            return detailedDecision;
+        }
+
+        /// <summary>
         /// Post your Customer to an existing Case
         /// </summary>
         /// <param name="caseId">The Case Id of a Case which you have already posted</param>

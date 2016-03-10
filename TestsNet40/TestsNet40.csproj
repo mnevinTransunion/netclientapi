@@ -45,7 +45,8 @@
     <Compile Include="SyncTests\CaseStatusTests.cs" />
     <Compile Include="SyncTests\CaseTests.cs" />
     <Compile Include="SyncTests\CustomerTests.cs" />
-    <Compile Include="SyncTests\DecisionTestsAsync.cs" />
+    <Compile Include="SyncTests\DecisionTests.cs" />
+    <Compile Include="SyncTests\DetailedDecisionTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Trustev.Domain\Trustev.Domain.csproj">
