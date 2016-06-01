@@ -31,6 +31,8 @@ namespace Trustev.Web
 
         internal static DateTime ExpiryDate { get; set; }
 
+        internal static int HttpRequestTimeout { get; set; }
+
         static ApiClient()
         {
             UserName = "";
@@ -45,11 +47,13 @@ namespace Trustev.Web
         /// <param name="userName">You ApiClient UserName</param>
         /// <param name="password">You ApiClient Password</param>
         /// <param name="secret">You ApiClient Secret</param>
-        public static void SetUp(string userName, string password, string secret)
+        /// <param name="httpRequestTimeout">Your default httpRequestTimeout</param>
+        public static void SetUp(string userName, string password, string secret, int httpRequestTimeout = 15000)
         {
             UserName = userName;
             Password = password;
             Secret = secret;
+            HttpRequestTimeout = httpRequestTimeout;
         }
 
         /// <summary>
@@ -61,7 +65,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriCasePost, BaseUrl);
 
-            Case response = PerformHttpCall<Case>(uri, HttpMethod.Post, kase);
+            Case response = PerformHttpCall<Case>(uri, HttpMethod.Post, kase, true, HttpRequestTimeout);
 
             return response;
         }
@@ -76,7 +80,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriCaseUpdate, BaseUrl, caseId);
 
-            Case response = PerformHttpCall<Case>(uri, HttpMethod.Put, kase);
+            Case response = PerformHttpCall<Case>(uri, HttpMethod.Put, kase, true, HttpRequestTimeout);
 
             return response;
         }
@@ -90,7 +94,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriCaseGet, BaseUrl, caseId);
 
-            Case response = PerformHttpCall<Case>(uri, HttpMethod.Get, null);
+            Case response = PerformHttpCall<Case>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -104,7 +108,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriDecisionGet, BaseUrl, caseId);
 
-            Decision decision = PerformHttpCall<Decision>(uri, HttpMethod.Get, null);
+            Decision decision = PerformHttpCall<Decision>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             decision.CaseId = caseId;
 
@@ -120,7 +124,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriDetailedDecisionGet, BaseUrl, caseId);
 
-            DetailedDecision detailedDecision = PerformHttpCall<DetailedDecision>(uri, HttpMethod.Get, null);
+            DetailedDecision detailedDecision = PerformHttpCall<DetailedDecision>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             detailedDecision.CaseId = caseId;
 
@@ -137,7 +141,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriCustomerPost, BaseUrl, caseId);
 
-            Customer response = PerformHttpCall<Customer>(uri, HttpMethod.Post, customer);
+            Customer response = PerformHttpCall<Customer>(uri, HttpMethod.Post, customer, true, HttpRequestTimeout);
 
             return response;
         }
@@ -152,7 +156,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriCustomerUdpate, BaseUrl, caseId);
 
-            Customer response = PerformHttpCall<Customer>(uri, HttpMethod.Put, customer);
+            Customer response = PerformHttpCall<Customer>(uri, HttpMethod.Put, customer, true, HttpRequestTimeout);
 
             return response;
         }
@@ -166,7 +170,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriCustomerGet, BaseUrl, caseId);
 
-            Customer response = PerformHttpCall<Customer>(uri, HttpMethod.Get, null);
+            Customer response = PerformHttpCall<Customer>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -181,7 +185,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriTransactionPost, BaseUrl, caseId);
 
-            Transaction response = PerformHttpCall<Transaction>(uri, HttpMethod.Post, transaction);
+            Transaction response = PerformHttpCall<Transaction>(uri, HttpMethod.Post, transaction, true, HttpRequestTimeout);
 
             return response;
         }
@@ -196,7 +200,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriTransactionUdpate, BaseUrl, caseId);
 
-            Transaction response = PerformHttpCall<Transaction>(uri, HttpMethod.Put, transaction);
+            Transaction response = PerformHttpCall<Transaction>(uri, HttpMethod.Put, transaction, true, HttpRequestTimeout);
 
             return response;
         }
@@ -210,7 +214,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriTransactionGet, BaseUrl, caseId);
 
-            Transaction response = PerformHttpCall<Transaction>(uri, HttpMethod.Get, null);
+            Transaction response = PerformHttpCall<Transaction>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -225,7 +229,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriCaseStatusPost, BaseUrl, caseId);
 
-            CaseStatus response = PerformHttpCall<CaseStatus>(uri, HttpMethod.Post, caseStatus);
+            CaseStatus response = PerformHttpCall<CaseStatus>(uri, HttpMethod.Post, caseStatus, true, HttpRequestTimeout);
 
             return response;
         }
@@ -240,7 +244,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriCaseStatusGet, BaseUrl, caseId, caseStatusId);
 
-            CaseStatus response = PerformHttpCall<CaseStatus>(uri, HttpMethod.Get, null);
+            CaseStatus response = PerformHttpCall<CaseStatus>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -254,7 +258,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriCaseStatusGet, BaseUrl, caseId, string.Empty);
 
-            IList<CaseStatus> response = PerformHttpCall<IList<CaseStatus>>(uri, HttpMethod.Get, null);
+            IList<CaseStatus> response = PerformHttpCall<IList<CaseStatus>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -269,7 +273,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriCustomerAddressPost, BaseUrl, caseId);
 
-            CustomerAddress response = PerformHttpCall<CustomerAddress>(uri, HttpMethod.Post, customerAddress);
+            CustomerAddress response = PerformHttpCall<CustomerAddress>(uri, HttpMethod.Post, customerAddress, true, HttpRequestTimeout);
 
             return response;
         }
@@ -285,7 +289,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriCustomerAddressUpdate, BaseUrl, caseId, customerAddressId);
 
-            CustomerAddress response = PerformHttpCall<CustomerAddress>(uri, HttpMethod.Put, customerAddress);
+            CustomerAddress response = PerformHttpCall<CustomerAddress>(uri, HttpMethod.Put, customerAddress, true, HttpRequestTimeout);
 
             return response;
         }
@@ -300,7 +304,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriCustomerAddressGet, BaseUrl, caseId, customerAddressId);
 
-            CustomerAddress response = PerformHttpCall<CustomerAddress>(uri, HttpMethod.Get, null);
+            CustomerAddress response = PerformHttpCall<CustomerAddress>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -314,7 +318,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriCustomerAddressGet, BaseUrl, caseId, string.Empty);
 
-            IList<CustomerAddress> response = PerformHttpCall<IList<CustomerAddress>>(uri, HttpMethod.Get, null);
+            IList<CustomerAddress> response = PerformHttpCall<IList<CustomerAddress>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -329,7 +333,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriEmailPost, BaseUrl, caseId);
 
-            Email response = PerformHttpCall<Email>(uri, HttpMethod.Post, email);
+            Email response = PerformHttpCall<Email>(uri, HttpMethod.Post, email, true, HttpRequestTimeout);
 
             return response;
         }
@@ -345,7 +349,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriEmailUdpate, BaseUrl, caseId, emailId);
 
-            Email response = PerformHttpCall<Email>(uri, HttpMethod.Put, email);
+            Email response = PerformHttpCall<Email>(uri, HttpMethod.Put, email, true, HttpRequestTimeout);
 
             return response;
         }
@@ -360,7 +364,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriEmailGet, BaseUrl, caseId, emailId);
 
-            Email response = PerformHttpCall<Email>(uri, HttpMethod.Get, null);
+            Email response = PerformHttpCall<Email>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -374,7 +378,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriEmailGet, BaseUrl, caseId, string.Empty);
 
-            IList<Email> response = PerformHttpCall<IList<Email>>(uri, HttpMethod.Get, null);
+            IList<Email> response = PerformHttpCall<IList<Email>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -389,7 +393,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriPaymentPost, BaseUrl, caseId);
 
-            Payment response = PerformHttpCall<Payment>(uri, HttpMethod.Post, payment);
+            Payment response = PerformHttpCall<Payment>(uri, HttpMethod.Post, payment, true, HttpRequestTimeout);
 
             return response;
         }
@@ -402,9 +406,9 @@ namespace Trustev.Web
         /// <returns></returns>
         public static Payment UpdatePayment(string caseId, Payment payment, Guid paymentId)
         {
-            string uri = string.Format(Constants.UriPaymentUpdate, BaseUrl, caseId, paymentId);
+            string uri = string.Format(Constants.UriPaymentUpdate, BaseUrl, caseId, paymentId, true, HttpRequestTimeout);
 
-            Payment response = PerformHttpCall<Payment>(uri, HttpMethod.Put, payment);
+            Payment response = PerformHttpCall<Payment>(uri, HttpMethod.Put, payment, true, HttpRequestTimeout);
 
             return response;
         }
@@ -419,7 +423,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriPaymentGet, BaseUrl, caseId, paymentId);
 
-            Payment response = PerformHttpCall<Payment>(uri, HttpMethod.Get, null);
+            Payment response = PerformHttpCall<Payment>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -433,7 +437,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriPaymentGet, BaseUrl, caseId, string.Empty);
 
-            IList<Payment> response = PerformHttpCall<IList<Payment>>(uri, HttpMethod.Get, null);
+            IList<Payment> response = PerformHttpCall<IList<Payment>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -448,7 +452,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriSocialAccountPost, BaseUrl, caseId);
 
-            SocialAccount response = PerformHttpCall<SocialAccount>(uri, HttpMethod.Post, socialAccount);
+            SocialAccount response = PerformHttpCall<SocialAccount>(uri, HttpMethod.Post, socialAccount, true, HttpRequestTimeout);
 
             return response;
         }
@@ -464,7 +468,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriSocialAccountUpdate, BaseUrl, caseId, socialAccountId);
 
-            SocialAccount response = PerformHttpCall<SocialAccount>(uri, HttpMethod.Put, socialAccount);
+            SocialAccount response = PerformHttpCall<SocialAccount>(uri, HttpMethod.Put, socialAccount, true, HttpRequestTimeout);
 
             return response;
         }
@@ -479,7 +483,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriSocialAccountGet, BaseUrl, caseId, socialAccountId);
 
-            SocialAccount response = PerformHttpCall<SocialAccount>(uri, HttpMethod.Get, null);
+            SocialAccount response = PerformHttpCall<SocialAccount>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -493,7 +497,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriSocialAccountGet, BaseUrl, caseId, string.Empty);
 
-            IList<SocialAccount> response = PerformHttpCall<IList<SocialAccount>>(uri, HttpMethod.Get, null);
+            IList<SocialAccount> response = PerformHttpCall<IList<SocialAccount>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -508,7 +512,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriTransactionAddressPost, BaseUrl, caseId);
 
-            TransactionAddress response = PerformHttpCall<TransactionAddress>(uri, HttpMethod.Post, transactionAddress);
+            TransactionAddress response = PerformHttpCall<TransactionAddress>(uri, HttpMethod.Post, transactionAddress, true, HttpRequestTimeout);
 
             return response;
         }
@@ -523,7 +527,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriTransactionAddressUpdate, BaseUrl, caseId, transactionAddressId);
 
-            TransactionAddress response = PerformHttpCall<TransactionAddress>(uri, HttpMethod.Put, transactionAddress);
+            TransactionAddress response = PerformHttpCall<TransactionAddress>(uri, HttpMethod.Put, transactionAddress, true, HttpRequestTimeout);
 
             return response;
         }
@@ -538,7 +542,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriTransactionAddressGet, BaseUrl, caseId, transactionAddressId);
 
-            TransactionAddress response = PerformHttpCall<TransactionAddress>(uri, HttpMethod.Get, null);
+            TransactionAddress response = PerformHttpCall<TransactionAddress>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -552,7 +556,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriTransactionAddressGet, BaseUrl, caseId, string.Empty);
 
-            IList<TransactionAddress> response = PerformHttpCall<IList<TransactionAddress>>(uri, HttpMethod.Get, null);
+            IList<TransactionAddress> response = PerformHttpCall<IList<TransactionAddress>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -567,7 +571,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriTransactionItemPost, BaseUrl, caseId);
 
-            TransactionItem response = PerformHttpCall<TransactionItem>(uri, HttpMethod.Post, transactionItem);
+            TransactionItem response = PerformHttpCall<TransactionItem>(uri, HttpMethod.Post, transactionItem, true, HttpRequestTimeout);
 
             return response;
         }
@@ -583,7 +587,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriTransactionItemUpdate, BaseUrl, caseId, transactionItemId);
 
-            TransactionItem response = PerformHttpCall<TransactionItem>(uri, HttpMethod.Put, transactionItem);
+            TransactionItem response = PerformHttpCall<TransactionItem>(uri, HttpMethod.Put, transactionItem, true, HttpRequestTimeout);
 
             return response;
         }
@@ -598,7 +602,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriTransactionItemGet, BaseUrl, caseId, transactionItemId);
 
-            TransactionItem response = PerformHttpCall<TransactionItem>(uri, HttpMethod.Get, null);
+            TransactionItem response = PerformHttpCall<TransactionItem>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -612,7 +616,7 @@ namespace Trustev.Web
         {
             string uri = string.Format(Constants.UriTransactionItemGet, BaseUrl, caseId, string.Empty);
 
-            IList<TransactionItem> response = PerformHttpCall<IList<TransactionItem>>(uri, HttpMethod.Get, null);
+            IList<TransactionItem> response = PerformHttpCall<IList<TransactionItem>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -625,8 +629,9 @@ namespace Trustev.Web
         /// <param name="method">The Http Method</param>
         /// <param name="entity">The relevant entity</param>
         /// <param name="isAuthenticationNeeded">Does this api call require the X-Authorization header</param>
+        /// <param name="requestTimeout">The timeout value of this http request in milliseconds</param>
         /// <returns></returns>
-        private static T PerformHttpCall<T>(string uri, HttpMethod method, object entity, bool isAuthenticationNeeded = true)
+        private static T PerformHttpCall<T>(string uri, HttpMethod method, object entity, bool isAuthenticationNeeded = true, int requestTimeout = 15000)
         {
             JsonSerializerSettings jss = new JsonSerializerSettings();
             DefaultContractResolver dcr = new PrivateSetterContractResolver();
@@ -644,6 +649,8 @@ namespace Trustev.Web
                 {
                     request.Headers.Add("X-Authorization", string.Format("{0} {1}", UserName, GetToken()));
                 }
+
+                request.Timeout = requestTimeout;
 
                 if (method != HttpMethod.Get)
                 {
@@ -721,7 +728,7 @@ namespace Trustev.Web
 
             string uri = string.Format("{0}/token", BaseUrl);
 
-            TokenResponse response = PerformHttpCall<TokenResponse>(uri, HttpMethod.Post, requestJson, false);
+            TokenResponse response = PerformHttpCall<TokenResponse>(uri, HttpMethod.Post, requestJson, false, HttpRequestTimeout);
 
             apiToken = response.APIToken;
 

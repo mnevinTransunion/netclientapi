@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
@@ -31,6 +32,8 @@ namespace Trustev.WebAsync
 
         private static DateTime ExpiryDate { get; set; }
 
+        internal static int HttpRequestTimeout { get; set; }
+
         static ApiClient()
         {
             UserName = "";
@@ -45,11 +48,13 @@ namespace Trustev.WebAsync
         /// <param name="userName">You ApiClient UserName</param>
         /// <param name="password">You ApiClient Password</param>
         /// <param name="secret">You ApiClient Secret</param>
-        public static void SetUp(string userName, string password, string secret)
+        /// <param name="httpRequestTimeout">The timeout value of this http request in milliseconds</param>
+        public static void SetUp(string userName, string password, string secret, int httpRequestTimeout = 15000)
         {
             UserName = userName;
             Password = password;
             Secret = secret;
+            HttpRequestTimeout = httpRequestTimeout;
         }
 
         /// <summary>
@@ -61,7 +66,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriCasePost, BaseUrl);
 
-            Case responseCase = await PerformHttpCallAsync<Case>(uri, HttpMethod.Post, kase);
+            Case responseCase = await PerformHttpCallAsync<Case>(uri, HttpMethod.Post, kase, true, HttpRequestTimeout);
 
             return responseCase;
         }
@@ -76,7 +81,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriCaseUpdate, BaseUrl, caseId);
 
-            Case response = await PerformHttpCallAsync<Case>(uri, HttpMethod.Put, kase);
+            Case response = await PerformHttpCallAsync<Case>(uri, HttpMethod.Put, kase, true, HttpRequestTimeout);
 
             return response;
         }
@@ -90,7 +95,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriCaseGet, BaseUrl, caseId);
 
-            Case response = await PerformHttpCallAsync<Case>(uri, HttpMethod.Get, null);
+            Case response = await PerformHttpCallAsync<Case>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -104,7 +109,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriDecisionGet, BaseUrl, caseId);
 
-            Decision decision = await PerformHttpCallAsync<Decision>(uri, HttpMethod.Get, null);
+            Decision decision = await PerformHttpCallAsync<Decision>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             decision.CaseId = caseId;
 
@@ -120,7 +125,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriDetailedDecisionGet, BaseUrl, caseId);
 
-            DetailedDecision detailedDecision = await PerformHttpCallAsync<DetailedDecision>(uri, HttpMethod.Get, null);
+            DetailedDecision detailedDecision = await PerformHttpCallAsync<DetailedDecision>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             detailedDecision.CaseId = caseId;
 
@@ -137,7 +142,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriCustomerPost, BaseUrl, caseId);
 
-            Customer response = await PerformHttpCallAsync<Customer>(uri, HttpMethod.Post, customer);
+            Customer response = await PerformHttpCallAsync<Customer>(uri, HttpMethod.Post, customer, true, HttpRequestTimeout);
 
             return response;
         }
@@ -152,7 +157,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriCustomerUdpate, BaseUrl, caseId);
 
-            Customer response = await PerformHttpCallAsync<Customer>(uri, HttpMethod.Put, customer);
+            Customer response = await PerformHttpCallAsync<Customer>(uri, HttpMethod.Put, customer, true, HttpRequestTimeout);
 
             return response;
         }
@@ -166,7 +171,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriCustomerGet, BaseUrl, caseId);
 
-            Customer response = await PerformHttpCallAsync<Customer>(uri, HttpMethod.Get, null);
+            Customer response = await PerformHttpCallAsync<Customer>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -181,7 +186,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriTransactionPost, BaseUrl, caseId);
 
-            Transaction response = await PerformHttpCallAsync<Transaction>(uri, HttpMethod.Post, transaction);
+            Transaction response = await PerformHttpCallAsync<Transaction>(uri, HttpMethod.Post, transaction, true, HttpRequestTimeout);
 
             return response;
         }
@@ -196,7 +201,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriTransactionUdpate, BaseUrl, caseId);
 
-            Transaction response = await PerformHttpCallAsync<Transaction>(uri, HttpMethod.Put, transaction);
+            Transaction response = await PerformHttpCallAsync<Transaction>(uri, HttpMethod.Put, transaction, true, HttpRequestTimeout);
 
             return response;
         }
@@ -210,7 +215,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriTransactionGet, BaseUrl, caseId);
 
-            Transaction response = await PerformHttpCallAsync<Transaction>(uri, HttpMethod.Get, null);
+            Transaction response = await PerformHttpCallAsync<Transaction>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -225,7 +230,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriCaseStatusPost, BaseUrl, caseId);
 
-            CaseStatus response = await PerformHttpCallAsync<CaseStatus>(uri, HttpMethod.Post, caseStatus);
+            CaseStatus response = await PerformHttpCallAsync<CaseStatus>(uri, HttpMethod.Post, caseStatus, true, HttpRequestTimeout);
 
             return response;
         }
@@ -240,7 +245,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriCaseStatusGet, BaseUrl, caseId, caseStatusId);
 
-            CaseStatus response = await PerformHttpCallAsync<CaseStatus>(uri, HttpMethod.Get, null);
+            CaseStatus response = await PerformHttpCallAsync<CaseStatus>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -254,7 +259,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriCaseStatusGet, BaseUrl, caseId, string.Empty);
 
-            IList<CaseStatus> response = await PerformHttpCallAsync<IList<CaseStatus>>(uri, HttpMethod.Get, null);
+            IList<CaseStatus> response = await PerformHttpCallAsync<IList<CaseStatus>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -269,7 +274,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriCustomerAddressPost, BaseUrl, caseId);
 
-            CustomerAddress response = await PerformHttpCallAsync<CustomerAddress>(uri, HttpMethod.Post, customerAddress);
+            CustomerAddress response = await PerformHttpCallAsync<CustomerAddress>(uri, HttpMethod.Post, customerAddress, true, HttpRequestTimeout);
 
             return response;
         }
@@ -284,7 +289,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriCustomerAddressUpdate, BaseUrl, caseId, customerAddressId);
 
-            CustomerAddress response = await PerformHttpCallAsync<CustomerAddress>(uri, HttpMethod.Put, customerAddress);
+            CustomerAddress response = await PerformHttpCallAsync<CustomerAddress>(uri, HttpMethod.Put, customerAddress, true, HttpRequestTimeout);
 
             return response;
         }
@@ -299,7 +304,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriCustomerAddressGet, BaseUrl, caseId, customerAddressId);
 
-            CustomerAddress response = await PerformHttpCallAsync<CustomerAddress>(uri, HttpMethod.Get, null);
+            CustomerAddress response = await PerformHttpCallAsync<CustomerAddress>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -313,7 +318,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriCustomerAddressGet, BaseUrl, caseId, string.Empty);
 
-            IList<CustomerAddress> response = await PerformHttpCallAsync<IList<CustomerAddress>>(uri, HttpMethod.Get, null);
+            IList<CustomerAddress> response = await PerformHttpCallAsync<IList<CustomerAddress>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -328,7 +333,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriEmailPost, BaseUrl, caseId);
 
-            Email response = await PerformHttpCallAsync<Email>(uri, HttpMethod.Post, email);
+            Email response = await PerformHttpCallAsync<Email>(uri, HttpMethod.Post, email, true, HttpRequestTimeout);
 
             return response;
         }
@@ -344,7 +349,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriEmailUdpate, BaseUrl, caseId, emailId);
 
-            Email response = await PerformHttpCallAsync<Email>(uri, HttpMethod.Put, email);
+            Email response = await PerformHttpCallAsync<Email>(uri, HttpMethod.Put, email, true, HttpRequestTimeout);
 
             return response;
         }
@@ -359,7 +364,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriEmailGet, BaseUrl, caseId, emailId);
 
-            Email response = await PerformHttpCallAsync<Email>(uri, HttpMethod.Get, null);
+            Email response = await PerformHttpCallAsync<Email>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -373,7 +378,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriEmailGet, BaseUrl, caseId, string.Empty);
 
-            IList<Email> response = await PerformHttpCallAsync<IList<Email>>(uri, HttpMethod.Get, null);
+            IList<Email> response = await PerformHttpCallAsync<IList<Email>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -388,7 +393,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriPaymentPost, BaseUrl, caseId);
 
-            Payment response = await PerformHttpCallAsync<Payment>(uri, HttpMethod.Post, payment);
+            Payment response = await PerformHttpCallAsync<Payment>(uri, HttpMethod.Post, payment, true, HttpRequestTimeout);
 
             return response;
         }
@@ -404,7 +409,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriPaymentUpdate, BaseUrl, caseId, paymentId);
 
-            Payment response = await PerformHttpCallAsync<Payment>(uri, HttpMethod.Put, payment);
+            Payment response = await PerformHttpCallAsync<Payment>(uri, HttpMethod.Put, payment, true, HttpRequestTimeout);
 
             return response;
         }
@@ -419,7 +424,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriPaymentGet, BaseUrl, caseId, paymentId);
 
-            Payment response = await PerformHttpCallAsync<Payment>(uri, HttpMethod.Get, null);
+            Payment response = await PerformHttpCallAsync<Payment>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -433,7 +438,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriPaymentGet, BaseUrl, caseId, string.Empty);
 
-            IList<Payment> response = await PerformHttpCallAsync<IList<Payment>>(uri, HttpMethod.Get, null);
+            IList<Payment> response = await PerformHttpCallAsync<IList<Payment>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -448,7 +453,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriSocialAccountPost, BaseUrl, caseId);
 
-            SocialAccount response = await PerformHttpCallAsync<SocialAccount>(uri, HttpMethod.Post, socialAccount);
+            SocialAccount response = await PerformHttpCallAsync<SocialAccount>(uri, HttpMethod.Post, socialAccount, true, HttpRequestTimeout);
 
             return response;
         }
@@ -464,7 +469,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriSocialAccountUpdate, BaseUrl, caseId, socialAccountId);
 
-            SocialAccount response = await PerformHttpCallAsync<SocialAccount>(uri, HttpMethod.Put, socialAccount);
+            SocialAccount response = await PerformHttpCallAsync<SocialAccount>(uri, HttpMethod.Put, socialAccount, true, HttpRequestTimeout);
 
             return response;
         }
@@ -479,7 +484,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriSocialAccountGet, BaseUrl, caseId, socialAccountId);
 
-            SocialAccount response = await PerformHttpCallAsync<SocialAccount>(uri, HttpMethod.Get, null);
+            SocialAccount response = await PerformHttpCallAsync<SocialAccount>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -493,7 +498,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriSocialAccountGet, BaseUrl, caseId, string.Empty);
 
-            IList<SocialAccount> response = await PerformHttpCallAsync<IList<SocialAccount>>(uri, HttpMethod.Get, null);
+            IList<SocialAccount> response = await PerformHttpCallAsync<IList<SocialAccount>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -508,7 +513,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriTransactionAddressPost, BaseUrl, caseId);
 
-            TransactionAddress response = await PerformHttpCallAsync<TransactionAddress>(uri, HttpMethod.Post, transactionAddress);
+            TransactionAddress response = await PerformHttpCallAsync<TransactionAddress>(uri, HttpMethod.Post, transactionAddress, true, HttpRequestTimeout);
 
             return response;
         }
@@ -524,7 +529,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriTransactionAddressUpdate, BaseUrl, caseId, transactionAddressId);
 
-            TransactionAddress response = await PerformHttpCallAsync<TransactionAddress>(uri, HttpMethod.Put, transactionAddress);
+            TransactionAddress response = await PerformHttpCallAsync<TransactionAddress>(uri, HttpMethod.Put, transactionAddress, true, HttpRequestTimeout);
 
             return response;
         }
@@ -539,7 +544,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriTransactionAddressGet, BaseUrl, caseId, transactionAddressId);
 
-            TransactionAddress response = await PerformHttpCallAsync<TransactionAddress>(uri, HttpMethod.Get, null);
+            TransactionAddress response = await PerformHttpCallAsync<TransactionAddress>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -553,7 +558,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriTransactionAddressGet, BaseUrl, caseId, string.Empty);
 
-            IList<TransactionAddress> response = await PerformHttpCallAsync<IList<TransactionAddress>>(uri, HttpMethod.Get, null);
+            IList<TransactionAddress> response = await PerformHttpCallAsync<IList<TransactionAddress>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -568,7 +573,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriTransactionItemPost, BaseUrl, caseId);
 
-            TransactionItem response = await PerformHttpCallAsync<TransactionItem>(uri, HttpMethod.Post, transactionItem);
+            TransactionItem response = await PerformHttpCallAsync<TransactionItem>(uri, HttpMethod.Post, transactionItem, true, HttpRequestTimeout);
 
             return response;
         }
@@ -584,7 +589,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriTransactionItemUpdate, BaseUrl, caseId, transactionItemId);
 
-            TransactionItem response = await PerformHttpCallAsync<TransactionItem>(uri, HttpMethod.Put, transactionItem);
+            TransactionItem response = await PerformHttpCallAsync<TransactionItem>(uri, HttpMethod.Put, transactionItem, true, HttpRequestTimeout);
 
             return response;
         }
@@ -599,7 +604,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriTransactionItemGet, BaseUrl, caseId, transactionItemId);
 
-            TransactionItem response = await PerformHttpCallAsync<TransactionItem>(uri, HttpMethod.Get, null);
+            TransactionItem response = await PerformHttpCallAsync<TransactionItem>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -613,7 +618,7 @@ namespace Trustev.WebAsync
         {
             string uri = string.Format(Constants.UriTransactionItemGet, BaseUrl, caseId, string.Empty);
 
-            IList<TransactionItem> response = await PerformHttpCallAsync<IList<TransactionItem>>(uri, HttpMethod.Get, null);
+            IList<TransactionItem> response = await PerformHttpCallAsync<IList<TransactionItem>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -626,8 +631,9 @@ namespace Trustev.WebAsync
         /// <param name="method">The Http Method</param>
         /// <param name="entity">The relevant entity</param>
         /// <param name="isAuthenticationNeeded">Does this api call require the X-Authorization header</param>
+        /// <param name="requestTimeout">The timeout value of this http request in milliseconds</param>
         /// <returns></returns>
-        private static async Task<T> PerformHttpCallAsync<T>(string uri, HttpMethod method, object entity, bool isAuthenticationNeeded = true)
+        private static async Task<T> PerformHttpCallAsync<T>(string uri, HttpMethod method, object entity, bool isAuthenticationNeeded = true, int requestTimeout = 15000)
         {
             JsonSerializerSettings jss = new JsonSerializerSettings();
             DefaultContractResolver dcr = new PrivateSetterContractResolver();
@@ -639,6 +645,8 @@ namespace Trustev.WebAsync
             {
                 client.DefaultRequestHeaders.Add("X-Authorization", UserName + " " + await GetTokenAsync());
             }
+
+            client.Timeout = new TimeSpan(requestTimeout * TimeSpan.TicksPerMillisecond);
 
             HttpResponseMessage response = new HttpResponseMessage();
 
@@ -704,7 +712,7 @@ namespace Trustev.WebAsync
 
             string uri = string.Format("{0}/token", BaseUrl);
 
-            TokenResponse response = await PerformHttpCallAsync<TokenResponse>(uri, HttpMethod.Post, requestJson, false);
+            TokenResponse response = await PerformHttpCallAsync<TokenResponse>(uri, HttpMethod.Post, requestJson, false, HttpRequestTimeout);
 
             apiToken = response.APIToken;
 
