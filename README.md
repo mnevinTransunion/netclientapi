@@ -19,18 +19,19 @@
 - You could also download our solution, build it and simply include the .dll files as you need them.
 - Our library can also be used as an example to inspire your own Integration to the Trustev Platform.
 
-## Usage
-   The Trustev API has been designed to allow users complete control over what information they are sending to us while still ensuring that Integration can be done in a couple of simple steps.
-   
-###Integration Tests
+##Integration Tests
 	Included are async and sync tests to test the integration of the .NET Library against the Trustev API - This will show examples of how to use the various endpoints of the Trustev API.
 	Simply include your Test API Keys in the app.config files of either the Tests folder (Async) or TestsNet40 folder (sync).
 
+## Usage
+   The Trustev API has been designed to allow users complete control over what information they are sending to us while still ensuring that Integration can be done in a couple of simple steps.
+   
 ### Simple Trustev Integration
 This is simple version of the Trustev Integration and involves 4 simple steps:
 ```c#
 
-// 1. Set-Up the Trustev API Client with your user credentials, and include your location details - i.e. US (Enums.BaseUrl.US) or EU (Enums.BaseUrl.EU)
+// 1. Set-Up the Trustev API Client with your user credentials, and include your location details 
+// - i.e. US (Enums.BaseUrl.US) or EU (Enums.BaseUrl.EU)
 ApiClient.SetUp(userName, password, secret, baseURL);
 
 
@@ -64,13 +65,14 @@ Decision decision = ApiClient.GetDecision(returnCase.Id);
 ```
 
 #### Optional Integration Steps
-As mentioned earlier, we also provided detailed API endpoints for updating specific parts of your Case. These steps can be used where use cases require. See below for some examples.
+As mentioned earlier, we also provide detailed API endpoints for updating specific parts of your Case. These steps can be used where use cases require. See below for some examples.
 
 ##### Example : Adding a Customer
 
 ```c#
 
-// 1. Set-Up the Trustev API Client with your user credentials, and include your location details - i.e. US (Enums.BaseUrl.US) or EU (Enums.BaseUrl.EU)
+// 1. Set-Up the Trustev API Client with your user credentials, and include your location details 
+// - i.e. US (Enums.BaseUrl.US) or EU (Enums.BaseUrl.EU)
 ApiClient.SetUp(userName, password, secret, baseURL);
 
 
@@ -111,7 +113,8 @@ Decision decision = ApiClient.GetDecision(returnCase.Id);
 
 ```c#
 
-// 1. Set-Up the Trustev API Client with your user credentials, and include your location details - i.e. US (Enums.BaseUrl.US) or EU (Enums.BaseUrl.EU)
+// 1. Set-Up the Trustev API Client with your user credentials, and include your location details
+// - i.e. US (Enums.BaseUrl.US) or EU (Enums.BaseUrl.EU)
 ApiClient.SetUp(userName, password, secret, baseURL);
 
 
