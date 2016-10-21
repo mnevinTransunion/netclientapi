@@ -12,7 +12,6 @@ namespace Trustev.Domain.Entities
         {
             this.Emails = new List<Email>();
             this.Addresses = new List<CustomerAddress>();
-            this.SocialAccounts = new List<SocialAccount>();
         }
 
         /// <summary>
@@ -56,8 +55,8 @@ namespace Trustev.Domain.Entities
         public IList<CustomerAddress> Addresses { get; set; }
 
         /// <summary>
-        /// Social Account Object – Contains Short Term and Long Term Access Tokens, along with Social Account Ids and Types. See Trustev Integration Documentation, http://developers.trustev.com/v2 for more information.
+        /// Social Security Number of the Customer. Format: AAA-GG-SSSS.
         /// </summary>
-        public IList<SocialAccount> SocialAccounts { get; set; }
+        public string SocialSecurityNumber { get; set; }
     }
 }

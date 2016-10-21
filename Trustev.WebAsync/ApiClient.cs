@@ -39,21 +39,31 @@ namespace Trustev.WebAsync
             UserName = "";
             Password = "";
             Secret = "";
-            BaseUrl = "https://app.trustev.com/api/v2.0";
+            BaseUrl = "";
         }
 
         /// <summary>
-        /// Initialize the trustev class by passing in you UserName, Secret and Password. If you do not have these then please contact integrate@trustev.com.
+        /// Initialize the Trustev class by passing in your UserName, Password, Secret, and BaseUrl - This could be EU or US, depending on your location.
         /// </summary>
-        /// <param name="userName">You ApiClient UserName</param>
-        /// <param name="password">You ApiClient Password</param>
-        /// <param name="secret">You ApiClient Secret</param>
+        /// <param name="userName">Your ApiClient UserName</param>
+        /// <param name="password">Your ApiClient Password</param>
+        /// <param name="secret">Your ApiClient Secret</param>
+        /// <param name="baseUrl">Your BaseURL - US/EU</param>
         /// <param name="httpRequestTimeout">The timeout value of this http request in milliseconds</param>
-        public static void SetUp(string userName, string password, string secret, int httpRequestTimeout = 15000)
+        public static void SetUp(string userName, string password, string secret, Enums.BaseUrl baseUrl, int httpRequestTimeout = 15000)
         {
             UserName = userName;
             Password = password;
             Secret = secret;
+            if (baseUrl.Equals(Enums.BaseUrl.EU))
+            {
+                BaseUrl = "https://app-eu.trustev.com/api/v2.0";
+            }
+            else if (baseUrl.Equals(Enums.BaseUrl.US))
+            {
+                BaseUrl = "https://app.trustev.com/api/v2.0";
+            }
+
             HttpRequestTimeout = httpRequestTimeout;
         }
 
@@ -155,7 +165,7 @@ namespace Trustev.WebAsync
         /// <returns></returns>
         public static async Task<Customer> UpdateCustomerAsync(string caseId, Customer customer)
         {
-            string uri = string.Format(Constants.UriCustomerUdpate, BaseUrl, caseId);
+            string uri = string.Format(Constants.UriCustomerUpdate, BaseUrl, caseId);
 
             Customer response = await PerformHttpCallAsync<Customer>(uri, HttpMethod.Put, customer, true, HttpRequestTimeout);
 
@@ -199,7 +209,7 @@ namespace Trustev.WebAsync
         /// <returns></returns>
         public static async Task<Transaction> UpdateTransactionAsync(string caseId, Transaction transaction)
         {
-            string uri = string.Format(Constants.UriTransactionUdpate, BaseUrl, caseId);
+            string uri = string.Format(Constants.UriTransactionUpdate, BaseUrl, caseId);
 
             Transaction response = await PerformHttpCallAsync<Transaction>(uri, HttpMethod.Put, transaction, true, HttpRequestTimeout);
 
@@ -257,7 +267,7 @@ namespace Trustev.WebAsync
         /// <returns></returns>
         public static async Task<IList<CaseStatus>> GetCaseStatusesAsync(string caseId)
         {
-            string uri = string.Format(Constants.UriCaseStatusGet, BaseUrl, caseId, string.Empty);
+            string uri = string.Format(Constants.UriCaseStatusesGet, BaseUrl, caseId);
 
             IList<CaseStatus> response = await PerformHttpCallAsync<IList<CaseStatus>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
@@ -316,7 +326,7 @@ namespace Trustev.WebAsync
         /// <returns></returns>
         public static async Task<IList<CustomerAddress>> GetCustomerAddressesAsync(string caseId)
         {
-            string uri = string.Format(Constants.UriCustomerAddressGet, BaseUrl, caseId, string.Empty);
+            string uri = string.Format(Constants.UriCustomerAddressesGet, BaseUrl, caseId);
 
             IList<CustomerAddress> response = await PerformHttpCallAsync<IList<CustomerAddress>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
@@ -324,14 +334,14 @@ namespace Trustev.WebAsync
         }
 
         /// <summary>
-        /// Post your Email to an existing Customer on an existing Case
+        /// Post your Customer Email to an existing Customer on an existing Case
         /// </summary>
-        /// <param name="caseId">The Case Id of a Case with the Customer  which you have already posted</param>
-        /// <param name="email">Your Email which you want to post</param>
+        /// <param name="caseId">The Case Id of a Case with the Customer which you have already posted</param>
+        /// <param name="email">Your Customer Email which you want to post</param>
         /// <returns></returns>
         public static async Task<Email> PostEmailAsync(string caseId, Email email)
         {
-            string uri = string.Format(Constants.UriEmailPost, BaseUrl, caseId);
+            string uri = string.Format(Constants.UriCustomerEmailPost, BaseUrl, caseId);
 
             Email response = await PerformHttpCallAsync<Email>(uri, HttpMethod.Post, email, true, HttpRequestTimeout);
 
@@ -339,15 +349,15 @@ namespace Trustev.WebAsync
         }
 
         /// <summary>
-        /// Update a specific Email on a Case which already contains a Email
+        /// Update a specific Customer Email on a Case which already contains a Email
         /// </summary>
         /// <param name="caseId">The Case Id of a Case which you have already posted</param>
-        /// <param name="email">The Email you want to update the existing Email to</param>
-        /// <param name="emailId">The id of the Email you want to update</param>
+        /// <param name="email">The Customer Email you want to update the existing Email to</param>
+        /// <param name="emailId">The Id of the Email you want to update</param>
         /// <returns></returns>
-        public static async Task<Email> UpdateAsync(string caseId, Email email, Guid emailId)
+        public static async Task<Email> UpdateEmailAsync(string caseId, Email email, Guid emailId)
         {
-            string uri = string.Format(Constants.UriEmailUdpate, BaseUrl, caseId, emailId);
+            string uri = string.Format(Constants.UriCustomerEmailUpdate, BaseUrl, caseId, emailId);
 
             Email response = await PerformHttpCallAsync<Email>(uri, HttpMethod.Put, email, true, HttpRequestTimeout);
 
@@ -355,14 +365,14 @@ namespace Trustev.WebAsync
         }
 
         /// <summary>
-        /// Get a specific Email from a Case
+        /// Get a specific Customer Email from a Case
         /// </summary>
         /// <param name="caseId">The Case Id of a Case with the Customer which you have already posted</param>
         /// <param name="emailId">The Id of the Email you want to get</param>
         /// <returns></returns>
         public static async Task<Email> GetEmailAsync(string caseId, Guid emailId)
         {
-            string uri = string.Format(Constants.UriEmailGet, BaseUrl, caseId, emailId);
+            string uri = string.Format(Constants.UriCustomerEmailGet, BaseUrl, caseId, emailId);
 
             Email response = await PerformHttpCallAsync<Email>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
@@ -370,13 +380,13 @@ namespace Trustev.WebAsync
         }
 
         /// <summary>
-        /// Get a all the statuses from a Case
+        /// Get all the Customer Emails from a Case
         /// </summary>
-        /// <param name="caseId">The Case Id of a Case with the Customer  which you have already posted</param>
+        /// <param name="caseId">The Case Id of a Case with the Customer which you have already posted</param>
         /// <returns></returns>
         public static async Task<IList<Email>> GetEmailsAsync(string caseId)
         {
-            string uri = string.Format(Constants.UriEmailGet, BaseUrl, caseId, string.Empty);
+            string uri = string.Format(Constants.UriCustomerEmailsGet, BaseUrl, caseId);
 
             IList<Email> response = await PerformHttpCallAsync<IList<Email>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
@@ -430,75 +440,15 @@ namespace Trustev.WebAsync
         }
 
         /// <summary>
-        /// Get a all the Payments from a Case
+        /// Get all the Payments from a Case
         /// </summary>
         /// <param name="caseId">The Case Id of a Case which you have already posted</param>
         /// <returns></returns>
         public static async Task<IList<Payment>> GetPaymentAsync(string caseId)
         {
-            string uri = string.Format(Constants.UriPaymentGet, BaseUrl, caseId, string.Empty);
+            string uri = string.Format(Constants.UriPaymentsGet, BaseUrl, caseId);
 
             IList<Payment> response = await PerformHttpCallAsync<IList<Payment>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
-
-            return response;
-        }
-
-        /// <summary>
-        /// Post your SocialAccount to an existing Customer on an existing Case
-        /// </summary>
-        /// <param name="caseId">The Case Id of a Case with the Customer  which you have already posted</param>
-        /// <param name="socialAccount">Your SocialAccount which you want to post</param>
-        /// <returns></returns>
-        public static async Task<SocialAccount> PostSocialAccountAsync(string caseId, SocialAccount socialAccount)
-        {
-            string uri = string.Format(Constants.UriSocialAccountPost, BaseUrl, caseId);
-
-            SocialAccount response = await PerformHttpCallAsync<SocialAccount>(uri, HttpMethod.Post, socialAccount, true, HttpRequestTimeout);
-
-            return response;
-        }
-
-        /// <summary>
-        /// Update a specific SocialAccount on a Case which already contains a SocialAccount
-        /// </summary>
-        /// <param name="caseId">The Case Id of a Case which you have already posted</param>
-        /// <param name="socialAccount">The SocialAccount you want to update the existing SocialAccount to</param>
-        /// <param name="socialAccountId">The id of the SocialAccount you want to update</param>
-        /// <returns></returns>
-        public static async Task<SocialAccount> UpdateSocialAccountAsync(string caseId, SocialAccount socialAccount, Guid socialAccountId)
-        {
-            string uri = string.Format(Constants.UriSocialAccountUpdate, BaseUrl, caseId, socialAccountId);
-
-            SocialAccount response = await PerformHttpCallAsync<SocialAccount>(uri, HttpMethod.Put, socialAccount, true, HttpRequestTimeout);
-
-            return response;
-        }
-
-        /// <summary>
-        /// Get a specific SocialAccount from a Case
-        /// </summary>
-        /// <param name="caseId">The Case Id of a Case with the Customer which you have already posted</param>
-        /// <param name="socialAccountId">The Id of the SocialAccount you want to get</param>
-        /// <returns></returns>
-        public static async Task<SocialAccount> GetSocialAccountAsync(string caseId, Guid socialAccountId)
-        {
-            string uri = string.Format(Constants.UriSocialAccountGet, BaseUrl, caseId, socialAccountId);
-
-            SocialAccount response = await PerformHttpCallAsync<SocialAccount>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
-
-            return response;
-        }
-
-        /// <summary>
-        /// Get a all the socialAccounts from a Customer on a Case
-        /// </summary>
-        /// <param name="caseId">The Case Id of a Case with the Customer  which you have already posted</param>
-        /// <returns></returns>
-        public static async Task<IList<SocialAccount>> GetSocialAccountsAsync(string caseId)
-        {
-            string uri = string.Format(Constants.UriSocialAccountGet, BaseUrl, caseId, string.Empty);
-
-            IList<SocialAccount> response = await PerformHttpCallAsync<IList<SocialAccount>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -556,7 +506,7 @@ namespace Trustev.WebAsync
         /// <returns></returns>
         public static async Task<IList<TransactionAddress>> GetTransactionAddresssesAsync(string caseId)
         {
-            string uri = string.Format(Constants.UriTransactionAddressGet, BaseUrl, caseId, string.Empty);
+            string uri = string.Format(Constants.UriTransactionAddressesGet, BaseUrl, caseId);
 
             IList<TransactionAddress> response = await PerformHttpCallAsync<IList<TransactionAddress>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
@@ -616,7 +566,7 @@ namespace Trustev.WebAsync
         /// <returns></returns>
         public static async Task<IList<TransactionItem>> GetTransactionItemsAsync(string caseId)
         {
-            string uri = string.Format(Constants.UriTransactionItemGet, BaseUrl, caseId, string.Empty);
+            string uri = string.Format(Constants.UriTransactionItemsGet, BaseUrl, caseId);
 
             IList<TransactionItem> response = await PerformHttpCallAsync<IList<TransactionItem>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 

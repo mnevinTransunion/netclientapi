@@ -14,7 +14,7 @@ using Trustev.Web;
 namespace TestsNet40.SyncTests
 {
     [TestClass]
-    public class CustomerTests
+    public class TransactionTests
     {
         [TestInitialize]
         public void InitializeTest()
@@ -30,70 +30,71 @@ namespace TestsNet40.SyncTests
         }
 
         [TestMethod]
-        public void CustomerTest_Post_200()
+        public void TransactionTest_Post_200()
         {
             Case sampleCase = this.GenerateBlankCase();
 
             Case returnCase = ApiClient.PostCase(sampleCase);
 
-            Customer customer = new Customer();
-            customer.FirstName = "Jane";
-            customer.LastName = "Doe";
+            Transaction transaction = new Transaction();
+            transaction.TotalTransactionValue = (decimal)12.99;
+            Email email = new Email();
+            email.EmailAddress = "test@test.com";
+            transaction.Emails.Add(email);
+
             
-            Customer returnCustomer = ApiClient.PostCustomer(returnCase.Id, customer);
+            Transaction returnTransaction = ApiClient.PostTransaction(returnCase.Id, transaction);
 
-            Assert.IsTrue(returnCustomer.Id != Guid.Empty);
-            Assert.AreEqual("Jane", returnCustomer.FirstName);
-            Assert.AreEqual("Doe", returnCustomer.LastName);
+            Assert.IsTrue(returnTransaction.Id != Guid.Empty);
+            Assert.AreEqual(transaction.TotalTransactionValue, returnTransaction.TotalTransactionValue);
+            Assert.AreEqual(transaction.Emails[0].EmailAddress, returnTransaction.Emails[0].EmailAddress);
         }
 
         [TestMethod]
-        public void CustomerTest_Update_200()
+        public void TransactionTest_Update_200()
         {
             Case sampleCase = this.GenerateSampleCase();
 
             Case returnCase = ApiClient.PostCase(sampleCase);
 
-            Customer customer = returnCase.Customer;
+            Transaction transaction = new Transaction();
+            transaction.TotalTransactionValue = (decimal) 20.99;
+            Email email = new Email();
+            email.EmailAddress = "test2@test.com";
+            transaction.Emails.Add(email);
 
-            customer.FirstName = "Jane";
-            customer.LastName = "Doe";
-                
-            Customer returnCustomer = ApiClient.UpdateCustomer(returnCase.Id, customer);
+            Transaction returnTransaction = ApiClient.UpdateTransaction(returnCase.Id, transaction);
 
-            Assert.IsTrue(returnCustomer.Id != Guid.Empty);
-            Assert.AreEqual("Jane", returnCustomer.FirstName);
-            Assert.AreEqual("Doe", returnCustomer.LastName);
+            Assert.IsTrue(returnTransaction.Id != Guid.Empty);
+            Assert.AreEqual(transaction.TotalTransactionValue, returnTransaction.TotalTransactionValue);
+            Assert.AreEqual("test2@test.com", returnTransaction.Emails[0].EmailAddress);
         }
 
         [TestMethod]
-        public void CustomerTest_Get_200()
+        public void TransactionTest_Get_200()
         {
             Case sampleCase = this.GenerateSampleCase();
 
             Case returnCase = ApiClient.PostCase(sampleCase);
 
-            Customer returnCustomer = ApiClient.GetCustomer(returnCase.Id);
+            Transaction returnTransaction = ApiClient.GetTransaction(returnCase.Id);
 
-            Assert.IsTrue(returnCustomer.Id != Guid.Empty);
-            Assert.AreEqual("John", returnCustomer.FirstName);
-            Assert.AreEqual("Doe", returnCustomer.LastName);
+            Assert.IsTrue(returnTransaction.Id != Guid.Empty);
+            Assert.AreEqual(returnCase.Transaction.TotalTransactionValue, returnTransaction.TotalTransactionValue);
         }
 
         [TestMethod]
-        public void CustomerTest_Get_404()
+        public void TransactionTest_Get_404()
         {
             HttpStatusCode responseCode = HttpStatusCode.OK;
 
             try
             {
-                Case sampleCase = this.GenerateSampleCase();
-
-                sampleCase.Customer = null;
+                Case sampleCase = this.GenerateBlankCase();
 
                 Case returnCase = ApiClient.PostCase(sampleCase);
 
-                Customer returnCustomer = ApiClient.GetCustomer(returnCase.Id);
+                Transaction returnTransaction = ApiClient.GetTransaction(returnCase.Id);
             }
             catch (TrustevHttpException ex)
             {
@@ -116,10 +117,16 @@ namespace TestsNet40.SyncTests
         {
             Case sampleCase = new Case(Guid.NewGuid(), Guid.NewGuid().ToString())
             {
-                Customer = new Customer()
+                Transaction = new Transaction()
                 {
-                    FirstName = "John",
-                    LastName = "Doe",
+                    TotalTransactionValue = (decimal)10.99,
+                    Emails = new List<Email>()
+                    {
+                        new Email()
+                        {
+                            EmailAddress = "test@test.com"
+                        }
+                    }
                 }
             };
 

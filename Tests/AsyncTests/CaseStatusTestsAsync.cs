@@ -23,13 +23,16 @@ namespace Tests.AsyncTests
             string password = ConfigurationManager.AppSettings["Password"];
             string secret = ConfigurationManager.AppSettings["Secret"];
 
-            ApiClient.SetUp(userName, password, secret);
+            Enums.BaseUrl baseURL;
+            Enum.TryParse(ConfigurationManager.AppSettings["BaseURL"], out baseURL);
+
+            ApiClient.SetUp(userName, password, secret, baseURL);
         }
 
         [TestMethod]
         public async Task StatusTest_PostAsync_200()
         {
-            Case sampleCase = this.GenerateSampleCase();
+            Case sampleCase = this.GenerateBlankCase();
 
             Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
 
@@ -43,12 +46,13 @@ namespace Tests.AsyncTests
             CaseStatus returnCaseStatus = await ApiClient.PostCaseStatusAsync(returnCase.Id, status);
 
             Assert.IsTrue(returnCaseStatus.Id != Guid.Empty);
+            Assert.IsTrue(returnCaseStatus.Status == Enums.CaseStatusType.Completed);
         }
 
         [TestMethod]
         public async Task StatusTest_GetAsync_200()
         {
-            Case sampleCase = this.GenerateSampleCase();
+            Case sampleCase = this.GenerateBlankCase();
 
             Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
 
@@ -59,27 +63,35 @@ namespace Tests.AsyncTests
                 Timestamp = DateTime.UtcNow
             };
 
-            CaseStatus returnCaseStatus = await ApiClient.PostCaseStatusAsync(returnCase.Id, status);
+            CaseStatus postCaseStatus = await ApiClient.PostCaseStatusAsync(returnCase.Id, status);
 
-            IList<CaseStatus> returnCaseStatuses = await ApiClient.GetCaseStatusesAsync(returnCase.Id);
+            CaseStatus returnCaseStatus = await ApiClient.GetCaseStatusAsync(returnCase.Id, postCaseStatus.Id);
 
-            Assert.IsTrue(returnCaseStatuses.Count == 2);
+            Assert.IsTrue(returnCaseStatus.Status == Enums.CaseStatusType.Completed);
         }
 
         [TestMethod]
         public async Task StatusTest_GetAllAsync_200()
         {
-            Case sampleCase = this.GenerateSampleCase();
+            Case sampleCase = this.GenerateBlankCase();
 
             Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
 
-            CaseStatus returnCaseStatus = await ApiClient.GetCaseStatusAsync(returnCase.Id, returnCase.Statuses.First().Id);
+            CaseStatus status = new CaseStatus()
+            {
+                Comment = "TestStatus",
+                Status = Enums.CaseStatusType.ReportedFraud
+            };
 
-            Assert.IsTrue(returnCaseStatus.Id != Guid.Empty);
+            CaseStatus postCaseStatus = await ApiClient.PostCaseStatusAsync(returnCase.Id, status);
+
+            IList<CaseStatus> returnCaseStatuses = await ApiClient.GetCaseStatusesAsync(returnCase.Id);
+
+            Assert.IsTrue(returnCaseStatuses.Count > 1);
         }
 
         [TestMethod]
-        public async Task StatusTest_PostAsync_404_CaseNotFound()
+        public async Task StatusTest_GetAllAsync_404()
         {
             HttpStatusCode responseCode = HttpStatusCode.OK;
 
@@ -99,92 +111,9 @@ namespace Tests.AsyncTests
         }
 
         #region SetCaseContents
-        private Case GenerateSampleCase()
+        private Case GenerateBlankCase()
         {
-            Case sampleCase = new Case(Guid.NewGuid(), Guid.NewGuid().ToString())
-            {
-                Timestamp = DateTime.Now,
-                Transaction = new Transaction()
-                {
-                    TotalTransactionValue = (decimal)21.78,
-                    Addresses = new List<TransactionAddress>()
-                    {
-                        new TransactionAddress()
-                        {
-                            FirstName = "John",
-                            LastName = "Doe",
-                            IsDefault = true,
-                            Address1 = "Address line 1",
-                            Address2 = "Address line 2",
-                            Address3 = "Address line 3",
-                            City = string.Empty,
-                            CountryCode = string.Empty,
-                            State = "Cork",
-                            PostalCode = "Cork",
-                            Type = 0
-                        }
-                    },
-                    Currency = "USD",
-                    Timestamp = DateTime.UtcNow,
-                    Items = new List<TransactionItem>()
-                    {
-                        new TransactionItem()
-                        {
-                            Name = "Item 1",
-                            Quantity = 1,
-                            ItemValue = 10.99m
-                        }
-                    }
-                },
-                Customer = new Customer()
-                {
-                    FirstName = "John",
-                    LastName = "Doe",
-                    DateOfBirth = DateTime.Now.AddYears(-24),
-                    PhoneNumber = "0878767543",
-                    Emails = new List<Email>()
-                    {
-                        new Email()
-                        {
-                            IsDefault = true,
-                            EmailAddress = "clasf@gdasf.com"
-                        }
-                    },
-                    Addresses = new List<CustomerAddress>()
-                    {
-                        new CustomerAddress()
-                        {
-                            FirstName = "John",
-                            LastName = "Doe",
-                            IsDefault = true,
-                            Address1 = "Address line 1",
-                            Address2 = "Address line 2",
-                            Address3 = "Address line 3",
-                            City = "sdasd",
-                            CountryCode = "IE",
-                            State = "Cork",
-                            PostalCode = "Cork",
-                            Type = 0
-                        }
-                    },
-                    SocialAccounts = new List<SocialAccount>()
-                    {
-                        new SocialAccount()
-                        {
-                            Type = 0,
-                            SocialId = 9999,
-                            LongTermAccessToken = "token",
-                            LongTermAccessTokenExpiry = DateTime.UtcNow.AddYears(1)
-                        }
-                    }
-                },
-                Payments = new List<Payment>()
-                {
-                },
-                Statuses = new List<CaseStatus>()
-                {
-                }
-            };
+            Case sampleCase = new Case(Guid.NewGuid(), Guid.NewGuid().ToString()) { };
 
             return sampleCase;
         }

@@ -29,6 +29,11 @@ namespace Trustev.Domain.Entities
         public string Id { get; internal set; }
 
         /// <summary>
+        /// Case Type of Current Case - E.g. Default, Account Creation, Application
+        /// </summary>
+        public Enums.CaseType CaseType { get; set; }
+
+        /// <summary>
         /// SessionId is required when adding a Trustev Case. SessionId is available through Trustev.js as a publicly accessible variable - TrustevV2.SessionId
         /// </summary>
         public Guid SessionId { get; set; }

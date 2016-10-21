@@ -52,10 +52,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AsyncTests\CaseTestsAsync.cs" />
+    <Compile Include="AsyncTests\CaseTypeTestsAsync.cs" />
+    <Compile Include="AsyncTests\CustomerAddressTestsAsync.cs" />
+    <Compile Include="AsyncTests\CustomerEmailTestsAsync.cs" />
     <Compile Include="AsyncTests\CustomerTestsAsync.cs" />
     <Compile Include="AsyncTests\DecisionTestsAsync.cs" />
     <Compile Include="AsyncTests\CaseStatusTestsAsync.cs" />
     <Compile Include="AsyncTests\DetailedDecisionTestsAsync.cs" />
+    <Compile Include="AsyncTests\PaymentTestsAsync.cs" />
+    <Compile Include="AsyncTests\TransactionAddressTestsAsync.cs" />
+    <Compile Include="AsyncTests\TransactionItemTestsAsync.cs" />
+    <Compile Include="AsyncTests\TransactionTestsAsync.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -54,7 +54,7 @@ namespace Trustev.Domain
         /// 0 : The TrustevClient Base Url
         /// 1 : The Case Id of the Case you have already added.
         /// </summary>
-        public const string UriCustomerUdpate = "{0}/case/{1}/customer";
+        public const string UriCustomerUpdate = "{0}/case/{1}/customer";
 
         /// <summary>
         /// Get Customer Api Endpoint
@@ -75,7 +75,7 @@ namespace Trustev.Domain
         /// 0 : The TrustevClient Base Url
         /// 1 : The Case Id of the Case you have already added.
         /// </summary>
-        public const string UriTransactionUdpate = "{0}/case/{1}/transaction";
+        public const string UriTransactionUpdate = "{0}/case/{1}/transaction";
 
         /// <summary>
         /// Get Transaction Api Endpoint
@@ -85,27 +85,34 @@ namespace Trustev.Domain
         public const string UriTransactionGet = "{0}/case/{1}/transaction";
 
         /// <summary>
-        /// Post Email Api Endpoint
+        /// Post Customer Email Api Endpoint
         /// 0 : The TrustevClient Base Url
         /// 1 : The Case Id of the Case you have already added.
         /// </summary>
-        public const string UriEmailPost = "{0}/case/{1}/customer/email";
+        public const string UriCustomerEmailPost = "{0}/case/{1}/customer/email";
 
         /// <summary>
-        /// Update Email Api Endpoint
+        /// Update Customer Email Api Endpoint
         /// 0 : The TrustevClient Base Url
         /// 1 : The Case Id of the Case you have already added.
         /// 2 : The Id of the Email you want to Update
         /// </summary>
-        public const string UriEmailUdpate = "{0}/case/{1}/customer/email/{2}";
+        public const string UriCustomerEmailUpdate = "{0}/case/{1}/customer/email/{2}";
 
         /// <summary>
-        /// Get Email Api Endpoint
+        /// Get Customer Email Api Endpoint
         /// 0 : The TrustevClient Base Url
         /// 1 : The Case Id of the Case you have already added.
         /// 2 : The Id of the Email you want to Get
         /// </summary>
-        public const string UriEmailGet = "{0}/case/{1}/customer/email/{2}";
+        public const string UriCustomerEmailGet = "{0}/case/{1}/customer/email/{2}";
+
+        /// <summary>
+        /// Get Customer Email Api Endpoint
+        /// 0 : The TrustevClient Base Url
+        /// 1 : The Case Id of the Case you have already added.
+        /// </summary>
+        public const string UriCustomerEmailsGet = "{0}/case/{1}/customer/email";
 
         /// <summary>
         /// Post CaseStatus Api Endpoint
@@ -121,6 +128,13 @@ namespace Trustev.Domain
         /// 2 : The Id of the Email you want to Get
         /// </summary>
         public const string UriCaseStatusGet = "{0}/case/{1}/status/{2}";
+
+        /// <summary>
+        /// Get CaseStatuses Api Endpoint
+        /// 0 : The TrustevClient Base Url
+        /// 1 : The Case Id of the Case you have already added.
+        /// </summary>
+        public const string UriCaseStatusesGet = "{0}/case/{1}/status";
 
         /// <summary>
         /// Post Payment Api Endpoint
@@ -146,6 +160,13 @@ namespace Trustev.Domain
         public const string UriPaymentGet = "{0}/case/{1}/payment/{2}";
 
         /// <summary>
+        /// Get Payments Api Endpoint
+        /// 0 : The TrustevClient Base Url
+        /// 1 : The Case Id of the Case you have already added.
+        /// </summary>
+        public const string UriPaymentsGet = "{0}/case/{1}/payment";
+
+        /// <summary>
         /// Post Customer Address Api Endpoint
         /// 0 : The TrustevClient Base Url
         /// 1 : The Case Id of the Case you have already added.
@@ -167,6 +188,13 @@ namespace Trustev.Domain
         /// 2 : The Id of the Customer Address you want to Get
         /// </summary>
         public const string UriCustomerAddressGet = "{0}/case/{1}/customer/address/{2}";
+
+        /// <summary>
+        /// Get Customer Addresses Api Endpoint
+        /// 0 : The TrustevClient Base Url
+        /// 1 : The Case Id of the Case you have already added.
+        /// </summary>
+        public const string UriCustomerAddressesGet = "{0}/case/{1}/customer/address";
 
         /// <summary>
         /// Post Transaction Item Api Endpoint
@@ -192,27 +220,11 @@ namespace Trustev.Domain
         public const string UriTransactionItemGet = "{0}/case/{1}/transaction/item/{2}";
 
         /// <summary>
-        /// Post Social Account Api Endpoint
+        /// Get Transaction Items Api Endpoint
         /// 0 : The TrustevClient Base Url
         /// 1 : The Case Id of the Case you have already added.
         /// </summary>
-        public const string UriSocialAccountPost = "{0}/case/{1}/customer/socialaccount";
-
-        /// <summary>
-        /// Update Social Account Api Endpoint
-        /// 0 : The TrustevClient Base Url
-        /// 1 : The Case Id of the Case you have already added.
-        /// 2 : The Id of the Social Account you want to Update
-        /// </summary>
-        public const string UriSocialAccountUpdate = "{0}/case/{1}/customer/socialaccount/{2}";
-
-        /// <summary>
-        /// Get Social Account Api Endpoint
-        /// 0 : The TrustevClient Base Url
-        /// 1 : The Case Id of the Case you have already added.
-        /// 2 : The Id of the Social Account you want to Get
-        /// </summary>
-        public const string UriSocialAccountGet = "{0}/case/{1}/customer/socialaccount/{2}";
+        public const string UriTransactionItemsGet = "{0}/case/{1}/transaction/item";
 
         /// <summary>
         /// Post Transaction Address Api Endpoint
@@ -236,5 +248,12 @@ namespace Trustev.Domain
         /// 2 : The Id of the Transaction Address you want to Get
         /// </summary>
         public const string UriTransactionAddressGet = "{0}/case/{1}/transaction/address/{2}";
+
+        /// <summary>
+        /// Get Transaction Addresses Api Endpoint
+        /// 0 : The TrustevClient Base Url
+        /// 1 : The Case Id of the Case you have already added.
+        /// </summary>
+        public const string UriTransactionAddressesGet = "{0}/case/{1}/transaction/address";
     }
 }

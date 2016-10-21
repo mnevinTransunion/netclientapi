@@ -14,7 +14,7 @@ using Trustev.WebAsync;
 namespace Tests.AsyncTests
 {
     [TestClass]
-    public class CustomerTestsAsync
+    public class PaymentTestsAsync
     {
         [TestInitialize]
         public void InitializeTest()
@@ -30,70 +30,79 @@ namespace Tests.AsyncTests
         }
 
         [TestMethod]
-        public async Task CustomerTest_PostAsync_200()
+        public async Task PaymentTest_PostAsync_200()
         {
             Case sampleCase = this.GenerateBlankCase();
 
             Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
 
-            Customer customer = new Customer();
-            customer.FirstName = "Jane";
-            customer.LastName = "Doe";
+            Payment payment = new Payment();
+            payment.BINNumber = "456789";
 
-            Customer returnCustomer = await ApiClient.PostCustomerAsync(returnCase.Id, customer);
+            Payment returnPayment = await ApiClient.PostPaymentAsync(returnCase.Id, payment);
 
-            Assert.IsTrue(returnCustomer.Id != Guid.Empty);
-            Assert.AreEqual("Jane", returnCustomer.FirstName);
-            Assert.AreEqual("Doe", returnCustomer.LastName);
+            Assert.IsTrue(returnPayment.Id != Guid.Empty);
+            Assert.AreEqual(payment.BINNumber, returnPayment.BINNumber);
         }
 
         [TestMethod]
-        public async Task CustomerTest_UpdateAsync_200()
+        public async Task PaymentTest_UpdateAsync_200()
         {
             Case sampleCase = this.GenerateSampleCase();
 
             Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
 
-            Customer customer = returnCase.Customer;
+            Payment payment = new Payment();
+            payment.BINNumber = "456789";
 
-            customer.FirstName = "Jane";
-            customer.LastName = "Doe";
+            Payment returnPayment = await ApiClient.UpdatePaymentAsync(returnCase.Id, payment, returnCase.Payments[0].Id);
 
-            Customer returnCustomer = await ApiClient.UpdateCustomerAsync(returnCase.Id, customer);
-
-            Assert.IsTrue(returnCustomer.Id != Guid.Empty);
-            Assert.AreEqual("Jane", returnCustomer.FirstName);
-            Assert.AreEqual("Doe", returnCustomer.LastName);
+            Assert.IsTrue(returnPayment.Id != Guid.Empty);
+            Assert.AreEqual(payment.BINNumber, returnPayment.BINNumber);
         }
 
         [TestMethod]
-        public async Task CustomerTest_GetAsync_200()
+        public async Task PaymentTest_GetAsync_200()
         {
             Case sampleCase = this.GenerateSampleCase();
 
             Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
 
-            Customer returnCustomer = await ApiClient.GetCustomerAsync(returnCase.Id);
+            Payment returnPayment = await ApiClient.GetPaymentAsync(returnCase.Id, returnCase.Payments[0].Id);
 
-            Assert.IsTrue(returnCustomer.Id != Guid.Empty);
-            Assert.AreEqual("John", returnCustomer.FirstName);
-            Assert.AreEqual("Doe", returnCustomer.LastName);
+            Assert.IsTrue(returnPayment.Id != Guid.Empty);
+            Assert.AreEqual(returnCase.Payments[0].BINNumber, returnPayment.BINNumber);
         }
 
         [TestMethod]
-        public async Task CustomerTest_GetAsync_404()
+        public async Task PaymentTest_GetAllAsync_200()
+        {
+            Case sampleCase = this.GenerateSampleCase();
+
+            Payment payment = new Payment();
+            payment.BINNumber = "445566";
+            sampleCase.Payments.Add(payment);
+
+            Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
+
+            IList<Payment> returnPayments = await ApiClient.GetPaymentAsync(returnCase.Id);
+
+            Assert.IsTrue(returnPayments.Count > 1);
+            Assert.AreEqual("123456", returnPayments[0].BINNumber);
+            Assert.AreEqual("445566", returnPayments[1].BINNumber);
+        }
+
+        [TestMethod]
+        public async Task PaymentTest_GetAllAsync_400()
         {
             HttpStatusCode responseCode = HttpStatusCode.OK;
 
             try
             {
-                Case sampleCase = this.GenerateSampleCase();
-
-                sampleCase.Customer = null;
-
+                Case sampleCase = this.GenerateBlankCase();
                 Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
 
-                Customer returnCustomer = await ApiClient.GetCustomerAsync(returnCase.Id);
+                IList<Payment> payments = await ApiClient.GetPaymentAsync(returnCase.Id);
             }
             catch (TrustevHttpException ex)
             {
@@ -101,7 +110,7 @@ namespace Tests.AsyncTests
                 responseCode = ex.HttpResponseCode;
             }
 
-            Assert.AreEqual(HttpStatusCode.NotFound, responseCode);
+            Assert.AreEqual(HttpStatusCode.BadRequest, responseCode);
         }
 
         #region SetCaseContents
@@ -116,10 +125,12 @@ namespace Tests.AsyncTests
         {
             Case sampleCase = new Case(Guid.NewGuid(), Guid.NewGuid().ToString())
             {
-                Customer = new Customer()
+                Payments = new List<Payment>()
                 {
-                    FirstName = "John",
-                    LastName = "Doe",
+                    new Payment()
+                    {
+                        BINNumber = "123456"
+                    }
                 }
             };
 

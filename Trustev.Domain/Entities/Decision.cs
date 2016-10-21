@@ -17,6 +17,11 @@ namespace Trustev.Domain.Entities
         /// </summary>
         public string CaseId { get; set; }
 
+        ///<summary>
+        /// Configuration Version
+        /// </summary>
+        public int Version { get; set; }
+
         /// <summary>
         /// The SessionId or the Case that this Decision was based on
         /// </summary>

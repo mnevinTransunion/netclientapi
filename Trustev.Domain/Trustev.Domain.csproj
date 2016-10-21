@@ -55,7 +55,6 @@
     <Compile Include="Entities\DetailedDecision.cs" />
     <Compile Include="Entities\Email.cs" />
     <Compile Include="Entities\Payment.cs" />
-    <Compile Include="Entities\SocialAccount.cs" />
     <Compile Include="Entities\Transaction.cs" />
     <Compile Include="Entities\TransactionAddress.cs" />
     <Compile Include="Entities\TransactionItem.cs" />

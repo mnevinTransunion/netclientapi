@@ -6,6 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Trustev.Domain;
 using Trustev.Domain.Entities;
 using Trustev.Domain.Exceptions;
 using Trustev.Web;
@@ -22,7 +23,10 @@ namespace TestsNet40.SyncTests
             string password = ConfigurationManager.AppSettings["Password"];
             string secret = ConfigurationManager.AppSettings["Secret"];
 
-            ApiClient.SetUp(userName, password, secret);
+            Enums.BaseUrl baseURL;
+            Enum.TryParse(ConfigurationManager.AppSettings["BaseURL"], out baseURL);
+
+            ApiClient.SetUp(userName, password, secret, baseURL);
         }
 
         [TestMethod]
@@ -39,7 +43,7 @@ namespace TestsNet40.SyncTests
         }
 
         [TestMethod]
-        public void DetailedDecisionTest_Get_404()
+        public void DetailedDecisionTest_Get_500()
         {
             HttpStatusCode responseCode = HttpStatusCode.OK;
 
@@ -47,7 +51,7 @@ namespace TestsNet40.SyncTests
             {
                 string dummyCaseId = string.Format("{0}|{1}", Guid.NewGuid(), Guid.NewGuid());
 
-                DetailedDecision decision = ApiClient.GetDetailedDecision(dummyCaseId);
+                Decision getDecision = ApiClient.GetDetailedDecision(dummyCaseId);
             }
             catch (TrustevHttpException ex)
             {
@@ -55,7 +59,7 @@ namespace TestsNet40.SyncTests
                 responseCode = ex.HttpResponseCode;
             }
 
-            Assert.AreEqual(HttpStatusCode.NotFound, responseCode);
+            Assert.AreEqual(HttpStatusCode.InternalServerError, responseCode);
         }
 
         #region SetCaseContents
@@ -107,7 +111,7 @@ namespace TestsNet40.SyncTests
                         new Email()
                         {
                             IsDefault = true,
-                            EmailAddress = "clasf@gdasf.com"
+                            EmailAddress = "test@test.com"
                         }
                     },
                     Addresses = new List<CustomerAddress>()
@@ -120,26 +124,20 @@ namespace TestsNet40.SyncTests
                             Address1 = "Address line 1",
                             Address2 = "Address line 2",
                             Address3 = "Address line 3",
-                            City = "sdasd",
+                            City = "Cork",
                             CountryCode = "IE",
                             State = "Cork",
                             PostalCode = "Cork",
                             Type = 0
                         }
-                    },
-                    SocialAccounts = new List<SocialAccount>()
-                    {
-                        new SocialAccount()
-                        {
-                            Type = 0,
-                            SocialId = 9999,
-                            LongTermAccessToken = "token",
-                            LongTermAccessTokenExpiry = DateTime.UtcNow.AddYears(1)
-                        }
                     }
                 },
                 Payments = new List<Payment>()
                 {
+                    new Payment()
+                    {
+                        BINNumber = "123456"
+                    }
                 },
                 Statuses = new List<CaseStatus>()
                 {

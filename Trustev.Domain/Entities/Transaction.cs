@@ -12,6 +12,7 @@ namespace Trustev.Domain.Entities
         {
             this.Addresses = new List<TransactionAddress>();
             this.Items = new List<TransactionItem>();
+            this.Emails = new List<Email>();
             this.Timestamp = DateTime.UtcNow;
         }
 
@@ -39,6 +40,11 @@ namespace Trustev.Domain.Entities
         /// Addresses Object – Contains standard/delivery/billing information. Please see Address Object for further parameter information.
         /// </summary>
         public IList<TransactionAddress> Addresses { get; set; }
+
+        /// <summary>
+        /// A collection of Emails. Please see Emails object for further parameter information.
+        /// </summary>
+        public IList<Email> Emails { get; set; }
 
         /// <summary>
         /// Items Object – contains details on Item Name, Quantity and Item Value. Please see Items Object for further parameter information.

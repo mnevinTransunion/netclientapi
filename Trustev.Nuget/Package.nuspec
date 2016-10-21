@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Trustev</id>
-        <version>1.0.11</version>
+        <version>1.0.12</version>
         <title>Trustev Api Client</title>
         <authors>Trustev</authors>
         <owners>Trustev</owners>
@@ -10,9 +10,9 @@
         <projectUrl>https://github.com/Trustev/netclientapi</projectUrl>
         <iconUrl>https://app.trustev.com/assets/img/apple-icon-144.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>This is the Trustev Client which provides a set of classes and methods which can be used to integration to the Trustev Platform.</description>
-        <releaseNotes>Added the optional httpRequestTimeout parameter to the Setup method to allow specification in milliseconds of timeouts on the the http requests to the platform. (default value is 15000ms) </releaseNotes>
-        <copyright>Copyright 2015</copyright>
+        <description>This is the Trustev Client which provides a set of classes and methods which can be used to integrate to the Trustev Platform.</description>
+        <releaseNotes>Adding full suite of Integration Tests. Added CaseType and Transaction Email Address. Added ability to set location (EU/US). Fixes to API Client. </releaseNotes>
+        <copyright>Copyright 2016</copyright>
         <tags>Trustev trustev api client</tags>
         <dependencies>
             <dependency id="Newtonsoft.Json" version="7.0.1" />

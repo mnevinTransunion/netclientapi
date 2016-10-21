@@ -14,7 +14,7 @@ using Trustev.Web;
 namespace TestsNet40.SyncTests
 {
     [TestClass]
-    public class CustomerTests
+    public class PaymentTests
     {
         [TestInitialize]
         public void InitializeTest()
@@ -30,70 +30,79 @@ namespace TestsNet40.SyncTests
         }
 
         [TestMethod]
-        public void CustomerTest_Post_200()
+        public void PaymentTest_Post_200()
         {
             Case sampleCase = this.GenerateBlankCase();
 
             Case returnCase = ApiClient.PostCase(sampleCase);
 
-            Customer customer = new Customer();
-            customer.FirstName = "Jane";
-            customer.LastName = "Doe";
-            
-            Customer returnCustomer = ApiClient.PostCustomer(returnCase.Id, customer);
+            Payment payment = new Payment();
+            payment.BINNumber = "456789";
 
-            Assert.IsTrue(returnCustomer.Id != Guid.Empty);
-            Assert.AreEqual("Jane", returnCustomer.FirstName);
-            Assert.AreEqual("Doe", returnCustomer.LastName);
+            Payment returnPayment = ApiClient.PostPayment(returnCase.Id, payment);
+
+            Assert.IsTrue(returnPayment.Id != Guid.Empty);
+            Assert.AreEqual(payment.BINNumber, returnPayment.BINNumber);
         }
 
         [TestMethod]
-        public void CustomerTest_Update_200()
+        public void PaymentTest_Update_200()
         {
             Case sampleCase = this.GenerateSampleCase();
 
             Case returnCase = ApiClient.PostCase(sampleCase);
 
-            Customer customer = returnCase.Customer;
+            Payment payment = new Payment();
+            payment.BINNumber = "456789";
 
-            customer.FirstName = "Jane";
-            customer.LastName = "Doe";
-                
-            Customer returnCustomer = ApiClient.UpdateCustomer(returnCase.Id, customer);
+            Payment returnPayment = ApiClient.UpdatePayment(returnCase.Id, payment, returnCase.Payments[0].Id);
 
-            Assert.IsTrue(returnCustomer.Id != Guid.Empty);
-            Assert.AreEqual("Jane", returnCustomer.FirstName);
-            Assert.AreEqual("Doe", returnCustomer.LastName);
+            Assert.IsTrue(returnPayment.Id != Guid.Empty);
+            Assert.AreEqual(payment.BINNumber, returnPayment.BINNumber);
         }
 
         [TestMethod]
-        public void CustomerTest_Get_200()
+        public void PaymentTest_Get_200()
         {
             Case sampleCase = this.GenerateSampleCase();
 
             Case returnCase = ApiClient.PostCase(sampleCase);
 
-            Customer returnCustomer = ApiClient.GetCustomer(returnCase.Id);
+            Payment returnPayment = ApiClient.GetPayment(returnCase.Id, returnCase.Payments[0].Id);
 
-            Assert.IsTrue(returnCustomer.Id != Guid.Empty);
-            Assert.AreEqual("John", returnCustomer.FirstName);
-            Assert.AreEqual("Doe", returnCustomer.LastName);
+            Assert.IsTrue(returnPayment.Id != Guid.Empty);
+            Assert.AreEqual(returnCase.Payments[0].BINNumber, returnPayment.BINNumber);
         }
 
         [TestMethod]
-        public void CustomerTest_Get_404()
+        public void PaymentTest_GetAll_200()
+        {
+            Case sampleCase = this.GenerateSampleCase();
+
+            Payment payment = new Payment();
+            payment.BINNumber = "445566";
+            sampleCase.Payments.Add(payment);
+
+            Case returnCase = ApiClient.PostCase(sampleCase);
+
+            IList<Payment> returnPayments = ApiClient.GetPayments(returnCase.Id);
+
+            Assert.IsTrue(returnPayments.Count > 1);
+            Assert.AreEqual("123456", returnPayments[0].BINNumber);
+            Assert.AreEqual("445566", returnPayments[1].BINNumber);
+        }
+
+        [TestMethod]
+        public void PaymentTest_GetAll_400()
         {
             HttpStatusCode responseCode = HttpStatusCode.OK;
 
             try
             {
-                Case sampleCase = this.GenerateSampleCase();
-
-                sampleCase.Customer = null;
-
+                Case sampleCase = this.GenerateBlankCase();
                 Case returnCase = ApiClient.PostCase(sampleCase);
 
-                Customer returnCustomer = ApiClient.GetCustomer(returnCase.Id);
+                IList<Payment> payments = ApiClient.GetPayments(returnCase.Id);
             }
             catch (TrustevHttpException ex)
             {
@@ -101,7 +110,7 @@ namespace TestsNet40.SyncTests
                 responseCode = ex.HttpResponseCode;
             }
 
-            Assert.AreEqual(HttpStatusCode.NotFound, responseCode);
+            Assert.AreEqual(HttpStatusCode.BadRequest, responseCode);
         }
 
         #region SetCaseContents
@@ -116,10 +125,12 @@ namespace TestsNet40.SyncTests
         {
             Case sampleCase = new Case(Guid.NewGuid(), Guid.NewGuid().ToString())
             {
-                Customer = new Customer()
+                Payments = new List<Payment>()
                 {
-                    FirstName = "John",
-                    LastName = "Doe",
+                    new Payment()
+                    {
+                        BINNumber = "123456"
+                    }
                 }
             };
 

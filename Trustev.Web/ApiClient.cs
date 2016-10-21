@@ -38,21 +38,32 @@ namespace Trustev.Web
             UserName = "";
             Password = "";
             Secret = "";
-            BaseUrl = "https://app.trustev.com/api/v2.0";
+            BaseUrl = "";
         }
 
         /// <summary>
-        /// Initialize the trustev class by passing in you UserName, Secret and Password. If you do not have these then please contact integrate@trustev.com.
+        /// Initialize the Trustev class by passing in your UserName, Password, Secret, and BaseUrl - This could be EU or US, depending on your location.
         /// </summary>
-        /// <param name="userName">You ApiClient UserName</param>
-        /// <param name="password">You ApiClient Password</param>
-        /// <param name="secret">You ApiClient Secret</param>
+        /// <param name="userName">Your ApiClient UserName</param>
+        /// <param name="password">Your ApiClient Password</param>
+        /// <param name="secret">Your ApiClient Secret</param>
+        /// <param name="baseUrl">Your BaseURL - US/EU</param>
         /// <param name="httpRequestTimeout">Your default httpRequestTimeout</param>
-        public static void SetUp(string userName, string password, string secret, int httpRequestTimeout = 15000)
+        public static void SetUp(string userName, string password, string secret, Enums.BaseUrl baseUrl, int httpRequestTimeout = 15000)
         {
             UserName = userName;
             Password = password;
             Secret = secret;
+
+            if (baseUrl.Equals(Enums.BaseUrl.EU))
+            {
+                BaseUrl = "https://app-eu.trustev.com/api/v2.0";
+            }
+            else if (baseUrl.Equals(Enums.BaseUrl.US))
+            {
+                BaseUrl = "https://app.trustev.com/api/v2.0";
+            }
+
             HttpRequestTimeout = httpRequestTimeout;
         }
 
@@ -154,7 +165,7 @@ namespace Trustev.Web
         /// <returns></returns>
         public static Customer UpdateCustomer(string caseId, Customer customer)
         {
-            string uri = string.Format(Constants.UriCustomerUdpate, BaseUrl, caseId);
+            string uri = string.Format(Constants.UriCustomerUpdate, BaseUrl, caseId);
 
             Customer response = PerformHttpCall<Customer>(uri, HttpMethod.Put, customer, true, HttpRequestTimeout);
 
@@ -198,7 +209,7 @@ namespace Trustev.Web
         /// <returns></returns>
         public static Transaction UpdateTransaction(string caseId, Transaction transaction)
         {
-            string uri = string.Format(Constants.UriTransactionUdpate, BaseUrl, caseId);
+            string uri = string.Format(Constants.UriTransactionUpdate, BaseUrl, caseId);
 
             Transaction response = PerformHttpCall<Transaction>(uri, HttpMethod.Put, transaction, true, HttpRequestTimeout);
 
@@ -256,7 +267,7 @@ namespace Trustev.Web
         /// <returns></returns>
         public static IList<CaseStatus> GetCaseStatuses(string caseId)
         {
-            string uri = string.Format(Constants.UriCaseStatusGet, BaseUrl, caseId, string.Empty);
+            string uri = string.Format(Constants.UriCaseStatusesGet, BaseUrl, caseId);
 
             IList<CaseStatus> response = PerformHttpCall<IList<CaseStatus>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
@@ -316,7 +327,7 @@ namespace Trustev.Web
         /// <returns></returns>
         public static IList<CustomerAddress> GetCustomerAddresses(string caseId)
         {
-            string uri = string.Format(Constants.UriCustomerAddressGet, BaseUrl, caseId, string.Empty);
+            string uri = string.Format(Constants.UriCustomerAddressesGet, BaseUrl, caseId);
 
             IList<CustomerAddress> response = PerformHttpCall<IList<CustomerAddress>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
@@ -324,14 +335,14 @@ namespace Trustev.Web
         }
 
         /// <summary>
-        /// Post your Email to an existing Customer on an existing Case
+        /// Post your Customer Email to an existing Customer on an existing Case
         /// </summary>
-        /// <param name="caseId">The Case Id of a Case with the Customer  which you have already posted</param>
-        /// <param name="email">Your Email which you want to post</param>
+        /// <param name="caseId">The Case Id of a Case with the Customer which you have already posted</param>
+        /// <param name="email">Your Customer Email which you want to post</param>
         /// <returns></returns>
         public static Email PostEmail(string caseId, Email email)
         {
-            string uri = string.Format(Constants.UriEmailPost, BaseUrl, caseId);
+            string uri = string.Format(Constants.UriCustomerEmailPost, BaseUrl, caseId);
 
             Email response = PerformHttpCall<Email>(uri, HttpMethod.Post, email, true, HttpRequestTimeout);
 
@@ -339,15 +350,15 @@ namespace Trustev.Web
         }
 
         /// <summary>
-        /// Update a specific Email on a Case which already contains a Email
+        /// Update a specific Customer Email on a Case which already contains a Email
         /// </summary>
         /// <param name="caseId">The Case Id of a Case which you have already posted</param>
-        /// <param name="email">The Email you want to update the existing Email to</param>
-        /// <param name="emailId">The id of the Email you want to update</param>
+        /// <param name="email">The Customer Email you want to update the existing Email to</param>
+        /// <param name="emailId">The Id of the Email you want to update</param>
         /// <returns></returns>
         public static Email UpdateEmail(string caseId, Email email, Guid emailId)
         {
-            string uri = string.Format(Constants.UriEmailUdpate, BaseUrl, caseId, emailId);
+            string uri = string.Format(Constants.UriCustomerEmailUpdate, BaseUrl, caseId, emailId);
 
             Email response = PerformHttpCall<Email>(uri, HttpMethod.Put, email, true, HttpRequestTimeout);
 
@@ -355,14 +366,14 @@ namespace Trustev.Web
         }
 
         /// <summary>
-        /// Get a specific Email from a Case
+        /// Get a specific Customer Email from a Case
         /// </summary>
         /// <param name="caseId">The Case Id of a Case with the Customer which you have already posted</param>
         /// <param name="emailId">The Id of the Email you want to get</param>
         /// <returns></returns>
         public static Email GetEmail(string caseId, Guid emailId)
         {
-            string uri = string.Format(Constants.UriEmailGet, BaseUrl, caseId, emailId);
+            string uri = string.Format(Constants.UriCustomerEmailGet, BaseUrl, caseId, emailId);
 
             Email response = PerformHttpCall<Email>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
@@ -370,13 +381,13 @@ namespace Trustev.Web
         }
 
         /// <summary>
-        /// Get a all the statuses from a Case
+        /// Get all the Customer Emails from a Case
         /// </summary>
-        /// <param name="caseId">The Case Id of a Case with the Customer  which you have already posted</param>
+        /// <param name="caseId">The Case Id of a Case with the Customer which you have already posted</param>
         /// <returns></returns>
         public static IList<Email> GetEmails(string caseId)
         {
-            string uri = string.Format(Constants.UriEmailGet, BaseUrl, caseId, string.Empty);
+            string uri = string.Format(Constants.UriCustomerEmailsGet, BaseUrl, caseId);
 
             IList<Email> response = PerformHttpCall<IList<Email>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
@@ -429,75 +440,15 @@ namespace Trustev.Web
         }
 
         /// <summary>
-        /// Get a all the Payments from a Case
+        /// Get all the Payments from a Case
         /// </summary>
         /// <param name="caseId">The Case Id of a Case which you have already posted</param>
         /// <returns></returns>
         public static IList<Payment> GetPayments(string caseId)
         {
-            string uri = string.Format(Constants.UriPaymentGet, BaseUrl, caseId, string.Empty);
+            string uri = string.Format(Constants.UriPaymentsGet, BaseUrl, caseId);
 
             IList<Payment> response = PerformHttpCall<IList<Payment>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
-
-            return response;
-        }
-
-        /// <summary>
-        /// Post your SocialAccount to an existing Customer on an existing Case
-        /// </summary>
-        /// <param name="caseId">The Case Id of a Case with the Customer  which you have already posted</param>
-        /// <param name="socialAccount">Your SocialAccount which you want to post</param>
-        /// <returns></returns>
-        public static SocialAccount PostSocialAccount(string caseId, SocialAccount socialAccount)
-        {
-            string uri = string.Format(Constants.UriSocialAccountPost, BaseUrl, caseId);
-
-            SocialAccount response = PerformHttpCall<SocialAccount>(uri, HttpMethod.Post, socialAccount, true, HttpRequestTimeout);
-
-            return response;
-        }
-
-        /// <summary>
-        /// Update a specific SocialAccount on a Case which already contains a SocialAccount
-        /// </summary>
-        /// <param name="caseId">The Case Id of a Case which you have already posted</param>
-        /// <param name="socialAccount">The SocialAccount you want to update the existing SocialAccount to</param>
-        /// <param name="socialAccountId">The id of the SocialAccount you want to update</param>
-        /// <returns></returns>
-        public static SocialAccount UpdateSocialAccount(string caseId, SocialAccount socialAccount, Guid socialAccountId)
-        {
-            string uri = string.Format(Constants.UriSocialAccountUpdate, BaseUrl, caseId, socialAccountId);
-
-            SocialAccount response = PerformHttpCall<SocialAccount>(uri, HttpMethod.Put, socialAccount, true, HttpRequestTimeout);
-
-            return response;
-        }
-
-        /// <summary>
-        /// Get a specific SocialAccount from a Case
-        /// </summary>
-        /// <param name="caseId">The Case Id of a Case with the Customer which you have already posted</param>
-        /// <param name="socialAccountId">The Id of the SocialAccount you want to get</param>
-        /// <returns></returns>
-        public static SocialAccount GetSocialAccount(string caseId, Guid socialAccountId)
-        {
-            string uri = string.Format(Constants.UriSocialAccountGet, BaseUrl, caseId, socialAccountId);
-
-            SocialAccount response = PerformHttpCall<SocialAccount>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
-
-            return response;
-        }
-
-        /// <summary>
-        /// Get a all the socialAccounts from a Customer on a Case
-        /// </summary>
-        /// <param name="caseId">The Case Id of a Case with the Customer  which you have already posted</param>
-        /// <returns></returns>
-        public static IList<SocialAccount> GetSocialAccounts(string caseId)
-        {
-            string uri = string.Format(Constants.UriSocialAccountGet, BaseUrl, caseId, string.Empty);
-
-            IList<SocialAccount> response = PerformHttpCall<IList<SocialAccount>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
             return response;
         }
@@ -554,7 +505,7 @@ namespace Trustev.Web
         /// <returns></returns>
         public static IList<TransactionAddress> GetTransactionAddresses(string caseId)
         {
-            string uri = string.Format(Constants.UriTransactionAddressGet, BaseUrl, caseId, string.Empty);
+            string uri = string.Format(Constants.UriTransactionAddressesGet, BaseUrl, caseId);
 
             IList<TransactionAddress> response = PerformHttpCall<IList<TransactionAddress>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 
@@ -614,7 +565,7 @@ namespace Trustev.Web
         /// <returns></returns>
         public static IList<TransactionItem> GetTransactionItems(string caseId)
         {
-            string uri = string.Format(Constants.UriTransactionItemGet, BaseUrl, caseId, string.Empty);
+            string uri = string.Format(Constants.UriTransactionItemsGet, BaseUrl, caseId);
 
             IList<TransactionItem> response = PerformHttpCall<IList<TransactionItem>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
 

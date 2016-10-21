@@ -14,7 +14,7 @@ using Trustev.WebAsync;
 namespace Tests.AsyncTests
 {
     [TestClass]
-    public class CustomerTestsAsync
+    public class TransactionTestsAsync
     {
         [TestInitialize]
         public void InitializeTest()
@@ -30,70 +30,71 @@ namespace Tests.AsyncTests
         }
 
         [TestMethod]
-        public async Task CustomerTest_PostAsync_200()
+        public async Task TransactionTest_PostAsync_200()
         {
             Case sampleCase = this.GenerateBlankCase();
 
             Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
 
-            Customer customer = new Customer();
-            customer.FirstName = "Jane";
-            customer.LastName = "Doe";
+            Transaction transaction = new Transaction();
+            transaction.TotalTransactionValue = (decimal)12.99;
+            Email email = new Email();
+            email.EmailAddress = "test@test.com";
+            transaction.Emails.Add(email);
 
-            Customer returnCustomer = await ApiClient.PostCustomerAsync(returnCase.Id, customer);
 
-            Assert.IsTrue(returnCustomer.Id != Guid.Empty);
-            Assert.AreEqual("Jane", returnCustomer.FirstName);
-            Assert.AreEqual("Doe", returnCustomer.LastName);
+            Transaction returnTransaction = await ApiClient.PostTransactionAsync(returnCase.Id, transaction);
+
+            Assert.IsTrue(returnTransaction.Id != Guid.Empty);
+            Assert.AreEqual(transaction.TotalTransactionValue, returnTransaction.TotalTransactionValue);
+            Assert.AreEqual(transaction.Emails[0].EmailAddress, returnTransaction.Emails[0].EmailAddress);
         }
 
         [TestMethod]
-        public async Task CustomerTest_UpdateAsync_200()
+        public async Task TransactionTest_UpdateAsync_200()
         {
             Case sampleCase = this.GenerateSampleCase();
 
             Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
 
-            Customer customer = returnCase.Customer;
+            Transaction transaction = new Transaction();
+            transaction.TotalTransactionValue = (decimal)20.99;
+            Email email = new Email();
+            email.EmailAddress = "test2@test.com";
+            transaction.Emails.Add(email);
 
-            customer.FirstName = "Jane";
-            customer.LastName = "Doe";
+            Transaction returnTransaction = await ApiClient.UpdateTransactionAsync(returnCase.Id, transaction);
 
-            Customer returnCustomer = await ApiClient.UpdateCustomerAsync(returnCase.Id, customer);
-
-            Assert.IsTrue(returnCustomer.Id != Guid.Empty);
-            Assert.AreEqual("Jane", returnCustomer.FirstName);
-            Assert.AreEqual("Doe", returnCustomer.LastName);
+            Assert.IsTrue(returnTransaction.Id != Guid.Empty);
+            Assert.AreEqual(transaction.TotalTransactionValue, returnTransaction.TotalTransactionValue);
+            Assert.AreEqual("test2@test.com", returnTransaction.Emails[0].EmailAddress);
         }
 
         [TestMethod]
-        public async Task CustomerTest_GetAsync_200()
+        public async Task TransactionTest_GetAsync_200()
         {
             Case sampleCase = this.GenerateSampleCase();
 
             Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
 
-            Customer returnCustomer = await ApiClient.GetCustomerAsync(returnCase.Id);
+            Transaction returnTransaction = await ApiClient.GetTransactionAsync(returnCase.Id);
 
-            Assert.IsTrue(returnCustomer.Id != Guid.Empty);
-            Assert.AreEqual("John", returnCustomer.FirstName);
-            Assert.AreEqual("Doe", returnCustomer.LastName);
+            Assert.IsTrue(returnTransaction.Id != Guid.Empty);
+            Assert.AreEqual(returnCase.Transaction.TotalTransactionValue, returnTransaction.TotalTransactionValue);
         }
 
         [TestMethod]
-        public async Task CustomerTest_GetAsync_404()
+        public async Task TransactionTest_GetAsync_404()
         {
             HttpStatusCode responseCode = HttpStatusCode.OK;
 
             try
             {
-                Case sampleCase = this.GenerateSampleCase();
-
-                sampleCase.Customer = null;
+                Case sampleCase = this.GenerateBlankCase();
 
                 Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
 
-                Customer returnCustomer = await ApiClient.GetCustomerAsync(returnCase.Id);
+                Transaction returnTransaction = await ApiClient.GetTransactionAsync(returnCase.Id);
             }
             catch (TrustevHttpException ex)
             {
@@ -116,10 +117,16 @@ namespace Tests.AsyncTests
         {
             Case sampleCase = new Case(Guid.NewGuid(), Guid.NewGuid().ToString())
             {
-                Customer = new Customer()
+                Transaction = new Transaction()
                 {
-                    FirstName = "John",
-                    LastName = "Doe",
+                    TotalTransactionValue = (decimal)10.99,
+                    Emails = new List<Email>()
+                    {
+                        new Email()
+                        {
+                            EmailAddress = "test@test.com"
+                        }
+                    }
                 }
             };
 

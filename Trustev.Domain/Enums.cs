@@ -82,7 +82,12 @@ namespace Trustev.Domain
             /// <summary>
             /// Order is under review, no decision made yet
             /// </summary>
-            OnHoldReview
+            OnHoldReview,
+
+            /// <summary>
+            /// Order deemed fraudulent after it was fulfilled
+            /// </summary>
+            ReportedFraud = 12
         }
 
         public enum PaymentType
@@ -118,32 +123,11 @@ namespace Trustev.Domain
             Bitcoin
         }
 
-        public enum SocialNetworkType
+        public enum CaseType
         {
-            /// <summary>
-            /// Facebook Social Network
-            /// </summary>
-            Facebook,
-
-            /// <summary>
-            /// Twitter Social Network
-            /// </summary>
-            Twitter,
-
-            /// <summary>
-            /// LinkedIn Social Network
-            /// </summary>
-            LinkedIn,
-
-            /// <summary>
-            /// Trustev Social Network
-            /// </summary>
-            Trustev,
-
-            /// <summary>
-            /// TrustevSession Social Network
-            /// </summary>
-            TrustevSession
+            Default,
+            AccountCreation = 2,
+            Application
         }
 
         public enum AddressType
@@ -162,6 +146,13 @@ namespace Trustev.Domain
             /// Delivery Address Type
             /// </summary>
             Delivery
+        }
+
+        public enum BaseUrl
+        {
+            EU,
+            US,
+            Local
         }
     }
 }
