@@ -20,8 +20,8 @@
 - Our library can also be used as an example to inspire your own Integration to the Trustev Platform.
 
 ##Integration Tests
-	Included are async and sync tests to test the integration of the .NET Library against the Trustev API - This will show examples of how to use the various endpoints of the Trustev API.
-	Simply include your Test API Keys in the app.config files of either the Tests folder (Async) or TestsNet40 folder (sync).
+Included are async and sync tests to test the integration of the .NET Library against the Trustev API - This will show examples of how to use the various endpoints of the Trustev API.
+Simply include your Test API Keys in the app.config files of either the Tests folder (Async) or TestsNet40 folder (sync).
 
 ## Usage
    The Trustev API has been designed to allow users complete control over what information they are sending to us while still ensuring that Integration can be done in a couple of simple steps.

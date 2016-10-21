@@ -7,13 +7,16 @@ namespace Trustev.Domain.Entities
 {
     public class DetailedDecision : Decision
     {
+        public Enums.CaseType CaseType { get; set; }
         public string CaseNumber { get; set; }
+        public string CaseId { get; set; }
         public RawData RawData { get; set; }
         public ComputedData ComputedData { get; set; }
     }
 
     public class RawData
     {
+        public Enums.CaseType CaseType { get; set; }
         public string DeviceTag { get; set; }
         public string TrustevCustomerId { get; set; }
         public string Browser { get; set; }
@@ -40,6 +43,8 @@ namespace Trustev.Domain.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public IList<RawDataEmail> Emails { get; set; }
+        public string SocialSecurityNumber { get; set; }
+        public string PhoneNumber { get; set; }
     }
 
     public class RawDataTransaction
@@ -77,14 +82,20 @@ namespace Trustev.Domain.Entities
 
     public class ComputedDataVelocity
     {
+        public Enums.CaseType CaseType { get; set; }
         public int DecisionsWithin1Hour { get; set; }
         public int DecisionsWithin24Hours { get; set; }
         public int DecisionsWithin7Days { get; set; }
         public int DecisionsWithin30Days { get; set; }
+        public bool? IsShortTermVelocityHigh { get; set; }
+        public bool IsShortTermVelocityMedium { get; set; }
+        public bool? IsLongTermVelocityHigh { get; set; }
+        public bool? IsLongTermVelocityMedium { get; set; }
     }
 
     public class ComputedDataList
     {
+        public Enums.CaseType CaseType { get; set; }
         public bool? WasBinHit { get; set; }
         public bool? WasEmailDomainHit { get; set; }
         public bool? WasFullEmailAddressHit { get; set; }
@@ -104,12 +115,19 @@ namespace Trustev.Domain.Entities
         public bool? ContainsSyntaxIssue { get; set; }
     }
 
+    public class ComputedDataPhone
+    {
+        public bool? IsPhoneRisky { get; set; }
+    }
+
     public class ComputedDataCustomer
     {
+        public Enums.CaseType CaseType { get; set; }
         public bool? IsReturningToPlatform { get; set; }
         public bool? HasGoodHistory { get; set; }
         public bool? HasBadHistory { get; set; }
         public bool? HasSuspiciousHistory { get; set; }
+        public bool? IsNameAddressCombinationValid { get; set; }
         public ComputedDataEmail Email { get; set; }
     }
     public class ComputedDataTransaction
@@ -129,12 +147,28 @@ namespace Trustev.Domain.Entities
 
     public class ComputedDataLocation
     {
+        public Enums.CaseType CaseType { get; set; }
         public bool? IsIPCountryDomestic { get; set; }
         public ComputedDataBIN BIN { get; set; }
     }
 
+
+    public class ComputedDataAccount
+    {
+        public bool? CustomerHas1ExistingAccount { get; set; }
+
+        public bool? CustomerHas2ExistingAccounts { get; set; }
+
+        public bool? CustomerHas3ExistingAccounts { get; set; }
+
+        public bool? CustomerHas4ExistingAccounts { get; set; }
+
+        public bool? CustomerHasMoreThan5ExistingAccounts { get; set; }
+    }
+
     public class ComputedData
     {
+        public Enums.CaseType CaseType { get; set; }
         public ComputedDataVelocity Velocity { get; set; }
         public ComputedDataList BlackList { get; set; }
         public ComputedDataList GreyList { get; set; }
@@ -142,5 +176,7 @@ namespace Trustev.Domain.Entities
         public ComputedDataCustomer Customer { get; set; }
         public ComputedDataTransaction Transaction { get; set; }
         public ComputedDataLocation Location { get; set; }
+        public ComputedDataPhone Phone { get; set; }
+        public ComputedDataAccount Account { get; set; }
     }
 }
