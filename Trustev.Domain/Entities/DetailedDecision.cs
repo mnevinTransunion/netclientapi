@@ -7,7 +7,6 @@ namespace Trustev.Domain.Entities
 {
     public class DetailedDecision : Decision
     {
-        public Enums.CaseType CaseType { get; set; }
         public string CaseNumber { get; set; }
         public string CaseId { get; set; }
         public RawData RawData { get; set; }
