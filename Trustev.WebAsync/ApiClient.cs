@@ -68,6 +68,23 @@ namespace Trustev.WebAsync
         }
 
         /// <summary>
+        /// Initialize the Trustev class by passing in your UserName, Password, Secret, and BaseUrl
+        /// </summary>
+        /// <param name="userName">Your ApiClient UserName</param>
+        /// <param name="password">Your ApiClient Password</param>
+        /// <param name="secret">Your ApiClient Secret</param>
+        /// <param name="baseUrl">Your BaseURL - specified through a url string</param>
+        /// <param name="httpRequestTimeout">Your default httpRequestTimeout</param>
+        public static void SetUp(string userName, string password, string secret, string baseUrl, int httpRequestTimeout = 15000)
+        {
+            UserName = userName;
+            Password = password;
+            Secret = secret;
+            BaseUrl = baseUrl;
+            HttpRequestTimeout = httpRequestTimeout;
+        }
+
+        /// <summary>
         /// Post your Case to the TrustevClient Api asynchronously
         /// </summary>
         /// <param name="kase">Your Case which you want to post</param>

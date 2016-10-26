@@ -12,21 +12,8 @@ using Trustev.Web;
 namespace TestsNet40.SyncTests
 {
     [TestClass]
-    public class CaseTests
+    public class CaseTests : TestBase
     {
-        [TestInitialize]
-        public void InitializeTest()
-        {
-            string userName = ConfigurationManager.AppSettings["UserName"];
-            string password = ConfigurationManager.AppSettings["Password"];
-            string secret = ConfigurationManager.AppSettings["Secret"];
-
-            Enums.BaseUrl baseURL;
-            Enum.TryParse(ConfigurationManager.AppSettings["BaseURL"], out baseURL);
-
-            ApiClient.SetUp(userName, password, secret, baseURL);
-        }
-
         [TestMethod]
         public void CaseTest_Post_200()
         {

@@ -12,21 +12,8 @@ using Trustev.WebAsync;
 namespace Tests.AsyncTests
 {
     [TestClass]
-    public class CaseTestsAsync
+    public class CaseTestsAsync : TestBase
     {
-        [TestInitialize]
-        public void InitializeTest()
-        {
-            string userName = ConfigurationManager.AppSettings["UserName"];
-            string password = ConfigurationManager.AppSettings["Password"];
-            string secret = ConfigurationManager.AppSettings["Secret"];
-
-            Enums.BaseUrl baseURL;
-            Enum.TryParse(ConfigurationManager.AppSettings["BaseURL"], out baseURL);
-
-            ApiClient.SetUp(userName, password, secret, baseURL);
-        }
-
         [TestMethod]
         public async Task CaseTest_PostAsync_200()
         {

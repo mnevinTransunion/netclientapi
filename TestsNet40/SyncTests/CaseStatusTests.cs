@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Trustev.Domain;
 using Trustev.Domain.Entities;
@@ -14,21 +10,8 @@ using Trustev.Web;
 namespace TestsNet40.SyncTests
 {
     [TestClass]
-    public class CaseStatusTests
+    public class CaseStatusTests : TestBase
     {
-        [TestInitialize]
-        public void InitializeTest()
-        {
-            string userName = ConfigurationManager.AppSettings["UserName"];
-            string password = ConfigurationManager.AppSettings["Password"];
-            string secret = ConfigurationManager.AppSettings["Secret"];
-
-            Enums.BaseUrl baseURL;
-            Enum.TryParse(ConfigurationManager.AppSettings["BaseURL"], out baseURL);
-
-            ApiClient.SetUp(userName, password, secret, baseURL);
-        }
-
         [TestMethod]
         public void StatusTest_Post_200()
         {
