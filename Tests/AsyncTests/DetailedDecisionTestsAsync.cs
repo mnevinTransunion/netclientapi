@@ -30,7 +30,7 @@ namespace Tests.AsyncTests
         }
 
         [TestMethod]
-        public async Task DetailedDecisionTest_Get_500()
+        public async Task DetailedDecisionTest_Get_400()
         {
             HttpStatusCode responseCode = HttpStatusCode.OK;
 
@@ -46,7 +46,7 @@ namespace Tests.AsyncTests
                 responseCode = ex.HttpResponseCode;
             }
 
-            Assert.AreEqual(HttpStatusCode.InternalServerError, responseCode);
+            Assert.AreEqual(HttpStatusCode.NotFound, responseCode);
         }
 
         #region SetCaseContents

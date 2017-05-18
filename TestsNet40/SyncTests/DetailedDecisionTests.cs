@@ -30,7 +30,7 @@ namespace TestsNet40.SyncTests
         }
 
         [TestMethod]
-        public void DetailedDecisionTest_Get_500()
+        public void DetailedDecisionTest_Get_400()
         {
             HttpStatusCode responseCode = HttpStatusCode.OK;
 
@@ -46,7 +46,7 @@ namespace TestsNet40.SyncTests
                 responseCode = ex.HttpResponseCode;
             }
 
-            Assert.AreEqual(HttpStatusCode.InternalServerError, responseCode);
+            Assert.AreEqual(HttpStatusCode.NotFound, responseCode);
         }
 
         #region SetCaseContents
