@@ -147,6 +147,65 @@ namespace Trustev.Domain
             /// </summary>
             Delivery
         }
+        public enum OTPStatus
+        {
+            /// <summary>
+            /// Case is Eligible and OTP Offered 
+            /// </summary>
+            Offered = 0,
+
+            /// <summary>
+            /// OTP Offered And Passed
+            /// </summary>
+            Pass = 1,
+
+            /// <summary>
+            /// OTP Offered And Failed
+            /// </summary>
+            Fail = 2,
+
+            /// <summary>
+            /// Case is Ineligible and OTP was not Offered 
+            /// </summary>
+            Ineligible = 3,
+
+            /// <summary>
+            /// OTP Offered and code sent 
+            /// </summary>
+            InProgress = 4,
+
+            /// <summary>
+            /// Hit max retries 
+            /// </summary>
+            MaxRetryHit = 5,
+
+            /// <summary>
+            /// Final state of Abandoned
+            /// </summary>
+            Abandoned = 6,
+
+            /// <summary>
+            /// OTP is not Configured
+            /// </summary>
+            NotConfigured = 7
+        }
+        public enum PhoneDeliveryType
+        {
+            Sms,
+            Voice
+        }
+        public enum OTPLanguageEnum
+        {
+            /// <summary>
+            /// English
+            /// </summary>
+            EN = 0,
+
+            /// <summary>
+            /// Spanish
+            /// </summary>
+            ES = 1
+        }
 
         public enum BaseUrl
         {
