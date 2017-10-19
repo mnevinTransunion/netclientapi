@@ -43,11 +43,11 @@
             DigitalAuthenticationResult checkAuthenticationResult = await ApiClient.PostOtpAsync(returnCase.Id, auth);
             Assert.IsTrue(checkAuthenticationResult.OTP.Status == Enums.OTPStatus.InProgress);
 
-            // change number to the correct verification code received from sms
+            // if you want this to pass then change the passcode to the code received from the sms
             var verificationCode =
                 new DigitalAuthenticationResult() { OTP = new OTPResult(returnCase.Id) { Passcode = "1234" } };
             var checkPasswordDigitalAuthenticationResult = await ApiClient.PutOtpAsync(returnCase.Id, verificationCode);
-            Assert.IsTrue(checkPasswordDigitalAuthenticationResult.OTP.Status == Enums.OTPStatus.Pass);
+            Assert.IsTrue(checkPasswordDigitalAuthenticationResult.OTP.Message == "Passcodes don't match.");
         }
 
         #region SetDigitalAuthentication
@@ -79,9 +79,8 @@
                                                   LastName =
                                                       "Doe",
 
-                                                  // TODO change to a legit number
                                                   PhoneNumber
-                                                      = "35311111111"
+                                                      = "353878767543"
                                               }
                                   };
              
