@@ -64,6 +64,11 @@ namespace Trustev.Domain.Entities
         public IList<Payment> Payments { get; set; }
 
         /// <summary>
+        /// Information about how/when they will fulfill the order for a case.
+        /// </summary>
+        public Fulfilment Fulfilment { get; set; }
+
+        /// <summary>
         /// Current UTC DateTime. Defaults to DateTime.UtcNow;
         /// </summary>
         public DateTime Timestamp { get; set; }

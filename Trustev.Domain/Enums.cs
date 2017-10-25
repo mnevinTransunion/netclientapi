@@ -147,6 +147,83 @@ namespace Trustev.Domain
             /// </summary>
             Delivery
         }
+         /// <summary>
+        /// TimeToFulfilment
+        /// </summary>
+        public enum TimeToFulfilment
+        {
+            /// <summary>
+            /// Undefined
+            /// </summary>
+            Undefined,
+            /// <summary>
+            /// Immediate
+            /// </summary>
+            Immediate,
+            /// <summary>
+            /// Same Day
+            /// </summary>
+            SameDay,
+            /// <summary>
+            ///  Next Day
+            /// </summary>
+            NextDay,
+            /// <summary>
+            /// Up To 3 Days,
+            /// </summary>
+            UpTo3Days,
+            /// <summary>
+            /// Up To 5 Days
+            /// </summary>
+            UpTo5Days
+        }
+
+        /// <summary>
+        /// Fulfilment Method
+        /// </summary>
+        public enum FulfilmentMethod
+        {
+            /// <summary>
+            /// Undefined
+            /// </summary>
+            Undefined,
+            /// <summary>
+            /// Virtual
+            /// </summary>
+            Virtual,
+            /// <summary>
+            /// In Person
+            /// </summary>
+            InPerson,
+            /// <summary>
+            /// Post
+            /// </summary>
+            Post,
+            /// <summary>
+            /// Courier
+            /// </summary>
+            Courier
+        }
+
+        /// <summary>
+        /// Fulfilment GeoLocation
+        /// </summary>
+        public enum FulfilmentGeoLocation
+        {
+            /// <summary>
+            /// Undefined
+            /// </summary>
+            Undefined,
+            /// <summary>
+            /// National Location
+            /// </summary>
+            National,
+            /// <summary>
+            /// International Location
+            /// </summary>
+            International
+        }
+
         public enum OTPStatus
         {
             /// <summary>

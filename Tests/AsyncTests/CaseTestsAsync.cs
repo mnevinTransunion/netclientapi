@@ -27,7 +27,33 @@ namespace Tests.AsyncTests
 
             Assert.AreEqual("John", returnCase.Customer.FirstName);
             Assert.AreEqual("Doe", returnCase.Customer.LastName);
+        }
 
+        [TestMethod]
+        public async Task Fulfilment_GetAsync_200()
+        {
+            Case sampleCase = this.GenerateSampleCase();
+
+
+            sampleCase.Fulfilment = new Fulfilment()
+            {
+                GeoLocation = Enums.FulfilmentGeoLocation.National,
+                Method = Enums.FulfilmentMethod.Courier,
+                TimeToFulfilment = Enums.TimeToFulfilment.SameDay
+            };
+            Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
+
+            Case getCase = await ApiClient.GetCaseAsync(returnCase.Id);
+
+            Assert.IsFalse(string.IsNullOrEmpty(getCase.Id));
+            Assert.IsFalse(getCase.Customer == null);
+            Assert.IsFalse(getCase.Customer.Id == Guid.Empty);
+
+            Assert.AreEqual("John", getCase.Customer.FirstName);
+            Assert.AreEqual("Doe", getCase.Customer.LastName);
+            Assert.AreEqual(Enums.FulfilmentGeoLocation.National, getCase.Fulfilment.GeoLocation);
+            Assert.AreEqual(Enums.FulfilmentMethod.Courier, getCase.Fulfilment.Method);
+            Assert.AreEqual(Enums.TimeToFulfilment.SameDay, getCase.Fulfilment.TimeToFulfilment);
         }
 
         [TestMethod]
@@ -45,7 +71,6 @@ namespace Tests.AsyncTests
 
             Assert.AreEqual("John", getCase.Customer.FirstName);
             Assert.AreEqual("Doe", getCase.Customer.LastName);
-
         }
 
         [TestMethod]
@@ -85,6 +110,7 @@ namespace Tests.AsyncTests
         }
 
         #region SetCaseContents
+
         private Case GenerateSampleCase()
         {
             Case sampleCase = new Case(Guid.NewGuid(), Guid.NewGuid().ToString())
@@ -98,6 +124,7 @@ namespace Tests.AsyncTests
 
             return sampleCase;
         }
+
         #endregion
     }
 }
