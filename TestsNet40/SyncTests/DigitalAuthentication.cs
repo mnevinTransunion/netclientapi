@@ -45,7 +45,7 @@
             var verificationCode =
                 new DigitalAuthenticationResult() { OTP = new OTPResult(returnCase.Id) { Passcode = "1234" } };
             var checkPasswordDigitalAuthenticationResult = ApiClient.PutOtp(returnCase.Id, verificationCode);
-            Assert.IsTrue(checkPasswordDigitalAuthenticationResult.OTP.Message == "Passcodes don't match.");
+            Assert.IsTrue(checkPasswordDigitalAuthenticationResult.OTP.Message == "OTP Offered And Failed");
         }
 
         #region SetDigitalAuthentication
