@@ -262,5 +262,12 @@ namespace Trustev.Domain
         /// 1 : The Case Id of the Case you have already added.
         /// </summary>
         public const string UriTransactionAddressesGet = "{0}/case/{1}/transaction/address";
+
+        /// <summary>
+        /// Post KBA Answer Api Endpoint.
+        /// 0 : The TrustevClient Base Url
+        /// 1 : The Case Id of the Case you have already added.
+        /// </summary>
+        public const string UriKBAAnswerPost = "{0}/case/{1}/authentication/kba";
     }
 }

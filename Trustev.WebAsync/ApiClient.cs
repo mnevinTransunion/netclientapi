@@ -629,6 +629,21 @@ namespace Trustev.WebAsync
         }
 
         /// <summary>
+        /// Post your TransactionItem to an existing Transaction on an existing Case
+        /// </summary>
+        /// <param name="caseId">The Case Id of a Case with the Transaction which you have already posted</param>
+        /// <param name="kbaResult">Your KBA Answers which you want to post</param>
+        /// <returns></returns>
+        public static async Task<KBAResult> PostKBAAnswersAsync(string caseId, KBAResult kbaResult)
+        {
+            string uri = string.Format(Constants.UriKBAAnswerPost, BaseUrl, caseId);
+
+            KBAResult response = await PerformHttpCallAsync<KBAResult>(uri, HttpMethod.Post, kbaResult, true, HttpRequestTimeout);
+
+            return response;
+        }
+
+        /// <summary>
         /// This method asynchronously performs the Http Request to the Trustev API
         /// </summary>
         /// <typeparam name="T">The Type of the return object</typeparam>

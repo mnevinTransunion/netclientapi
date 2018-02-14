@@ -290,5 +290,76 @@ namespace Trustev.Domain
             US,
             Local
         }
+
+        /// <summary>
+        /// Enum for the KBAData Status Codes
+        /// </summary>
+        public enum KBAStatus
+        {
+            /// <summary>
+            /// KBA Status is NotConfigured
+            /// </summary>
+            NotConfigured = -1,
+
+            /// <summary>
+            /// KBA Status is Offered
+            /// </summary>
+            Offered = 0,
+
+            /// <summary>
+            /// KBA Status is MultiPassOffered
+            /// </summary>
+            MultiPassOffered = 1,
+            /// <summary>
+            /// KBA Status is Ineligible
+            /// </summary>
+            Ineligible = 2,
+
+            /// <summary>
+            /// KBA Status is NoData
+            /// </summary>
+            NoData = 3,
+
+            /// <summary>
+            /// KBA Status is Passed
+            /// </summary>
+            Passed = 4,
+
+            /// <summary>
+            /// KBA Status is Failed
+            /// </summary>
+            Failed = 5,
+
+            /// <summary>
+            /// KBA Status is Abbandoned
+            /// </summary>
+            Abbandoned = 6,
+        }
+
+        /// <summary>
+        /// Enum for the KBAData MultiPass Status Codes
+        /// </summary>
+        public enum MultiPassStatus
+        {
+            /// <summary>
+            /// MultiPass is not Enabled or configured
+            /// </summary>
+            NotEnabled = -1,
+
+            /// <summary>
+            /// MultiPass is not Used
+            /// </summary>
+            NotUsed = 0,
+
+            /// <summary>
+            /// MultiPass is Used
+            /// </summary>
+            Used = 1,
+
+            /// <summary>
+            /// MultiPass is in use
+            /// </summary>
+            Using = 2,
+        }
     }
 }
