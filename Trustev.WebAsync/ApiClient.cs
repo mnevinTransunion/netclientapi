@@ -629,9 +629,9 @@ namespace Trustev.WebAsync
         }
 
         /// <summary>
-        /// Post your TransactionItem to an existing Transaction on an existing Case
+        /// Post your KBAResult existing Case
         /// </summary>
-        /// <param name="caseId">The Case Id of a Case with the Transaction which you have already posted</param>
+        /// <param name="caseId">The Case Id of a Case</param>
         /// <param name="kbaResult">Your KBA Answers which you want to post</param>
         /// <returns></returns>
         public static async Task<KBAResult> PostKBAAnswersAsync(string caseId, KBAResult kbaResult)
