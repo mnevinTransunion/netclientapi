@@ -634,7 +634,7 @@ namespace Trustev.WebAsync
         /// <param name="caseId">The Case Id of a Case</param>
         /// <param name="kbaResult">Your KBA Answers which you want to post</param>
         /// <returns></returns>
-        public static async Task<KBAResult> PostKBAAnswersAsync(string caseId, KBAResult kbaResult)
+        public static async Task<KBAResult> PostKBAAnswersAsync (string caseId, KBAResult kbaResult)
         {
             string uri = string.Format(Constants.UriKBAAnswerPost, BaseUrl, caseId);
 

@@ -51,7 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AsyncTests\AuthenticationKBATests.cs" />
+    <Compile Include="AsyncTests\AuthenticationKBATestsAsync.cs" />
     <Compile Include="AsyncTests\CaseTestsAsync.cs" />
     <Compile Include="AsyncTests\CaseTypeTestsAsync.cs" />
     <Compile Include="AsyncTests\CustomerAddressTestsAsync.cs" />

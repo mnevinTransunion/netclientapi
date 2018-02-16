@@ -19,7 +19,7 @@ namespace Trustev.Web
     /// </summary>
     public static class ApiClient
     {
-        internal static string UserName{ get; set; }
+        internal static string UserName { get; set; }
 
         internal static string Password { get; set; }
 
@@ -623,6 +623,21 @@ namespace Trustev.Web
             string uri = string.Format(Constants.UriTransactionItemsGet, BaseUrl, caseId);
 
             IList<TransactionItem> response = PerformHttpCall<IList<TransactionItem>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
+
+            return response;
+        }
+
+        /// <summary>
+        /// Post your KBAResult existing Case
+        /// </summary>
+        /// <param name="caseId">The Case Id of a Case</param>
+        /// <param name="kbaResult">Your KBA Answers which you want to post</param>
+        /// <returns></returns>
+        public static KBAResult PostKBAAnswers(string caseId, KBAResult kbaResult)
+        {
+            string uri = string.Format(Constants.UriKBAAnswerPost, BaseUrl, caseId);
+
+            KBAResult response = PerformHttpCall<KBAResult>(uri, HttpMethod.Post, kbaResult, true, HttpRequestTimeout);
 
             return response;
         }

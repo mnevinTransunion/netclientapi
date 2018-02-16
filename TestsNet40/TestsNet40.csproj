@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SyncTests\AuthenticationKBATests.cs" />
     <Compile Include="SyncTests\CaseStatusTests.cs" />
     <Compile Include="SyncTests\CaseTypeTests.cs" />
     <Compile Include="SyncTests\CaseTests.cs" />
