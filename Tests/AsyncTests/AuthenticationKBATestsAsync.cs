@@ -36,7 +36,7 @@ namespace Tests.AsyncTests
 
             var kba = detailedDecision.Authentication.KBA;
 
-            var kbaAnwserResult = await ApiClient.PostKBAAnswersAsync(returnCase.Id, kba);
+            var kbaAnwserResult = await ApiClient.PostKBAResultAsync(returnCase.Id, kba);
 
             var detailedDecisionAfterPostingAnswers = await ApiClient.GetDetailedDecisionAsync(returnCase.Id);
 
@@ -57,7 +57,7 @@ namespace Tests.AsyncTests
 
             kba.Questions.First(x => x.QuestionText == "What is your mother's name?").Choices.First(x => x.ChoiceText == "Kate").Answer = true;
 
-            var kbaAnwserResult = await ApiClient.PostKBAAnswersAsync(returnCase.Id, kba);
+            var kbaAnwserResult = await ApiClient.PostKBAResultAsync(returnCase.Id, kba);
 
             var detailedDecisionAfterPostingAnswers = await ApiClient.GetDetailedDecisionAsync(returnCase.Id);
 
@@ -65,7 +65,7 @@ namespace Tests.AsyncTests
 
             multipassKBA.MultiPassQuestions.First(x => x.QuestionText == "What was your first car?").Choices.First(x => x.ChoiceText == "Ford Fiesta").Answer = true;
 
-            var multipassKBAAnwserResult = await ApiClient.PostKBAAnswersAsync(returnCase.Id, multipassKBA);
+            var multipassKBAAnwserResult = await ApiClient.PostKBAResultAsync(returnCase.Id, multipassKBA);
 
             var detailedDecisionAfterPostingMultipassAnswers = await ApiClient.GetDetailedDecisionAsync(returnCase.Id);
 

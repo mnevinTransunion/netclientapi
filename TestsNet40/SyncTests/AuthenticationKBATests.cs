@@ -10,7 +10,7 @@ namespace TestsNet40.SyncTests
     public class AuthenticationKBATests : TestBase
     {
         [TestMethod]
-        public void IsKBAQuestionsCountGreatherThanZero()
+        public void GetKBATest()
         {
             Case sampleCase = GenerateSampleCase();
 
@@ -23,27 +23,9 @@ namespace TestsNet40.SyncTests
             Assert.IsTrue(detailedDecision.Authentication.KBA.Questions.Count > 0);
         }
 
-        [TestMethod]
-        public void IsKBAStatusFailed()
-        {
-            Case sampleCase = GenerateSampleCase();
-
-            Case returnCase = ApiClient.PostCase(sampleCase);
-
-            var detailedDecision = ApiClient.GetDetailedDecision(returnCase.Id);
-
-            var kba = detailedDecision.Authentication.KBA;
-
-            var kbaAnwserResult = ApiClient.PostKBAAnswers(returnCase.Id, kba);
-
-            var detailedDecisionAfterPostingAnswers = ApiClient.GetDetailedDecision(returnCase.Id);
-
-            Assert.IsTrue(detailedDecisionAfterPostingAnswers.Authentication.KBA.Status == Trustev.Domain.Enums.KBAStatus.Failed);
-        }
-
 
         [TestMethod]
-        public void IsKBAStatusMultiPassed()
+        public void PostKBATest()
         {
             Case sampleCase = GenerateSampleCase();
 
@@ -55,7 +37,7 @@ namespace TestsNet40.SyncTests
 
             kba.Questions.First(x => x.QuestionText == "What is your mother's name?").Choices.First(x => x.ChoiceText == "Kate").Answer = true;
 
-            var kbaAnwserResult = ApiClient.PostKBAAnswers(returnCase.Id, kba);
+            var kbaAnwserResult = ApiClient.PostKBAResult(returnCase.Id, kba);
 
             var detailedDecisionAfterPostingAnswers = ApiClient.GetDetailedDecision(returnCase.Id);
 
@@ -63,7 +45,7 @@ namespace TestsNet40.SyncTests
 
             multipassKBA.MultiPassQuestions.First(x => x.QuestionText == "What was your first car?").Choices.First(x => x.ChoiceText == "Ford Fiesta").Answer = true;
 
-            var multipassKBAAnwserResult = ApiClient.PostKBAAnswers(returnCase.Id, multipassKBA);
+            var multipassKBAAnwserResult = ApiClient.PostKBAResult(returnCase.Id, multipassKBA);
 
             var detailedDecisionAfterPostingMultipassAnswers = ApiClient.GetDetailedDecision(returnCase.Id);
 

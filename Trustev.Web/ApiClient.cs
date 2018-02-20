@@ -631,11 +631,11 @@ namespace Trustev.Web
         /// Post your KBAResult existing Case
         /// </summary>
         /// <param name="caseId">The Case Id of a Case</param>
-        /// <param name="kbaResult">Your KBA Answers which you want to post</param>
+        /// <param name="kbaResult">Your KBA Result which you want to post</param>
         /// <returns></returns>
-        public static KBAResult PostKBAAnswers(string caseId, KBAResult kbaResult)
+        public static KBAResult PostKBAResult(string caseId, KBAResult kbaResult)
         {
-            string uri = string.Format(Constants.UriKBAAnswerPost, BaseUrl, caseId);
+            string uri = string.Format(Constants.UriKBAResultPost, BaseUrl, caseId);
 
             KBAResult response = PerformHttpCall<KBAResult>(uri, HttpMethod.Post, kbaResult, true, HttpRequestTimeout);
 

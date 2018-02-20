@@ -268,6 +268,6 @@ namespace Trustev.Domain
         /// 0 : The TrustevClient Base Url
         /// 1 : The Case Id of the Case you have already added.
         /// </summary>
-        public const string UriKBAAnswerPost = "{0}/case/{1}/authentication/kba";
+        public const string UriKBAResultPost = "{0}/case/{1}/authentication/kba";
     }
 }
