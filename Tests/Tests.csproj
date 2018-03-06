@@ -59,7 +59,6 @@
     <Compile Include="AsyncTests\DecisionTestsAsync.cs" />
     <Compile Include="AsyncTests\CaseStatusTestsAsync.cs" />
     <Compile Include="AsyncTests\DetailedDecisionTestsAsync.cs" />
-    <Compile Include="AsyncTests\DigitalAuthenticationAsync.cs" />
     <Compile Include="AsyncTests\PaymentTestsAsync.cs" />
     <Compile Include="AsyncTests\TestBase.cs" />
     <Compile Include="AsyncTests\TransactionAddressTestsAsync.cs" />
