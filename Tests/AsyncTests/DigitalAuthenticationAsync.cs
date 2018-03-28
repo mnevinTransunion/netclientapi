@@ -16,8 +16,6 @@
 
         // This is going to fail if you do not have the configuration set up or use a correct phone number 
         [TestMethod]
-        [Ignore]
-        [TestCategory("disabled-needs specific configs")]
         public async Task SentOtpAsync()
         {
             Case sampleCase = GenerateSampleCase();
@@ -33,8 +31,6 @@
 
         // This is going to fail if you do not have the configuration set up or use a correct phone number 
         [TestMethod]
-        [Ignore]
-        [TestCategory("disabled-needs specific configs")]
         public async Task VerifyOtpAsync()
         {
             Case sampleCase = GenerateSampleCase();
