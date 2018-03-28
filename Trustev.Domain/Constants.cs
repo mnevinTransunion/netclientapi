@@ -23,13 +23,6 @@ namespace Trustev.Domain
         public const string UriDetailedDecisionGet = "{0}/detaileddecision/{1}";
 
         /// <summary>
-        /// The OTP Endpoint
-        /// 0 : The TrustevClient Base Url
-        /// 1 : The Case Id of the Case you want a DetailedDecision on.
-        /// </summary>
-        public const string UriOtp = "{0}/case/{1}/authentication/otp";
-
-        /// <summary>
         /// Post Case Api Endpoint.
         /// 0 : The TrustevClient Base Url
         /// </summary>

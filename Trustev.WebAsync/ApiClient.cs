@@ -160,44 +160,6 @@ namespace Trustev.WebAsync
         }
 
         /// <summary>
-        /// Use this endpoint and HTTP method to Request OR Regenerate a OTP to a previously created Trustev Case.
-        /// </summary>
-        /// <param name="caseId">
-        /// CaseId - This is returned in the Response Header when a Trustev Case is created. 
-        /// </param>
-        /// <param name="request">
-        /// Status Request Object 
-        /// </param>
-        /// <returns>
-        /// </returns>
-        public static async Task<DigitalAuthenticationResult> PostOtpAsync(string caseId, DigitalAuthenticationResult request)
-        {
-            var uri = string.Format(Constants.UriOtp, BaseUrl, caseId);
-
-            var digitalAuthenticationResult = await PerformHttpCallAsync<DigitalAuthenticationResult>(uri, HttpMethod.Post, request, true, HttpRequestTimeout);
-            return digitalAuthenticationResult;
-        }
-
-        /// <summary>
-        /// Use this endpoint and HTTP method to Request a OTP Verification to a previously created OTP.
-        /// </summary>
-        /// <param name="caseId">
-        /// CaseId - This is returned in the Response Header when a Trustev Case is created. 
-        /// </param>
-        /// <param name="request">
-        /// Status Request Object 
-        /// </param>
-        /// <returns>
-        /// </returns>
-        public static async Task<DigitalAuthenticationResult> PutOtpAsync(string caseId, DigitalAuthenticationResult request)
-        {
-            var uri = string.Format(Constants.UriOtp, BaseUrl, caseId);
-
-            var digitalAuthenticationResult = await PerformHttpCallAsync<DigitalAuthenticationResult>(uri, HttpMethod.Put, request, true, HttpRequestTimeout);
-            return digitalAuthenticationResult;
-        }
-
-        /// <summary>
         /// Post your Customer to an existing Case
         /// </summary>
         /// <param name="caseId">The Case Id of a Case which you have already posted</param>
