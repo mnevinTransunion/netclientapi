@@ -19,7 +19,7 @@ namespace Trustev.Web
     /// </summary>
     public static class ApiClient
     {
-        internal static string UserName{ get; set; }
+        internal static string UserName { get; set; }
 
         internal static string Password { get; set; }
 
@@ -157,6 +157,44 @@ namespace Trustev.Web
             detailedDecision.CaseId = caseId;
 
             return detailedDecision;
+        }
+
+        /// <summary>
+        /// Use this endpoint and HTTP method to Request OR Regenerate a OTP to a previously created Trustev Case.
+        /// </summary>
+        /// <param name="caseId">
+        /// CaseId - This is returned in the Response Header when a Trustev Case is created. 
+        /// </param>
+        /// <param name="request">
+        /// Status Request Object 
+        /// </param>
+        /// <returns>
+        /// </returns>
+        public static DigitalAuthenticationResult PostOtp(string caseId, DigitalAuthenticationResult request)
+        {
+            var uri = string.Format(Constants.UriOtp, BaseUrl, caseId);
+
+            var digitalAuthenticationResult = PerformHttpCall<DigitalAuthenticationResult>(uri, HttpMethod.Post, request, true, HttpRequestTimeout);
+            return digitalAuthenticationResult;
+        }
+
+        /// <summary>
+        /// Use this endpoint and HTTP method to Request a OTP Verification to a previously created OTP.
+        /// </summary>
+        /// <param name="caseId">
+        /// CaseId - This is returned in the Response Header when a Trustev Case is created. 
+        /// </param>
+        /// <param name="request">
+        /// Status Request Object 
+        /// </param>
+        /// <returns>
+        /// </returns>
+        public static DigitalAuthenticationResult PutOtp(string caseId, DigitalAuthenticationResult request)
+        {
+            var uri = string.Format(Constants.UriOtp, BaseUrl, caseId);
+
+            var digitalAuthenticationResult = PerformHttpCall<DigitalAuthenticationResult>(uri, HttpMethod.Put, request, true, HttpRequestTimeout);
+            return digitalAuthenticationResult;
         }
 
         /// <summary>
@@ -585,6 +623,21 @@ namespace Trustev.Web
             string uri = string.Format(Constants.UriTransactionItemsGet, BaseUrl, caseId);
 
             IList<TransactionItem> response = PerformHttpCall<IList<TransactionItem>>(uri, HttpMethod.Get, null, true, HttpRequestTimeout);
+
+            return response;
+        }
+
+        /// <summary>
+        /// Post your KBAResult existing Case
+        /// </summary>
+        /// <param name="caseId">The Case Id of a Case</param>
+        /// <param name="kbaResult">Your KBA Result which you want to post</param>
+        /// <returns></returns>
+        public static KBAResult PostKBAResult(string caseId, KBAResult kbaResult)
+        {
+            string uri = string.Format(Constants.UriKBAResultPost, BaseUrl, caseId);
+
+            KBAResult response = PerformHttpCall<KBAResult>(uri, HttpMethod.Post, kbaResult, true, HttpRequestTimeout);
 
             return response;
         }

@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsyncTests\AuthenticationKBATestsAsync.cs" />
     <Compile Include="AsyncTests\CaseTestsAsync.cs" />
     <Compile Include="AsyncTests\CaseTypeTestsAsync.cs" />
     <Compile Include="AsyncTests\CustomerAddressTestsAsync.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="AsyncTests\DecisionTestsAsync.cs" />
     <Compile Include="AsyncTests\CaseStatusTestsAsync.cs" />
     <Compile Include="AsyncTests\DetailedDecisionTestsAsync.cs" />
+    <Compile Include="AsyncTests\DigitalAuthenticationAsync.cs" />
     <Compile Include="AsyncTests\PaymentTestsAsync.cs" />
     <Compile Include="AsyncTests\TestBase.cs" />
     <Compile Include="AsyncTests\TransactionAddressTestsAsync.cs" />

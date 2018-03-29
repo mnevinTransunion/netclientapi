@@ -147,7 +147,6 @@ namespace Trustev.Domain
             /// </summary>
             Delivery
         }
-		
          /// <summary>
         /// TimeToFulfilment
         /// </summary>
@@ -225,11 +224,142 @@ namespace Trustev.Domain
             International
         }
 
+        public enum OTPStatus
+        {
+            /// <summary>
+            /// Case is Eligible and OTP Offered 
+            /// </summary>
+            Offered = 0,
+
+            /// <summary>
+            /// OTP Offered And Passed
+            /// </summary>
+            Pass = 1,
+
+            /// <summary>
+            /// OTP Offered And Failed
+            /// </summary>
+            Fail = 2,
+
+            /// <summary>
+            /// Case is Ineligible and OTP was not Offered 
+            /// </summary>
+            Ineligible = 3,
+
+            /// <summary>
+            /// OTP Offered and code sent 
+            /// </summary>
+            InProgress = 4,
+
+            /// <summary>
+            /// Hit max retries 
+            /// </summary>
+            MaxRetryHit = 5,
+
+            /// <summary>
+            /// Final state of Abandoned
+            /// </summary>
+            Abandoned = 6,
+
+            /// <summary>
+            /// OTP is not Configured
+            /// </summary>
+            NotConfigured = 7
+        }
+        public enum PhoneDeliveryType
+        {
+            Sms,
+            Voice
+        }
+        public enum OTPLanguageEnum
+        {
+            /// <summary>
+            /// English
+            /// </summary>
+            EN = 0,
+
+            /// <summary>
+            /// Spanish
+            /// </summary>
+            ES = 1
+        }
+
         public enum BaseUrl
         {
             EU,
             US,
             Local
+        }
+
+        /// <summary>
+        /// Enum for the KBAData Status Codes
+        /// </summary>
+        public enum KBAStatus
+        {
+            /// <summary>
+            /// KBA Status is NotConfigured
+            /// </summary>
+            NotConfigured = -1,
+
+            /// <summary>
+            /// KBA Status is Offered
+            /// </summary>
+            Offered = 0,
+
+            /// <summary>
+            /// KBA Status is MultiPassOffered
+            /// </summary>
+            MultiPassOffered = 1,
+            /// <summary>
+            /// KBA Status is Ineligible
+            /// </summary>
+            Ineligible = 2,
+
+            /// <summary>
+            /// KBA Status is NoData
+            /// </summary>
+            NoData = 3,
+
+            /// <summary>
+            /// KBA Status is Passed
+            /// </summary>
+            Passed = 4,
+
+            /// <summary>
+            /// KBA Status is Failed
+            /// </summary>
+            Failed = 5,
+
+            /// <summary>
+            /// KBA Status is Abbandoned
+            /// </summary>
+            Abbandoned = 6,
+        }
+
+        /// <summary>
+        /// Enum for the KBAData MultiPass Status Codes
+        /// </summary>
+        public enum MultiPassStatus
+        {
+            /// <summary>
+            /// MultiPass is not Enabled or configured
+            /// </summary>
+            NotEnabled = -1,
+
+            /// <summary>
+            /// MultiPass is not Used
+            /// </summary>
+            NotUsed = 0,
+
+            /// <summary>
+            /// MultiPass is Used
+            /// </summary>
+            Used = 1,
+
+            /// <summary>
+            /// MultiPass is in use
+            /// </summary>
+            Using = 2,
         }
     }
 }
