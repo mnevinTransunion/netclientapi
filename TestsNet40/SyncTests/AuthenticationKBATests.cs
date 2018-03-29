@@ -10,6 +10,8 @@ namespace TestsNet40.SyncTests
     public class AuthenticationKBATests : TestBase
     {
         [TestMethod]
+        [Ignore]
+        [TestCategory("Disabled-Needs specific Configs")]
         public void GetKBATest()
         {
             Case sampleCase = GenerateSampleCase();
@@ -25,6 +27,8 @@ namespace TestsNet40.SyncTests
 
 
         [TestMethod]
+        [Ignore]
+        [TestCategory("Disabled-Needs specific Configs")]
         public void PostKBATest()
         {
             Case sampleCase = GenerateSampleCase();

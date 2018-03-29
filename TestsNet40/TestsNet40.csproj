@@ -46,6 +46,7 @@
     <Compile Include="SyncTests\CaseStatusTests.cs" />
     <Compile Include="SyncTests\CaseTypeTests.cs" />
     <Compile Include="SyncTests\CaseTests.cs" />
+    <Compile Include="SyncTests\DigitalAuthentication.cs" />
     <Compile Include="SyncTests\TestBase.cs" />
     <Compile Include="SyncTests\TransactionItemTests.cs" />
     <Compile Include="SyncTests\TransactionAddressTests.cs" />

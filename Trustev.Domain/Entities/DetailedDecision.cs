@@ -11,8 +11,9 @@ namespace Trustev.Domain.Entities
         public string CaseId { get; set; }
         public RawData RawData { get; set; }
         public ComputedData ComputedData { get; set; }
+        public DigitalAuthenticationResult Authentication { get; set; }
     }
-
+   
     public class RawData
     {
         public Enums.CaseType CaseType { get; set; }

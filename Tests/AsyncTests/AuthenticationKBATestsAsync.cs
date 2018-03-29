@@ -13,6 +13,8 @@ namespace Tests.AsyncTests
     public class AuthenticationKBATestsAsync : TestBase
     {
         [TestMethod]
+        [Ignore]
+        [TestCategory("Disabled-Needs specific Configs")]
         public async Task IsKBAQuestionsCountGreatherThanZero_Async()
         {
             Case sampleCase = GenerateSampleCase();
@@ -45,6 +47,8 @@ namespace Tests.AsyncTests
 
 
         [TestMethod]
+        [Ignore]
+        [TestCategory("Disabled-Needs specific Configs")]
         public async Task IsKBAStatusMultipassed_Async()
         {
             Case sampleCase = GenerateSampleCase();
