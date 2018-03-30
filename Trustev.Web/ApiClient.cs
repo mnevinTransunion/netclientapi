@@ -170,11 +170,11 @@ namespace Trustev.Web
         /// </param>
         /// <returns>
         /// </returns>
-        public static DigitalAuthenticationResult PostOtp(string caseId, DigitalAuthenticationResult request)
+        public static OTPResult PostOtp(string caseId, OTPResult request)
         {
             var uri = string.Format(Constants.UriOtp, BaseUrl, caseId);
 
-            var digitalAuthenticationResult = PerformHttpCall<DigitalAuthenticationResult>(uri, HttpMethod.Post, request, true, HttpRequestTimeout);
+            var digitalAuthenticationResult = PerformHttpCall<OTPResult>(uri, HttpMethod.Post, request, true, HttpRequestTimeout);
             return digitalAuthenticationResult;
         }
 
@@ -189,11 +189,11 @@ namespace Trustev.Web
         /// </param>
         /// <returns>
         /// </returns>
-        public static DigitalAuthenticationResult PutOtp(string caseId, DigitalAuthenticationResult request)
+        public static OTPResult PutOtp(string caseId, OTPResult request)
         {
             var uri = string.Format(Constants.UriOtp, BaseUrl, caseId);
 
-            var digitalAuthenticationResult = PerformHttpCall<DigitalAuthenticationResult>(uri, HttpMethod.Put, request, true, HttpRequestTimeout);
+            var digitalAuthenticationResult = PerformHttpCall<OTPResult>(uri, HttpMethod.Put, request, true, HttpRequestTimeout);
             return digitalAuthenticationResult;
         }
 

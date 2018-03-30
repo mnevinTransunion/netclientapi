@@ -27,8 +27,8 @@
             Assert.IsTrue(detailedDecision.Authentication.OTP.Status == Enums.OTPStatus.Offered);
 
             DigitalAuthenticationResult auth = GenerateDigitalAuthenticationResult();
-            DigitalAuthenticationResult checkAuthenticationResult = await ApiClient.PostOtpAsync(returnCase.Id, auth);
-            Assert.IsTrue(checkAuthenticationResult.OTP.Status == Enums.OTPStatus.InProgress);
+            OTPResult checkAuthenticationResult = await ApiClient.PostOtpAsync(returnCase.Id, auth.OTP);
+            Assert.IsTrue(checkAuthenticationResult.Status == Enums.OTPStatus.InProgress);
         }
 
         // This is going to fail if you do not have the configuration set up or use a correct phone number 
@@ -44,14 +44,13 @@
             Assert.IsTrue(detailedDecision.Authentication.OTP.Status == Enums.OTPStatus.Offered);
 
             DigitalAuthenticationResult auth = GenerateDigitalAuthenticationResult();
-            DigitalAuthenticationResult checkAuthenticationResult = await ApiClient.PostOtpAsync(returnCase.Id, auth);
-            Assert.IsTrue(checkAuthenticationResult.OTP.Status == Enums.OTPStatus.InProgress);
+            var checkAuthenticationResult = await ApiClient.PostOtpAsync(returnCase.Id, auth.OTP);
+            Assert.IsTrue(checkAuthenticationResult.Status == Enums.OTPStatus.InProgress);
 
             // if you want this to pass then change the passcode to the code received from the sms
-            var verificationCode =
-                new DigitalAuthenticationResult() { OTP = new OTPResult() { Passcode = "1234", Timestamp = DateTime.Now} };
+            var verificationCode = new OTPResult() { Passcode = "1234", Timestamp = DateTime.Now} ;
             var checkPasswordDigitalAuthenticationResult = await ApiClient.PutOtpAsync(returnCase.Id, verificationCode);
-            Assert.IsTrue(checkPasswordDigitalAuthenticationResult.OTP.Status == Enums.OTPStatus.Fail);
+            Assert.IsTrue(checkPasswordDigitalAuthenticationResult.Status == Enums.OTPStatus.Fail);
         }
 
         #region SetDigitalAuthentication

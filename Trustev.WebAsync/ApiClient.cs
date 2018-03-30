@@ -170,11 +170,11 @@ namespace Trustev.WebAsync
         /// </param>
         /// <returns>
         /// </returns>
-        public static async Task<DigitalAuthenticationResult> PostOtpAsync(string caseId, DigitalAuthenticationResult request)
+        public static async Task<OTPResult> PostOtpAsync(string caseId, OTPResult request)
         {
             var uri = string.Format(Constants.UriOtp, BaseUrl, caseId);
 
-            var digitalAuthenticationResult = await PerformHttpCallAsync<DigitalAuthenticationResult>(uri, HttpMethod.Post, request, true, HttpRequestTimeout);
+            var digitalAuthenticationResult = await PerformHttpCallAsync<OTPResult>(uri, HttpMethod.Post, request, true, HttpRequestTimeout);
             return digitalAuthenticationResult;
         }
 
@@ -189,11 +189,11 @@ namespace Trustev.WebAsync
         /// </param>
         /// <returns>
         /// </returns>
-        public static async Task<DigitalAuthenticationResult> PutOtpAsync(string caseId, DigitalAuthenticationResult request)
+        public static async Task<OTPResult> PutOtpAsync(string caseId, OTPResult request)
         {
             var uri = string.Format(Constants.UriOtp, BaseUrl, caseId);
 
-            var digitalAuthenticationResult = await PerformHttpCallAsync<DigitalAuthenticationResult>(uri, HttpMethod.Put, request, true, HttpRequestTimeout);
+            var digitalAuthenticationResult = await PerformHttpCallAsync<OTPResult>(uri, HttpMethod.Put, request, true, HttpRequestTimeout);
             return digitalAuthenticationResult;
         }
 
