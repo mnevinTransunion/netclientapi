@@ -24,7 +24,7 @@
             var detailedDecision = ApiClient.GetDetailedDecision(returnCase.Id);
             Assert.IsTrue(detailedDecision.Authentication.OTP.Status == Enums.OTPStatus.Offered);
 
-            DigitalAuthenticationResult auth = GenerateDigitalAuthenticationResult(returnCase.Id);
+            DigitalAuthenticationResult auth = GenerateDigitalAuthenticationResult();
             DigitalAuthenticationResult checkAuthenticationResult = ApiClient.PostOtp(returnCase.Id, auth);
             Assert.IsTrue(checkAuthenticationResult.OTP.Status == Enums.OTPStatus.InProgress);
         }
@@ -41,24 +41,24 @@
             var detailedDecision = ApiClient.GetDetailedDecision(returnCase.Id);
             Assert.IsTrue(detailedDecision.Authentication.OTP.Status == Enums.OTPStatus.Offered);
 
-            DigitalAuthenticationResult auth = GenerateDigitalAuthenticationResult(returnCase.Id);
+            DigitalAuthenticationResult auth = GenerateDigitalAuthenticationResult();
             DigitalAuthenticationResult checkAuthenticationResult = ApiClient.PostOtp(returnCase.Id, auth);     
             Assert.IsTrue(checkAuthenticationResult.OTP.Status == Enums.OTPStatus.InProgress);
 
             // if you want this to pass then change the passcode to the code received from the sms
             var verificationCode =
-                new DigitalAuthenticationResult() { OTP = new OTPResult(returnCase.Id) { Passcode = "1234" } };
+                new DigitalAuthenticationResult() { OTP = new OTPResult() { Passcode = "1234", Timestamp = DateTime.Now} };
             var checkPasswordDigitalAuthenticationResult = ApiClient.PutOtp(returnCase.Id, verificationCode);
-            Assert.IsTrue(checkPasswordDigitalAuthenticationResult.OTP.Message == "OTP Offered And Failed");
+            Assert.IsTrue(checkPasswordDigitalAuthenticationResult.OTP.Status == Enums.OTPStatus.Fail);
         }
 
         #region SetDigitalAuthentication
 
-        private static DigitalAuthenticationResult GenerateDigitalAuthenticationResult(string caseId)
+        private static DigitalAuthenticationResult GenerateDigitalAuthenticationResult()
         {
             return new DigitalAuthenticationResult()
                        {
-                           OTP = new OTPResult(caseId)
+                           OTP = new OTPResult()
                                      {
                                          DeliveryType =
                                              Enums.PhoneDeliveryType
