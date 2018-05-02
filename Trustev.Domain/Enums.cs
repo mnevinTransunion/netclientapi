@@ -87,7 +87,17 @@ namespace Trustev.Domain
             /// <summary>
             /// Order deemed fraudulent after it was fulfilled
             /// </summary>
-            ReportedFraud = 12
+            ReportedFraud = 12,
+
+            /// <summary>
+            /// Order deemed fraudulent after it was fulfilled
+            /// </summary>
+            Ato,
+
+            /// <summary>
+            /// Order deemed fraudulent after it was fulfilled
+            /// </summary>
+            AtoChargeback = 14
         }
 
         public enum PaymentType
@@ -127,7 +137,8 @@ namespace Trustev.Domain
         {
             Default,
             AccountCreation = 2,
-            Application
+            Application,
+            ADR
         }
 
         public enum AddressType
