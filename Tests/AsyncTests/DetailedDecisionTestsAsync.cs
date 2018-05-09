@@ -26,6 +26,21 @@ namespace Tests.AsyncTests
             DetailedDecision decision = await ApiClient.GetDetailedDecisionAsync(returnCase.Id);
 
             Assert.IsFalse(decision.Id == Guid.Empty);
+            Assert.IsTrue(decision.AuthenticatedDataRequest==null);
+            Assert.AreEqual(returnCase.CaseNumber, decision.CaseNumber);
+        }
+
+        [TestMethod]
+        public async Task DetailedDecisionADRTest_GetAsync_200()
+        {
+            Case sampleCase = this.GenerateSampleCase();
+            //selecting casetype ADR
+            sampleCase.CaseType = Enums.CaseType.ADR;
+            Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
+            DetailedDecision decision = await ApiClient.GetDetailedDecisionAsync(returnCase.Id);
+            Assert.IsFalse(decision.Id == Guid.Empty);
+            // checking that there is ADR info available
+            Assert.AreEqual(decision.AuthenticatedDataRequest.Details.FirstName,"AARON");
             Assert.AreEqual(returnCase.CaseNumber, decision.CaseNumber);
         }
 
@@ -54,6 +69,7 @@ namespace Tests.AsyncTests
         {
             Case sampleCase = new Case(Guid.NewGuid(), Guid.NewGuid().ToString())
             {
+                IdentityConsentId = "I Solely Consent To Whatever",
                 Timestamp = DateTime.Now,
                 Transaction = new Transaction()
                 {
@@ -69,7 +85,7 @@ namespace Tests.AsyncTests
                             Address2 = "Address line 2",
                             Address3 = "Address line 3",
                             City = string.Empty,
-                            CountryCode = string.Empty,
+                            CountryCode = "US",
                             State = "Cork",
                             PostalCode = "Cork",
                             Type = 0
@@ -93,6 +109,7 @@ namespace Tests.AsyncTests
                     LastName = "Doe",
                     DateOfBirth = DateTime.Now.AddYears(-24),
                     PhoneNumber = "0878767543",
+                    SocialSecurityNumber = "666010001",
                     Emails = new List<Email>()
                     {
                         new Email()
@@ -112,7 +129,7 @@ namespace Tests.AsyncTests
                             Address2 = "Address line 2",
                             Address3 = "Address line 3",
                             City = "Cork",
-                            CountryCode = "IE",
+                            CountryCode = "US",
                             State = "Cork",
                             PostalCode = "Cork",
                             Type = 0

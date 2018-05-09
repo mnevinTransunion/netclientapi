@@ -52,6 +52,17 @@ namespace TestsNet40.SyncTests
             Assert.IsFalse(returnCase.Customer == null);
         }
 
+        [TestMethod]
+        public void CaseADRTest()
+        {
+            Case sampleCase = this.GenerateADRCase();
+
+            Case returnCase = ApiClient.PostCase(sampleCase);
+
+            Assert.IsFalse(string.IsNullOrEmpty(returnCase.Id));
+            Assert.AreEqual(returnCase.CaseType, Enums.CaseType.ADR);
+            Assert.IsFalse(returnCase.Customer == null);
+        }
 
         #region SetCaseContents
         private Case GenerateDefaultCase()
@@ -93,6 +104,21 @@ namespace TestsNet40.SyncTests
                 {
                     FirstName = "John",
                     LastName = "Doe",
+                }
+            };
+
+            return sampleCase;
+        }
+
+        private Case GenerateADRCase()
+        {
+            Case sampleCase = new Case(Guid.NewGuid(), Guid.NewGuid().ToString())
+            {
+                CaseType = Enums.CaseType.ADR,
+                Customer = new Customer()
+                {
+                    FirstName = "Aaron",
+                    LastName = "Joe",
                 }
             };
 

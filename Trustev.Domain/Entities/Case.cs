@@ -72,5 +72,10 @@ namespace Trustev.Domain.Entities
         /// Current UTC DateTime. Defaults to DateTime.UtcNow;
         /// </summary>
         public DateTime Timestamp { get; set; }
+
+        /// <summary>
+        /// Gets or sets the IDentity Consent Id
+        /// </summary>
+        public string IdentityConsentId { get; set; }
     }
 }

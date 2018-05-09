@@ -52,6 +52,17 @@ namespace Tests.AsyncTests
             Assert.IsFalse(returnCase.Customer == null);
         }
 
+        [TestMethod]
+        public async Task CaseADRTestAsync()
+        {
+            Case sampleCase = this.GenerateADRCase();
+
+            Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
+
+            Assert.IsFalse(string.IsNullOrEmpty(returnCase.Id));
+            Assert.AreEqual(returnCase.CaseType, Enums.CaseType.ADR);
+            Assert.IsFalse(returnCase.Customer == null);
+        }
 
         #region SetCaseContents
         private Case GenerateDefaultCase()
@@ -98,6 +109,22 @@ namespace Tests.AsyncTests
 
             return sampleCase;
         }
+
+        private Case GenerateADRCase()
+        {
+            Case sampleCase = new Case(Guid.NewGuid(), Guid.NewGuid().ToString())
+            {
+                CaseType = Enums.CaseType.ADR,
+                Customer = new Customer()
+                {
+                    FirstName = "Aaron",
+                    LastName = "Joe",
+                }
+            };
+
+            return sampleCase;
+        }
+
         #endregion
     }
 }
