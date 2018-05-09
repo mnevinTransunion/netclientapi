@@ -132,6 +132,52 @@ namespace Trustev.Domain
             /// </summary>
             Bitcoin
         }
+        /// <summary>
+        /// This enum represents the ADR Status
+        /// </summary>
+        [DefaultValue(Started)]
+        public enum ADRStatus
+        {
+            /// <summary>
+            /// The flow has started
+            /// </summary>
+            Started = 0,
+
+            /// <summary>
+            /// Success
+            /// </summary>
+            Success = 1,
+
+            /// <summary>
+            /// NO details available
+            /// </summary>
+            NoDetailsAvailable = 2,
+
+            /// <summary>
+            /// The case is invalid
+            /// </summary>
+            InvalidCase = 3,
+
+            /// <summary>
+            /// The case is not eligible for ADR
+            /// </summary>
+            Ineligible = 4,
+
+            /// <summary>
+            /// Error
+            /// </summary>
+            Error = 5,
+
+            /// <summary>
+            /// The feature is misconfigured
+            /// </summary>
+            Misconfigured = 6,
+
+            /// <summary>
+            /// No consent was given
+            /// </summary>
+            NoConsent = 7
+        }
 
         public enum CaseType
         {

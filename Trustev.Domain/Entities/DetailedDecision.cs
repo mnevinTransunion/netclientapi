@@ -12,8 +12,101 @@ namespace Trustev.Domain.Entities
         public RawData RawData { get; set; }
         public ComputedData ComputedData { get; set; }
         public DigitalAuthenticationResult Authentication { get; set; }
+
+        /// <summary>
+        /// Gets or sets authenticated data request object
+        /// </summary>
+        public AutoFillDetails AuthenticatedDataRequest { get; set; }
     }
    
+    public class AutoFillDetails
+    {
+        /// <summary>
+        /// Gets or sets the customer details
+        /// </summary>
+        public PersonalDetails Details { get; set; }
+
+        /// <summary>
+        /// Gets or sets the status of the ADR Flow
+        /// </summary>
+        public Enums.ADRStatus Status { get; set; }
+    }
+
+       /// <summary>
+    /// The personal details
+    /// </summary>
+    public class PersonalDetails
+    {
+        /// <summary>
+        /// Gets or sets email Address
+        /// </summary>
+        public string Email { get; set; }
+
+        /// <summary>
+        /// Gets or sets the First Name
+        /// </summary>
+        public string FirstName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the middle name
+        /// </summary>
+        public string MiddleName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the LastName
+        /// </summary>
+        public string LastName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Phone number
+        /// </summary>
+        public string PhoneNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets city
+        /// </summary>
+        public string AddressCity { get; set; }
+
+        /// <summary>
+        /// Gets or sets address Country
+        /// </summary>
+        public string AddressCountry { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Social Security Number
+        /// </summary>
+        public string SocialSecurityNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the address zip code
+        /// </summary>
+        public string AddressZipCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the address State
+        /// </summary>
+        public string AddressState { get; set; }
+
+        /// <summary>
+        /// Gets or sets address street name
+        /// </summary>
+        public string AddressStreetName { get; set; }
+
+        /// <summary>
+        /// Gets or sets address Po Box
+        /// </summary>
+        public string AddressPoBox { get; set; }
+
+        /// <summary>
+        /// Gets or sets address street number
+        /// </summary>
+        public string AddressStreetNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets date of Birth
+        /// </summary>
+        public DateTime DateOfBirth { get; set; }
+    }
     public class RawData
     {
         public Enums.CaseType CaseType { get; set; }
