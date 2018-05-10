@@ -33,6 +33,18 @@ namespace Trustev.Domain
         /// Post Case Api Endpoint.
         /// 0 : The TrustevClient Base Url
         /// </summary>
+        public const string UriSessionPost = "{0}/session";
+
+        /// <summary>
+        /// Post Case Api Endpoint.
+        /// 0 : The TrustevClient Base Url
+        /// </summary>
+        public const string UriDetailPost = "{0}/session/{1}/detail";
+
+        /// <summary>
+        /// Post Case Api Endpoint.
+        /// 0 : The TrustevClient Base Url
+        /// </summary>
         public const string UriCasePost = "{0}/case";
 
         /// <summary>

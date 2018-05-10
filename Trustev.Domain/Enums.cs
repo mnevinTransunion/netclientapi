@@ -32,6 +32,54 @@ namespace Trustev.Domain
             Fail
         }
 
+        public enum MarketType
+        {
+            /// <summary>
+            /// A Default MarketType
+            /// </summary>
+            Default = 0,
+
+            /// <summary>
+            /// Unsecured Personal Loans Market Type
+            /// </summary>
+            UnsecuredPersonalLoans = 1,
+
+            /// <summary>
+            /// Credit Cards Market Type
+            /// </summary>
+            CreditCards = 2,
+
+            /// <summary>
+            /// Multi-Family Rental Screening Market Type
+            /// </summary>
+            MultiFamilyRentalScreening = 3,
+
+            /// <summary>
+            /// Auto Lending Market Type
+            /// </summary>
+            AutoLending = 4,
+
+            /// <summary>
+            /// Short Term Alternative Lending Market Type
+            /// </summary>
+            ShortTermAlternativeLending = 5,
+
+            /// <summary>
+            /// Telecom and Communications Market Type
+            /// </summary>
+            TelecomAndCommunications = 6,
+
+            /// <summary>
+            /// Insurance Market Type
+            /// </summary>
+            Insurance = 7,
+
+            /// <summary>
+            /// Mortgage Market Type
+            /// </summary>
+            Mortgage = 8
+        }
+
         public enum CaseStatusType
         {
             /// <summary>
@@ -185,6 +233,13 @@ namespace Trustev.Domain
             AccountCreation = 2,
             Application,
             ADR
+        }
+
+        public enum SessionType
+        {
+            JavaScript = 0,
+            Mobile = 1,
+            Broker = 2
         }
 
         public enum AddressType

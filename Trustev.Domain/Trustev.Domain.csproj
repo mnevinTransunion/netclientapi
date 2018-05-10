@@ -52,13 +52,17 @@
     <Compile Include="Entities\Customer.cs" />
     <Compile Include="Entities\CustomerAddress.cs" />
     <Compile Include="Entities\Decision.cs" />
+    <Compile Include="Entities\Detail.cs" />
     <Compile Include="Entities\DetailedDecision.cs" />
+    <Compile Include="Entities\Device.cs" />
     <Compile Include="Entities\DigitalAuthenticationResult.cs" />
     <Compile Include="Entities\Email.cs" />
     <Compile Include="Entities\Fulfilment.cs" />
     <Compile Include="Entities\KBAResult.cs" />
+    <Compile Include="Entities\Location.cs" />
     <Compile Include="Entities\OTPResult.cs" />
     <Compile Include="Entities\Payment.cs" />
+    <Compile Include="Entities\Session.cs" />
     <Compile Include="Entities\Transaction.cs" />
     <Compile Include="Entities\TransactionAddress.cs" />
     <Compile Include="Entities\TransactionItem.cs" />

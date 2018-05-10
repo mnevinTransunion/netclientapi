@@ -15,16 +15,17 @@ namespace TestsNet40.SyncTests
             string password = ConfigurationManager.AppSettings["Password"];
             string secret = ConfigurationManager.AppSettings["Secret"];
             string altUrl = ConfigurationManager.AppSettings["AltUrl"];
+            string publicKey = ConfigurationManager.AppSettings["PublicKey"];
 
             if (string.IsNullOrEmpty(altUrl))
             {
                 Enums.BaseUrl baseURL;
                 Enum.TryParse(ConfigurationManager.AppSettings["BaseURL"], out baseURL);
-                ApiClient.SetUp(userName, password, secret, baseURL);
+                ApiClient.SetUp(userName, password, secret, publicKey, baseURL);
             }
             else
             {
-                ApiClient.SetUp(userName, password, secret, altUrl);
+                ApiClient.SetUp(userName, password, secret, publicKey, altUrl);
             }
         }
     }

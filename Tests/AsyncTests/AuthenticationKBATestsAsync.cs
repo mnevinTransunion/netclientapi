@@ -29,6 +29,7 @@ namespace Tests.AsyncTests
         }
 
         [TestMethod]
+        [Ignore]
         public async Task IsKBAStatusFailed_Async()
         {
             Case sampleCase = GenerateSampleCase();
