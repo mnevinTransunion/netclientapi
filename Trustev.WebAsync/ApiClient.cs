@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -746,6 +747,7 @@ namespace Trustev.WebAsync
                     client.DefaultRequestHeaders.Add("X-Authorization", UserName + " " + await GetTokenAsync());
             }
 
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             client.Timeout = new TimeSpan(requestTimeout * TimeSpan.TicksPerMillisecond);
 
             HttpResponseMessage response = new HttpResponseMessage();
