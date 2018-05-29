@@ -30,6 +30,11 @@ namespace Trustev.Domain.Entities
         /// Gets or sets the status of the ADR Flow
         /// </summary>
         public Enums.ADRStatus Status { get; set; }
+
+        /// <summary>
+        /// Gets this represents the description of the status
+        /// </summary>
+        public string StatusDescription { get; set; }
     }
 
        /// <summary>

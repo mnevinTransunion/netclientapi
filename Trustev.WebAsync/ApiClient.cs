@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Security.Cryptography;
@@ -26,11 +25,9 @@ namespace Trustev.WebAsync
 
         private static string Secret { get; set; }
 
+        internal static string PublicKey { get; set; }
+
         private static string BaseUrl { get; set; }
-
-        private static string APIToken { get; set; }
-
-        private static DateTime ExpiryDate { get; set; }
 
         internal static int HttpRequestTimeout { get; set; }
 
@@ -68,6 +65,34 @@ namespace Trustev.WebAsync
         }
 
         /// <summary>
+        /// Initialize the Trustev class by passing in your UserName, Password, Secret, and BaseUrl - This could be EU or US, depending on your location.
+        /// </summary>
+        /// <param name="userName">Your ApiClient UserName</param>
+        /// <param name="password">Your ApiClient Password</param>
+        /// <param name="secret">Your ApiClient Secret</param>
+        /// <param name="publicKey">Your ApiClient Public Key</param>
+        /// <param name="baseUrl">Your BaseURL - US/EU</param>
+        /// <param name="httpRequestTimeout">The timeout value of this http request in milliseconds</param>
+        public static void SetUp(string userName, string password, string secret, string publicKey, Enums.BaseUrl baseUrl, int httpRequestTimeout = 15000)
+        {
+            UserName = userName;
+            Password = password;
+            Secret = secret;
+            PublicKey = publicKey;
+
+            if (baseUrl.Equals(Enums.BaseUrl.EU))
+            {
+                BaseUrl = "https://app-eu.trustev.com/api/v2.0";
+            }
+            else if (baseUrl.Equals(Enums.BaseUrl.US))
+            {
+                BaseUrl = "https://app.trustev.com/api/v2.0";
+            }
+
+            HttpRequestTimeout = httpRequestTimeout;
+        }
+
+        /// <summary>
         /// Initialize the Trustev class by passing in your UserName, Password, Secret, and BaseUrl
         /// </summary>
         /// <param name="userName">Your ApiClient UserName</param>
@@ -82,6 +107,54 @@ namespace Trustev.WebAsync
             Secret = secret;
             BaseUrl = baseUrl;
             HttpRequestTimeout = httpRequestTimeout;
+        }
+
+        /// <summary>
+        /// Initialize the Trustev class by passing in your UserName, Password, Secret, PublicKey, and BaseUrl
+        /// </summary>
+        /// <param name="userName">Your ApiClient UserName</param>
+        /// <param name="password">Your ApiClient Password</param>
+        /// <param name="secret">Your ApiClient Secret</param>
+        /// <param name="publicKey">Your ApiClient Public Key</param>
+        /// <param name="baseUrl">Your BaseURL - specified through a url string</param>
+        /// <param name="httpRequestTimeout">Your default httpRequestTimeout</param>
+        public static void SetUp(string userName, string password, string secret, string publicKey, string baseUrl, int httpRequestTimeout = 15000)
+        {
+            UserName = userName;
+            Password = password;
+            PublicKey = publicKey;
+            Secret = secret;
+            BaseUrl = baseUrl;
+            HttpRequestTimeout = httpRequestTimeout;
+        }
+
+        /// <summary>
+        /// Post your Case to the TrustevClient Api
+        /// </summary>
+        /// <param name="session">Your Session which you want to post</param>
+        /// <returns>The Session along with the Id that TrustevClient have assigned it</returns>
+        public static async Task<Session> PostSessionAsync(Session session)
+        {
+            string uri = string.Format(Constants.UriSessionPost, BaseUrl);
+
+            Session response = await PerformHttpCallAsync<Session>(uri, HttpMethod.Post, session, true, HttpRequestTimeout);
+
+            return response;
+        }
+
+        /// <summary>
+        /// Post your Detail to an existing Session
+        /// </summary>
+        /// <param name="sessionId">The Id of the session you want to add the detail to. It comes back as part of the Session Post Response</param>
+        /// <param name="detail">Your Detail which you want to post</param>
+        /// <returns>The Session along with the Id that TrustevClient have assigned it</returns>
+        public static async Task<Detail> PostDetailAsync(Guid sessionId, Detail detail)
+        {
+            string uri = string.Format(Constants.UriDetailPost, BaseUrl, sessionId);
+
+            Detail response = await PerformHttpCallAsync<Detail>(uri, HttpMethod.Post, detail, true, HttpRequestTimeout);
+
+            return response;
         }
 
         /// <summary>
@@ -663,9 +736,18 @@ namespace Trustev.WebAsync
 
             if (isAuthenticationNeeded)
             {
-                client.DefaultRequestHeaders.Add("X-Authorization", UserName + " " + await GetTokenAsync());
+                if (uri.Contains("/session"))
+                {
+                    if (string.IsNullOrEmpty(PublicKey))
+                        throw new TrustevGeneralException("You need to set your public key if you want to post a Session. This can be done via the SetUp method");
+
+                    client.DefaultRequestHeaders.Add("X-PublicKey", PublicKey);
+                }
+                else
+                    client.DefaultRequestHeaders.Add("X-Authorization", UserName + " " + await GetTokenAsync());
             }
 
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
             client.Timeout = new TimeSpan(requestTimeout * TimeSpan.TicksPerMillisecond);
 
             HttpResponseMessage response = new HttpResponseMessage();

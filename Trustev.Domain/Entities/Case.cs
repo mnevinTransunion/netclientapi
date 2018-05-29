@@ -34,6 +34,11 @@ namespace Trustev.Domain.Entities
         public Enums.CaseType CaseType { get; set; }
 
         /// <summary>
+        /// Market Type of Current Case - E.g. Default, Credit Cards, Auto Lending
+        /// </summary>
+        public Enums.MarketType MarketType { get; set; }
+
+        /// <summary>
         /// SessionId is required when adding a Trustev Case. SessionId is available through Trustev.js as a publicly accessible variable - TrustevV2.SessionId
         /// </summary>
         public Guid SessionId { get; set; }
