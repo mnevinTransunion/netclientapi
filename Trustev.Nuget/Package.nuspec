@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Trustev</id>
-        <version>1.0.23-beta</version>
+        <version>1.0.24</version>
         <title>Trustev Api Client</title>
         <authors>Trustev</authors>
         <owners>Trustev</owners>
@@ -11,7 +11,7 @@
         <iconUrl>https://app.trustev.com/assets/img/apple-icon-144.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>This is the Trustev Client which provides a set of classes and methods which can be used to integrate to the Trustev Platform.</description>
-        <releaseNotes>Added description to the autofill object- after doing a build</releaseNotes>
+        <releaseNotes>Adding support for Session post. Also removing support for .net 4</releaseNotes>
         <copyright>Copyright 2018</copyright>
         <tags>Trustev trustev api client</tags>
         <dependencies>
@@ -19,14 +19,8 @@
         </dependencies>
     </metadata>
     <files>
-        <file src="..\Trustev.Domain\bin\Debug\Trustev.Domain.dll" target="lib\net40\Trustev.Domain.dll" />
-		<file src="..\Trustev.Domain\bin\Debug\Trustev.Domain.pdb" target="lib\net40\Trustev.Domain.pdb" />
-        <file src="..\Trustev.Web\bin\Debug\Trustev.Web.dll" target="lib\net40\Trustev.Web.dll" />
-		<file src="..\Trustev.Web\bin\Debug\Trustev.Web.pdb" target="lib\net40\Trustev.Web.pdb" />
         <file src="..\Trustev.Domain\bin\Debug\Trustev.Domain.dll" target="lib\net45\Trustev.Domain.dll" />
 		<file src="..\Trustev.Domain\bin\Debug\Trustev.Domain.pdb" target="lib\net45\Trustev.Domain.pdb" />
-        <file src="..\Trustev.Web\bin\Debug\Trustev.Web.dll" target="lib\net45\Trustev.Web.dll" />
-		<file src="..\Trustev.Web\bin\Debug\Trustev.Web.pdb" target="lib\net45\Trustev.Web.pdb" />
         <file src="..\Trustev.WebAsync\bin\Debug\Trustev.WebAsync.dll" target="lib\net45\Trustev.WebAsync.dll" />
 		<file src="..\Trustev.WebAsync\bin\Debug\Trustev.WebAsync.pdb" target="lib\net45\Trustev.WebAsync.pdb" />
     </files>
