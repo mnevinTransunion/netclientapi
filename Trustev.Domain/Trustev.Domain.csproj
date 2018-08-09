@@ -55,6 +55,7 @@
     <Compile Include="Entities\Detail.cs" />
     <Compile Include="Entities\DetailedDecision.cs" />
     <Compile Include="Entities\Device.cs" />
+    <Compile Include="Entities\DeviceInformation.cs" />
     <Compile Include="Entities\DigitalAuthenticationResult.cs" />
     <Compile Include="Entities\Email.cs" />
     <Compile Include="Entities\Fulfilment.cs" />
