@@ -11,6 +11,7 @@ namespace Trustev.Domain.Entities
         public string CaseId { get; set; }
         public RawData RawData { get; set; }
         public ComputedData ComputedData { get; set; }
+        public DeviceInformation ExtendedDeviceInformation { get; set; }
         public DigitalAuthenticationResult Authentication { get; set; }
 
         /// <summary>
@@ -276,5 +277,13 @@ namespace Trustev.Domain.Entities
         public ComputedDataLocation Location { get; set; }
         public ComputedDataPhone Phone { get; set; }
         public ComputedDataAccount Account { get; set; }
+        public ExtendedDevice ExtendedDevice { get; set; }
+    }
+
+    public class ExtendedDevice
+    {
+        public string Risk { get; set; }
+
+        public string PredictiveMlRisk { get; set; }
     }
 }
