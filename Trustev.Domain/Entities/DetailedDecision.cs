@@ -109,9 +109,49 @@ namespace Trustev.Domain.Entities
         public string AddressStreetNumber { get; set; }
 
         /// <summary>
+        /// Gets or sets street Pre directional 
+        /// </summary>
+        public string AddressStreetPreDirectional { get; set; }
+
+        /// <summary>
+        /// Gets or sets street Post Directional
+        /// </summary>
+        public string AddressStreetPostDirectional { get; set; }
+
+        /// <summary>
+        /// Gets or sets street Unit
+        /// </summary>
+        public string AddressStreetUnit { get; set; }
+
+        /// <summary>
+        /// Gets or sets street Type
+        /// </summary>
+        public string AddressStreetType { get; set; }
+
+        /// <summary>
         /// Gets or sets date of Birth
         /// </summary>
         public DateTime DateOfBirth { get; set; }
+
+        /// <summary>
+        /// Gets or sets name Prefix
+        /// </summary>
+        public string Prefix { get; set; }
+
+        /// <summary>
+        /// Gets or sets generational Suffix
+        /// </summary>
+        public string GenerationalSuffix { get; set; }
+
+        /// <summary>
+        /// Gets or sets salutational Suffix
+        /// </summary>
+        public string SalutationalSuffix { get; set; }
+
+        /// <summary>
+        /// Gets or sets maternal
+        /// </summary>
+        public string Maternal { get; set; }
     }
     public class RawData
     {
