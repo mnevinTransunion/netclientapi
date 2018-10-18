@@ -31,6 +31,8 @@ namespace Tests.AsyncTests
         }
 
         [TestMethod]
+        [Ignore()]
+        [Description("2018-10-18: This was ignored because the configuration was not valid to return ADR, needs to be pick up by ULF")]
         public async Task DetailedDecisionADRTest_GetAsync_200()
         {
             Case sampleCase = this.GenerateSampleCase();
