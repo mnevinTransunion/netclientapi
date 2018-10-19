@@ -24,12 +24,12 @@ namespace Tests.AsyncTests
             Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
 
             Email email = new Email();
-            email.EmailAddress = "test@test.com";
+            email.EmailAddress = $"{Guid.NewGuid()}@test.com";
 
             Email returnEmailAddress = await ApiClient.PostEmailAsync(returnCase.Id, email);
 
             Assert.IsTrue(returnEmailAddress.Id != Guid.Empty);
-            Assert.AreEqual("test@test.com", returnEmailAddress.EmailAddress);
+            Assert.AreEqual(email.EmailAddress, returnEmailAddress.EmailAddress);
         }
 
         [TestMethod]
@@ -40,14 +40,14 @@ namespace Tests.AsyncTests
             Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
 
             Email email = new Email();
-            email.EmailAddress = "test2@test.com";
+            email.EmailAddress = $"{Guid.NewGuid()}@test.com";
 
             Email returnEmailAddress = await ApiClient.UpdateEmailAsync(returnCase.Id, email,
                 returnCase.Customer.Emails.First().Id);
 
 
             Assert.IsTrue(returnEmailAddress.Id != Guid.Empty);
-            Assert.AreEqual("test2@test.com", returnEmailAddress.EmailAddress);
+            Assert.AreEqual(email.EmailAddress, returnEmailAddress.EmailAddress);
         }
 
         [TestMethod]
@@ -61,7 +61,7 @@ namespace Tests.AsyncTests
                 returnCase.Customer.Emails.First().Id);
 
             Assert.IsTrue(returnEmailAddress.Id != Guid.Empty);
-            Assert.AreEqual("test@test.com", returnEmailAddress.EmailAddress);
+            Assert.AreEqual(sampleCase.Customer.Emails.First().EmailAddress, returnEmailAddress.EmailAddress);
         }
 
         [TestMethod]
@@ -70,7 +70,7 @@ namespace Tests.AsyncTests
             Case sampleCase = this.GenerateSampleCaseWithEmailAddress();
 
             Email email = new Email();
-            email.EmailAddress = "test2@test.com";
+            email.EmailAddress = $"{Guid.NewGuid()}@test.com";
             sampleCase.Customer.Emails.Add(email);
 
             Case returnCase = await ApiClient.PostCaseAsync(sampleCase);
@@ -78,8 +78,8 @@ namespace Tests.AsyncTests
             IList<Email> returnEmailAddresses = await ApiClient.GetEmailsAsync(returnCase.Id);
 
             Assert.IsTrue(returnEmailAddresses.Count > 1);
-            Assert.AreEqual("test@test.com", returnEmailAddresses[0].EmailAddress);
-            Assert.AreEqual("test2@test.com", returnEmailAddresses[1].EmailAddress);
+            Assert.AreEqual(sampleCase.Customer.Emails.First().EmailAddress, returnEmailAddresses[0].EmailAddress);
+            Assert.AreEqual(email.EmailAddress, returnEmailAddresses[1].EmailAddress);
         }
 
         [TestMethod]
@@ -130,7 +130,7 @@ namespace Tests.AsyncTests
                     {
                         new Email()
                         {
-                            EmailAddress = "test@test.com"
+                            EmailAddress = $"{Guid.NewGuid()}@test.com"
                         }
                     }
                 }
