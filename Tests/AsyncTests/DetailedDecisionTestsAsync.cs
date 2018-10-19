@@ -117,7 +117,7 @@ namespace Tests.AsyncTests
                         new Email()
                         {
                             IsDefault = true,
-                            EmailAddress = "test@test.com"
+                            EmailAddress = Guid.NewGuid() + "test@test.com"
                         }
                     },
                     Addresses = new List<CustomerAddress>()
