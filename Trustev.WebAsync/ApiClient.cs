@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,21 +34,60 @@ namespace Trustev.WebAsync
         internal static int HttpRequestTimeout { get; set; }
 
         /// <summary>
-        ///API auth token
+        /// lock object for enforcing thread safety
         /// </summary>
-        private static string APIToken { get; set; }
+        private static readonly object tokenLock = new object();
+
+        private static TokenResponse token = null;
 
         /// <summary>
-        /// Expiry date of API token
+        ///API auth token
         /// </summary>
-        private static DateTime ExpiryDate { get; set; }
+        private static string ApiToken
+        {
+            get
+            {
+                lock (tokenLock)
+                {
+                    return token?.APIToken;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Token Expiry DateTime
+        /// </summary>
+        private static DateTime? ExpireAt
+        {
+            get
+            {
+                lock (tokenLock)
+                {
+                    return token?.ExpireAt;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Cached token object, contains APIToken and ExpireAt
+        /// </summary>
+        private static TokenResponse CachedToken
+        {
+            set
+            {
+                lock (tokenLock)
+                {
+                    token = value;
+                }
+            }
+        }
 
         /// <summary>
         /// Determines whether or not a new token will be generated on each request. Defaults to false unless otherwise specified.
         /// </summary>
-        private static Boolean RegenerateTokenOnEachRequest { get; set; } = false;
+        private static Boolean RegenerateTokenOnEachRequest { get; set; }= false;
 
-
+    
         static ApiClient()
         {
             UserName = "";
@@ -826,7 +867,7 @@ namespace Trustev.WebAsync
         {
             if (!RegenerateTokenOnEachRequest)
             {
-                if (string.IsNullOrEmpty(APIToken) || ExpiryDate >= DateTime.UtcNow)
+                if (string.IsNullOrEmpty(ApiToken) || ExpireAt  == null || ExpireAt.Value >= DateTime.UtcNow)
                 {
                     await SetTokenAsync();
                 }
@@ -835,7 +876,7 @@ namespace Trustev.WebAsync
             {
                 await SetTokenAsync();
             }
-            return APIToken;
+            return ApiToken;
         }
 
         /// <summary>
@@ -844,8 +885,7 @@ namespace Trustev.WebAsync
         /// <returns></returns>
         private static async Task SetTokenAsync()
         {
-            string apiToken = "";
-
+            
             CheckCredentials();
 
             DateTime currentTime = DateTime.UtcNow;
@@ -862,10 +902,9 @@ namespace Trustev.WebAsync
 
             string uri = string.Format("{0}/token", BaseUrl);
 
-            TokenResponse response = await PerformHttpCallAsync<TokenResponse>(uri, HttpMethod.Post, requestJson, false, HttpRequestTimeout);
-
-            APIToken = response.APIToken;
-            ExpiryDate = response.ExpireAt;
+            TokenResponse response = await PerformHttpCallAsync<TokenResponse>(uri, HttpMethod.Post, requestJson,
+                false, HttpRequestTimeout);
+            CachedToken = response;
         }
 
         /// <summary>
@@ -938,6 +977,14 @@ namespace Trustev.WebAsync
             public string APIToken { get; set; }
 
             public DateTime ExpireAt { get; set; }
+
+            public string Example
+            {
+                get { return _example;}
+                set { _example = value; }
+            }
+
+            private string _example;
         }
 
         /// <summary>
