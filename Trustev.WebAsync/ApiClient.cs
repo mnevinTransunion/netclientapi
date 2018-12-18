@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +33,61 @@ namespace Trustev.WebAsync
 
         internal static int HttpRequestTimeout { get; set; }
 
+        /// <summary>
+        /// lock object for enforcing thread safety
+        /// </summary>
+        private static readonly object TokenLock = new object();
+
+        private static TokenResponse _token = null;
+
+        /// <summary>
+        ///API auth token
+        /// </summary>
+        private static string ApiToken
+        {
+            get
+            {
+                lock (TokenLock)
+                {
+                    return _token?.APIToken;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Token Expiry DateTime
+        /// </summary>
+        private static DateTime? ExpireAt
+        {
+            get
+            {
+                lock (TokenLock)
+                {
+                    return _token?.ExpireAt;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Cached token object, contains APIToken and ExpireAt
+        /// </summary>
+        private static TokenResponse CachedToken
+        {
+            set
+            {
+                lock (TokenLock)
+                {
+                    _token = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Determines whether or not a new token will be generated on each request. Defaults to false unless otherwise specified.
+        /// </summary>
+        private static Boolean RegenerateTokenOnEachRequest { get; set; }= false;
+
+    
         static ApiClient()
         {
             UserName = "";
@@ -46,8 +103,9 @@ namespace Trustev.WebAsync
         /// <param name="password">Your ApiClient Password</param>
         /// <param name="secret">Your ApiClient Secret</param>
         /// <param name="baseUrl">Your BaseURL - US/EU</param>
+        /// <param name="regenerateToken">Flag to generateToken on each request</param>
         /// <param name="httpRequestTimeout">The timeout value of this http request in milliseconds</param>
-        public static void SetUp(string userName, string password, string secret, Enums.BaseUrl baseUrl, int httpRequestTimeout = 15000)
+        public static void SetUp(string userName, string password, string secret, Enums.BaseUrl baseUrl, Boolean regenerateToken = false, int httpRequestTimeout = 15000)
         {
             UserName = userName;
             Password = password;
@@ -60,7 +118,7 @@ namespace Trustev.WebAsync
             {
                 BaseUrl = "https://app.trustev.com/api/v2.0";
             }
-
+            RegenerateTokenOnEachRequest = regenerateToken;
             HttpRequestTimeout = httpRequestTimeout;
         }
 
@@ -72,8 +130,9 @@ namespace Trustev.WebAsync
         /// <param name="secret">Your ApiClient Secret</param>
         /// <param name="publicKey">Your ApiClient Public Key</param>
         /// <param name="baseUrl">Your BaseURL - US/EU</param>
+        /// <param name="regenerateToken">Flag to generateToken on each request</param>
         /// <param name="httpRequestTimeout">The timeout value of this http request in milliseconds</param>
-        public static void SetUp(string userName, string password, string secret, string publicKey, Enums.BaseUrl baseUrl, int httpRequestTimeout = 15000)
+        public static void SetUp(string userName, string password, string secret, string publicKey, Enums.BaseUrl baseUrl, Boolean regenerateToken = false, int httpRequestTimeout = 15000)
         {
             UserName = userName;
             Password = password;
@@ -88,7 +147,7 @@ namespace Trustev.WebAsync
             {
                 BaseUrl = "https://app.trustev.com/api/v2.0";
             }
-
+            RegenerateTokenOnEachRequest = regenerateToken;
             HttpRequestTimeout = httpRequestTimeout;
         }
 
@@ -99,13 +158,15 @@ namespace Trustev.WebAsync
         /// <param name="password">Your ApiClient Password</param>
         /// <param name="secret">Your ApiClient Secret</param>
         /// <param name="baseUrl">Your BaseURL - specified through a url string</param>
+        /// <param name="regenerateToken">Flag to generateToken on each request</param>
         /// <param name="httpRequestTimeout">Your default httpRequestTimeout</param>
-        public static void SetUp(string userName, string password, string secret, string baseUrl, int httpRequestTimeout = 15000)
+        public static void SetUp(string userName, string password, string secret, string baseUrl, Boolean regenerateToken = false, int httpRequestTimeout = 15000)
         {
             UserName = userName;
             Password = password;
             Secret = secret;
             BaseUrl = baseUrl;
+            RegenerateTokenOnEachRequest = regenerateToken;
             HttpRequestTimeout = httpRequestTimeout;
         }
 
@@ -117,14 +178,16 @@ namespace Trustev.WebAsync
         /// <param name="secret">Your ApiClient Secret</param>
         /// <param name="publicKey">Your ApiClient Public Key</param>
         /// <param name="baseUrl">Your BaseURL - specified through a url string</param>
+        /// <param name="regenerateToken">Flag to generateToken on each request</param>
         /// <param name="httpRequestTimeout">Your default httpRequestTimeout</param>
-        public static void SetUp(string userName, string password, string secret, string publicKey, string baseUrl, int httpRequestTimeout = 15000)
+        public static void SetUp(string userName, string password, string secret, string publicKey, string baseUrl, Boolean regenerateToken = false, int httpRequestTimeout = 15000)
         {
             UserName = userName;
             Password = password;
             PublicKey = publicKey;
             Secret = secret;
             BaseUrl = baseUrl;
+            RegenerateTokenOnEachRequest = regenerateToken;
             HttpRequestTimeout = httpRequestTimeout;
         }
 
@@ -793,11 +856,36 @@ namespace Trustev.WebAsync
         }
 
         #region Private Methods
-
+        /// <summary>
+        /// Gets value of APIToken.
+        /// Determins whether or not to generate a token on each request or reuse the current one if
+        /// its valid.
+        /// </summary>
+        /// <param name="regenerateToken"></param>
+        /// <returns></returns>
         private static async Task<string> GetTokenAsync()
         {
-            string apiToken = "";
+            if (!RegenerateTokenOnEachRequest)
+            {
+                if (string.IsNullOrEmpty(ApiToken) || ExpireAt  == null || ExpireAt.Value >= DateTime.UtcNow)
+                {
+                    await SetTokenAsync();
+                }
+            }
+            else
+            {
+                await SetTokenAsync();
+            }
+            return ApiToken;
+        }
 
+        /// <summary>
+        /// Sets new APIToken and ExpiryDate on each call
+        /// </summary>
+        /// <returns></returns>
+        private static async Task SetTokenAsync()
+        {
+            
             CheckCredentials();
 
             DateTime currentTime = DateTime.UtcNow;
@@ -814,11 +902,9 @@ namespace Trustev.WebAsync
 
             string uri = string.Format("{0}/token", BaseUrl);
 
-            TokenResponse response = await PerformHttpCallAsync<TokenResponse>(uri, HttpMethod.Post, requestJson, false, HttpRequestTimeout);
-
-            apiToken = response.APIToken;
-
-            return apiToken;
+            TokenResponse response = await PerformHttpCallAsync<TokenResponse>(uri, HttpMethod.Post, requestJson,
+                false, HttpRequestTimeout);
+            CachedToken = response;
         }
 
         /// <summary>
