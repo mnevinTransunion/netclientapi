@@ -36,9 +36,9 @@ namespace Trustev.WebAsync
         /// <summary>
         /// lock object for enforcing thread safety
         /// </summary>
-        public static readonly object TokenLock = new object();
+        private static readonly object TokenLock = new object();
 
-//        private static TokenResponse _token = null;
+        private static TokenResponse _token = null;
 
         /// <summary>
         ///API auth token
@@ -71,7 +71,7 @@ namespace Trustev.WebAsync
         /// <summary>
         /// Cached token object, contains APIToken and ExpireAt
         /// </summary>
-        private static TokenResponse _token
+        private static TokenResponse CachedToken
         {
             set
             {
@@ -85,7 +85,7 @@ namespace Trustev.WebAsync
         /// <summary>
         /// Determines whether or not a new token will be generated on each request. Defaults to false unless otherwise specified.
         /// </summary>
-        private static bool RegenerateTokenOnEachRequest { get; set; }= false;
+        private static Boolean RegenerateTokenOnEachRequest { get; set; }= false;
 
     
         static ApiClient()
