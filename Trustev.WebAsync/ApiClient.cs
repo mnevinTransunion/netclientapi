@@ -36,9 +36,9 @@ namespace Trustev.WebAsync
         /// <summary>
         /// lock object for enforcing thread safety
         /// </summary>
-        private static readonly object tokenLock = new object();
+        public static readonly object TokenLock = new object();
 
-        private static TokenResponse token = null;
+//        private static TokenResponse _token = null;
 
         /// <summary>
         ///API auth token
@@ -47,9 +47,9 @@ namespace Trustev.WebAsync
         {
             get
             {
-                lock (tokenLock)
+                lock (TokenLock)
                 {
-                    return token?.APIToken;
+                    return _token?.APIToken;
                 }
             }
         }
@@ -61,9 +61,9 @@ namespace Trustev.WebAsync
         {
             get
             {
-                lock (tokenLock)
+                lock (TokenLock)
                 {
-                    return token?.ExpireAt;
+                    return _token?.ExpireAt;
                 }
             }
         }
@@ -71,13 +71,13 @@ namespace Trustev.WebAsync
         /// <summary>
         /// Cached token object, contains APIToken and ExpireAt
         /// </summary>
-        private static TokenResponse CachedToken
+        private static TokenResponse _token
         {
             set
             {
-                lock (tokenLock)
+                lock (TokenLock)
                 {
-                    token = value;
+                    _token = value;
                 }
             }
         }
@@ -85,7 +85,7 @@ namespace Trustev.WebAsync
         /// <summary>
         /// Determines whether or not a new token will be generated on each request. Defaults to false unless otherwise specified.
         /// </summary>
-        private static Boolean RegenerateTokenOnEachRequest { get; set; }= false;
+        private static bool RegenerateTokenOnEachRequest { get; set; }= false;
 
     
         static ApiClient()
@@ -977,14 +977,6 @@ namespace Trustev.WebAsync
             public string APIToken { get; set; }
 
             public DateTime ExpireAt { get; set; }
-
-            public string Example
-            {
-                get { return _example;}
-                set { _example = value; }
-            }
-
-            private string _example;
         }
 
         /// <summary>
