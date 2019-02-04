@@ -125,7 +125,14 @@ namespace Tests.AsyncTests
                 Customer = new Customer()
                 {
                     FirstName = "John",
-                    LastName = "Doe"
+                    LastName = "Doe",
+                    Emails = new List<Email>()
+                    {
+                        new Email()
+                        {
+                            EmailAddress = "integrationtestfail@greylist.com"
+                        }
+                    }
                 }
             };
 
@@ -140,7 +147,14 @@ namespace Tests.AsyncTests
                 Customer = new Customer()
                 {
                     FirstName = "John",
-                    LastName = "Doe"
+                    LastName = "Doe",
+                    Emails = new List<Email>()
+                    {
+                        new Email()
+                        {
+                            EmailAddress = "integrationtestfail@blacklist.com"
+                        }
+                    }
                 }
             };
 
