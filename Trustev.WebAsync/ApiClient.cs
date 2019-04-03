@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +41,7 @@ namespace Trustev.WebAsync
         /// <summary>
         ///API auth token
         /// </summary>
-        private static string ApiToken
+        public static string ApiToken
         {
             get
             {
@@ -57,13 +55,21 @@ namespace Trustev.WebAsync
         /// <summary>
         /// Token Expiry DateTime
         /// </summary>
-        private static DateTime? ExpireAt
+        public static DateTime? ExpireAt
         {
             get
             {
                 lock (TokenLock)
                 {
                     return _token?.ExpireAt;
+                }
+            }
+
+            set
+            {
+                lock (TokenLock)
+                {
+                    _token.ExpireAt = (DateTime)value;
                 }
             }
         }
@@ -855,7 +861,7 @@ namespace Trustev.WebAsync
             return JsonConvert.DeserializeObject<T>(resultstring, jss);
         }
 
-        #region Private Methods
+        
         /// <summary>
         /// Gets value of APIToken.
         /// Determins whether or not to generate a token on each request or reuse the current one if
@@ -863,11 +869,11 @@ namespace Trustev.WebAsync
         /// </summary>
         /// <param name="regenerateToken"></param>
         /// <returns></returns>
-        private static async Task<string> GetTokenAsync()
+        public static async Task<string> GetTokenAsync()
         {
             if (!RegenerateTokenOnEachRequest)
             {
-                if (string.IsNullOrEmpty(ApiToken) || ExpireAt  == null || ExpireAt.Value >= DateTime.UtcNow)
+                if (string.IsNullOrEmpty(ApiToken) || ExpireAt  == null || ExpireAt.Value <= DateTime.UtcNow)
                 {
                     await SetTokenAsync();
                 }
@@ -883,9 +889,8 @@ namespace Trustev.WebAsync
         /// Sets new APIToken and ExpiryDate on each call
         /// </summary>
         /// <returns></returns>
-        private static async Task SetTokenAsync()
+        public static async Task SetTokenAsync()
         {
-            
             CheckCredentials();
 
             DateTime currentTime = DateTime.UtcNow;
@@ -907,6 +912,7 @@ namespace Trustev.WebAsync
             CachedToken = response;
         }
 
+        #region Private Methods
         /// <summary>
         /// Check that the user has set the TrustevClient Credentials correctly
         /// </summary>
