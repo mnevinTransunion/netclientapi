@@ -178,7 +178,77 @@ namespace Trustev.Domain
             /// <summary>
             /// BitCoin Payment
             /// </summary>
-            Bitcoin
+            Bitcoin,
+
+            /// <summary>
+            /// Due Payment
+            /// </summary>
+            Due,
+
+            /// <summary>
+            /// Stripe Payment
+            /// </summary>
+            Stripe,
+
+            /// <summary>
+            /// Dwolla Payment
+            /// </summary>
+            Dwolla,
+
+            /// <summary>
+            /// ApplePay Payment
+            /// </summary>
+            ApplePay,
+
+            /// <summary>
+            /// Payoneer Payment
+            /// </summary>
+            Payoneer,
+
+            /// <summary>
+            /// TwoCheckout Payment
+            /// </summary>
+            TwoCheckout,
+
+            /// <summary>
+            /// AmazonPay Payment
+            /// </summary>
+            AmazonPay,
+
+            /// <summary>
+            /// Square Payment
+            /// </summary>
+            Square,
+
+            /// <summary>
+            /// AndroidPay Payment
+            /// </summary>
+            AndroidPay,
+
+            /// <summary>
+            /// LeoPay Payment
+            /// </summary>
+            LeoPay,
+
+            /// <summary>
+            /// GooglePay Payment
+            /// </summary>
+            GooglePay,
+
+            /// <summary>
+            /// SamsungPay Payment
+            /// </summary>
+            SamsungPay,
+
+            /// <summary>
+            /// MasterPass Payment
+            /// </summary>
+            MasterPass,
+
+            /// <summary>
+            /// MicrosoftPay Payment
+            /// </summary>
+            MicrosoftPay
         }
         /// <summary>
         /// This enum represents the ADR Status
