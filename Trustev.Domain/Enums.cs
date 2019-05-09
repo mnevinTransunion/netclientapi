@@ -248,7 +248,12 @@ namespace Trustev.Domain
             /// <summary>
             /// MicrosoftPay Payment
             /// </summary>
-            MicrosoftPay
+            MicrosoftPay,
+
+            /// <summary>
+            /// Other (Non Defined) Payment
+            /// </summary>
+            Other
         }
         /// <summary>
         /// This enum represents the ADR Status
