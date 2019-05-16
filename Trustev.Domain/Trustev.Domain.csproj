@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F05F1D9F-7982-49BA-A6B3-D576038B1226}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Trustev.Domain</RootNamespace>
+    <AssemblyName>Trustev.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug-Net40|AnyCPU'">
+    <OutputPath>bin\Debug-Net40\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-Net40|AnyCPU'">
+    <OutputPath>bin\Release-Net40\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Constants.cs" />
+    <Compile Include="Entities\Case.cs" />
+    <Compile Include="Entities\CaseStatus.cs" />
+    <Compile Include="Entities\Customer.cs" />
+    <Compile Include="Entities\CustomerAddress.cs" />
+    <Compile Include="Entities\Decision.cs" />
+    <Compile Include="Entities\Detail.cs" />
+    <Compile Include="Entities\DetailedDecision.cs" />
+    <Compile Include="Entities\Device.cs" />
+    <Compile Include="Entities\DeviceInformation.cs" />
+    <Compile Include="Entities\DigitalAuthenticationResult.cs" />
+    <Compile Include="Entities\DocumentAuthenticationResult.cs" />
+    <Compile Include="Entities\DocumentAuthenticationStatus.cs" />
+    <Compile Include="Entities\Email.cs" />
+    <Compile Include="Entities\Fulfilment.cs" />
+    <Compile Include="Entities\KBAResult.cs" />
+    <Compile Include="Entities\Location.cs" />
+    <Compile Include="Entities\OTPResult.cs" />
+    <Compile Include="Entities\Payment.cs" />
+    <Compile Include="Entities\Session.cs" />
+    <Compile Include="Entities\Transaction.cs" />
+    <Compile Include="Entities\TransactionAddress.cs" />
+    <Compile Include="Entities\TransactionItem.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="Exceptions\TrustevGeneralException.cs" />
+    <Compile Include="Exceptions\TrustevHttpException.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
