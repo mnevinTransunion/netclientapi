@@ -7,8 +7,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Serialization;
 using Trustev.Domain;
 using Trustev.Domain.Entities;
@@ -43,17 +41,6 @@ namespace Trustev.WebAsync
         /// <summary>
         ///API auth token
         /// </summary>
-        public static int? CredentialType
-        {
-            get
-            {
-                lock (TokenLock)
-                {
-                    return _token?.CredentialType;
-                }
-            }
-        }
-
         public static string ApiToken
         {
             get
@@ -61,6 +48,20 @@ namespace Trustev.WebAsync
                 lock (TokenLock)
                 {
                     return _token?.APIToken;
+                }
+            }
+        }
+
+        /// <summary>
+        ///Token CredentialType
+        /// </summary>
+        public static int? CredentialType
+        {
+            get
+            {
+                lock (TokenLock)
+                {
+                    return _token?.CredentialType;
                 }
             }
         }
@@ -904,8 +905,6 @@ namespace Trustev.WebAsync
         /// <returns></returns>
         public static async Task SetTokenAsync()
         {
-
-
             CheckCredentials();
 
             DateTime currentTime = DateTime.UtcNow;
@@ -924,10 +923,7 @@ namespace Trustev.WebAsync
 
             TokenResponse response = await PerformHttpCallAsync<TokenResponse>(uri, HttpMethod.Post, requestJson,
                 false, HttpRequestTimeout);
-
             CachedToken = response;
-
-
         }
 
         #region Private Methods
